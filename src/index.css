@@ -1,0 +1,130 @@
+:root {
+  /* Technical Professional Dark Theme */
+  --color-background-root: #000000;
+  --color-background-primary: #0a0a0a;
+  --color-background-secondary: #111111;
+  --color-background-tertiary: #1a1a1a;
+  
+  --color-background-info: rgba(0, 112, 243, 0.1);
+  --color-background-success: rgba(0, 230, 118, 0.1);
+  --color-background-danger: rgba(255, 61, 0, 0.1);
+  --color-background-warning: rgba(255, 171, 0, 0.1);
+
+  --color-text-primary: #ededed;
+  --color-text-secondary: #a1a1aa;
+  --color-text-tertiary: #71717a;
+  
+  --color-text-info: #3b82f6;
+  --color-text-success: #10b981;
+  --color-text-danger: #ef4444;
+  --color-text-warning: #f59e0b;
+
+  --color-border-primary: rgba(255, 255, 255, 0.2);
+  --color-border-secondary: rgba(255, 255, 255, 0.1);
+  --color-border-tertiary: rgba(255, 255, 255, 0.05);
+
+  --color-border-info: rgba(59, 130, 246, 0.4);
+  --color-border-success: rgba(16, 185, 129, 0.4);
+  --color-border-danger: rgba(239, 68, 68, 0.4);
+  --color-border-warning: rgba(245, 158, 11, 0.4);
+
+  --border-radius-md: 4px;
+  --border-radius-lg: 6px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--color-background-root);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  /* Grid pattern for a technical feel */
+  background-image: 
+    linear-gradient(var(--color-border-tertiary) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-border-tertiary) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: center top;
+}
+
+#root {
+  width: 100%;
+  height: 100vh;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Crisp boxes instead of glassmorphism */
+div[style*="--color-background-primary"],
+div[style*="--color-background-secondary"] {
+  background-color: var(--color-background-primary) !important;
+  border: 1px solid var(--color-border-secondary) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+div[style*="--color-background-primary"]:hover {
+  border-color: var(--color-border-primary) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.8);
+}
+
+nav {
+  background-color: var(--color-background-primary) !important;
+  border-right: 1px solid var(--color-border-secondary) !important;
+}
+
+button {
+  transition: all 0.15s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+button:hover {
+  background-color: var(--color-background-tertiary) !important;
+  border-color: var(--color-border-primary) !important;
+}
+
+/* Technical typography for badges and metrics */
+span[style*="var(--color-background)"] {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 11px !important;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  border-radius: 2px !important;
+}
+
+div[style*="var(--color-background)"] > p:nth-child(2) {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  letter-spacing: -0.02em;
+}
+
+/* Scrollbar styling for a tech look */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-background-root);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-background-tertiary);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-tertiary);
+}
