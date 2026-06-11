@@ -1,16 +1,62 @@
-# React + Vite
+# BallSnaps ⚽
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> **The Ultimate YouTube Football Channel Growth Strategy Dashboard**
 
-Currently, two official plugins are available:
+[![React](https://img.shields.io/badge/React-18.2.0-blue.svg?style=for-the-badge&logo=react)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-5.0.0-purple.svg?style=for-the-badge&logo=vite)](https://vitejs.dev/)
+[![Style](https://img.shields.io/badge/Style-Glow_Dark_Theme-black.svg?style=for-the-badge)](#)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+BallSnaps is a sleek, professional web dashboard built with React that outlines a comprehensive 10-part growth strategy for launching and scaling a highly successful YouTube Shorts football channel.
 
-## React Compiler
+This interactive presentation features a **premium "glowy" dark theme** inspired by cutting-edge fintech and developer tools (like Vercel and Linear), ensuring that the data and strategy are presented with maximum visual impact.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Features
 
-## Expanding the ESLint configuration
+- **Interactive Navigation**: 10 distinct strategic sections including Market Analysis, Branding, Content Strategy, Monetization, and a 12-Month Roadmap.
+- **Premium Dark Mode UI**: Deep, rich backgrounds with subtle radial glows, frosted glass (backdrop-filter) navigation, and high-contrast text.
+- **Micro-Animations**: Snappy hover states, subtle card lifting, and neon-glowing accents for maximum interactivity.
+- **Technical Typography**: Utilizing `Inter` for unparalleled readability and `JetBrains Mono` for precise, technical data display (metrics, badges).
+- **Responsive Layout**: A modern CSS Grid and Flexbox foundation built to scale across standard viewports.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🚀 Quick Start
+
+Ensure you have Node.js installed on your machine, then follow these steps:
+
+1. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+2. **Start the development server**:
+   ```bash
+   npm run dev
+   ```
+
+3. **View the application**:
+   Open your browser and navigate to `http://localhost:5173/`
+
+## 📁 Project Structure
+
+```text
+yt-plan-jsx/
+├── public/
+│   └── favicon.svg         # Application icon
+├── src/
+│   ├── App.jsx             # Main interactive dashboard component
+│   ├── index.css           # Global premium dark theme and CSS variables
+│   └── main.jsx            # React entry point
+├── index.html              # HTML entry point (includes Google Fonts & Tabler Icons)
+├── package.json            # Dependencies and scripts
+└── vite.config.js          # Vite bundler configuration
+```
+
+## 🎨 Design System & Technologies
+
+* **Framework**: React via Vite
+* **Icons**: Tabler Icons Webfont
+* **Fonts**: `Inter` (Sans-serif) & `JetBrains Mono` (Monospace)
+* **Styling**: Vanilla CSS utilizing CSS Variables (`--color-background-primary`, `--glow-info`, etc.) allowing for complete theme control without relying on heavy UI libraries.
+
+## 📝 License
+
+This project is intended for educational and strategic planning purposes.
