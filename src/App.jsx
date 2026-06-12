@@ -1,18 +1,37 @@
 import { useState } from "react";
+import { subNiches, nicheColumns, positioningAngles, uvp, publishingPhases, hookCategories, scriptStages, retentionTechniques, wcPhases, kpis, ninetyDayPlan, brandPhilosophy, editorialCriteria, contentPillarsV2, audiencePsychology, storyStructureV2, contentQualityStandards, distributionStrategy } from "./strategicData.js";
 
-const sections = [
-  { id: "overview", label: "Overview", icon: "ti-layout-dashboard" },
-  { id: "analysis", label: "Part 1: Market Analysis", icon: "ti-chart-bar" },
-  { id: "branding", label: "Part 2: Branding", icon: "ti-palette" },
-  { id: "competitors", label: "Part 3: Competitors", icon: "ti-users" },
-  { id: "content", label: "Part 4: Content Strategy", icon: "ti-bulb" },
-  { id: "production", label: "Part 5: Production", icon: "ti-video" },
-  { id: "copyright", label: "Part 6: Copyright", icon: "ti-shield" },
-  { id: "resources", label: "Part 7: Resources", icon: "ti-database" },
-  { id: "optimization", label: "Part 8: Channel Optimization", icon: "ti-settings" },
-  { id: "monetization", label: "Part 9: Monetization", icon: "ti-currency-dollar" },
-  { id: "roadmap", label: "Part 10: 12-Month Roadmap", icon: "ti-map" },
+const sectionGroups = [
+  { group: "STRATEGY", items: [
+    { id: "overview", label: "Executive Summary", icon: "ti-layout-dashboard" },
+    { id: "philosophy", label: "Brand Philosophy", icon: "ti-flag" },
+    { id: "analysis", label: "Macro Opportunity", icon: "ti-chart-line" },
+    { id: "positioning", label: "Market Positioning", icon: "ti-compass" },
+    { id: "competitors", label: "Competitive Intel", icon: "ti-target" },
+  ]},
+  { group: "ARCHITECTURE", items: [
+    { id: "editorial", label: "Editorial Standards", icon: "ti-book" },
+    { id: "subniches", label: "Sub-Niche Framework", icon: "ti-grid-dots" },
+    { id: "content", label: "Content Architecture", icon: "ti-building" },
+    { id: "publishing", label: "Publishing & Scale", icon: "ti-rocket" },
+  ]},
+  { group: "EXECUTION", items: [
+    { id: "psychology", label: "Audience Psychology", icon: "ti-brain" },
+    { id: "viral", label: "Viral Intelligence", icon: "ti-bolt" },
+    { id: "scripting", label: "Story Structure", icon: "ti-file-text" },
+    { id: "production", label: "Production System", icon: "ti-video" },
+    { id: "copyright", label: "Copyright & Safety", icon: "ti-shield-check" },
+  ]},
+  { group: "GROWTH", items: [
+    { id: "worldcup", label: "World Cup 2026", icon: "ti-trophy" },
+    { id: "kpis", label: "Performance KPIs", icon: "ti-gauge" },
+    { id: "monetization", label: "Monetization", icon: "ti-currency-dollar" },
+    { id: "roadmap", label: "90-Day Roadmap", icon: "ti-map-2" },
+    { id: "branding", label: "Brand & Channel", icon: "ti-palette" },
+    { id: "resources", label: "Resources", icon: "ti-database" },
+  ]},
 ];
+const sections = sectionGroups.flatMap(g => g.items);
 
 const Badge = ({ children, color = "info" }) => (
   <span style={{
@@ -197,18 +216,6 @@ export default function BallSnaps() {
     { rank: 50, name: "SoccerScript", why: "Storytelling angle" },
   ];
 
-  const contentPillars = [
-    { name: "World Cup 2026 Daily", rpm: "$0.08–0.15", virality: "Extreme", why: "FIFA + YouTube official partnership, US-hosted tournament, peak global search traffic June–July 2026", views: "50K–5M per Short" },
-    { name: "Football News Flash", rpm: "$0.05–0.10", virality: "High", why: "Consistent search demand, transfer windows, match results drive daily traffic", views: "10K–500K" },
-    { name: "Player Stories", rpm: "$0.06–0.12", virality: "Very High", why: "Emotional narratives drive shares. Rags-to-riches, injury comebacks, debut stories", views: "50K–2M" },
-    { name: "Football History", rpm: "$0.04–0.08", virality: "High", why: "Evergreen, nostalgia-driven, low copyright risk if using licensed/public domain footage", views: "20K–1M" },
-    { name: "Football Facts & Stats", rpm: "$0.04–0.08", virality: "Very High", why: "Shareable, low production cost, AI-assisted research, no footage needed", views: "30K–3M" },
-    { name: "Fan Debates", rpm: "$0.06–0.10", virality: "Extreme", why: "Comment section drives algorithm. 'GOAT debates', best XIs, controversial rankings = engagement gold", views: "50K–5M" },
-    { name: "Transfer News", rpm: "$0.07–0.12", virality: "High", why: "Search-driven content. Breaking transfers generate immediate traffic spikes", views: "10K–800K" },
-    { name: "Football Business", rpm: "$0.10–0.20", virality: "Medium-High", why: "High US RPM niche, money/contracts angle attracts premium advertisers", views: "10K–300K" },
-    { name: "Legends Series", rpm: "$0.05–0.09", virality: "High", why: "Nostalgia + education = watch time. Pelé, Maradona, Zidane, Messi, Ronaldo timeless appeal", views: "30K–2M" },
-    { name: "Football Controversies", rpm: "$0.06–0.11", virality: "Extreme", why: "Controversy = clicks. Handballs, red card debates, VAR failures, scandal stories", views: "100K–10M" },
-  ];
 
   const viralIdeas = [
     "The most expensive transfer flop in history", "Ronaldo vs Messi career stats in 60 seconds", "The day this goalkeeper scored from his box",
@@ -364,32 +371,82 @@ export default function BallSnaps() {
       case "overview":
         return (
           <div>
-            <SectionTitle>BallSnaps — Complete YouTube Growth Strategy</SectionTitle>
-            <p style={{ fontSize: 15, color: "var(--color-text-secondary)", marginBottom: "1.5rem", lineHeight: 1.7 }}>
-              This is a 10-part professional growth plan for building a football-focused YouTube Shorts channel targeting the US audience, timed to capitalise on the FIFA World Cup 2026 — currently in progress, hosted in USA/Canada/Mexico, with YouTube as an official FIFA Preferred Platform.
-            </p>
-            <div style={{ background: "var(--color-background-warning)", border: "0.5px solid var(--color-border-warning)", borderRadius: "var(--border-radius-lg)", padding: "1rem 1.25rem", marginBottom: "1.5rem" }}>
-              <p style={{ fontWeight: 500, fontSize: 14, color: "var(--color-text-warning)", margin: "0 0 6px" }}>World Cup 2026 — Critical Timing Alert</p>
-              <p style={{ fontSize: 13, color: "var(--color-text-warning)", margin: 0 }}>The 2026 World Cup is happening RIGHT NOW (June–July 2026). YouTube has an official FIFA partnership this tournament. This is the single biggest traffic opportunity in football content for the next 4 years. Starting and scaling this channel immediately is essential to capture peak search volume.</p>
-            </div>
+            <SectionTitle>Executive Summary — Master Strategic Brief</SectionTitle>
+            <Card style={{ background: "var(--color-background-info)", border: "0.5px solid var(--color-border-info)", marginBottom: "1.5rem" }}>
+              <p style={{ fontWeight: 500, fontSize: 14, color: "var(--color-text-info)", margin: "0 0 6px" }}>Mission Statement</p>
+              <p style={{ fontSize: 13, color: "var(--color-text-info)", margin: 0, lineHeight: 1.7 }}>Build BallSnaps into a category-leading football media brand capable of achieving massive scale before, during, and after the FIFA World Cup 2026 — generating tens of millions of annual views, a highly engaged US-first audience, premium RPM, and diversified revenue streams that sustain long-term growth.</p>
+            </Card>
             <MetricGrid metrics={[
-              { label: "Shorts RPM (US audience)", value: "$0.05–0.15", sub: "Per 1,000 views" },
-              { label: "Long-form RPM potential", value: "$2–8", sub: "Sports/news niche" },
-              { label: "Brand deal (50K subs)", value: "$300–1,500", sub: "Per sponsored Short" },
-              { label: "World Cup search spike", value: "400–800%", sub: "vs normal periods" },
-              { label: "YPP Shorts threshold", value: "1K subs + 10M views", sub: "In 90 days" },
-              { label: "Target timeline to 100K", value: "12–18 months", sub: "With daily posting" },
+              { label: "Primary Market", value: "United States", sub: "Highest RPM geography" },
+              { label: "Business Model", value: "Media Brand", sub: "Shorts → Long-form → Products" },
+              { label: "World Cup Search Spike", value: "400–800%", sub: "vs normal periods" },
+              { label: "Target: Year 1", value: "70K subs", sub: "$3K–$6K/mo revenue" },
+              { label: "Shorts RPM (US)", value: "$0.05–0.15", sub: "Per 1,000 views" },
+              { label: "Timeline to 100K", value: "12–18 mo", sub: "With daily posting" },
             ]} />
+            <SubTitle>Strategic Framework — 17 Sections</SubTitle>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 6, marginBottom: "1.5rem" }}>
+              {sectionGroups.map(g => (
+                <Card key={g.group} style={{ margin: 0 }}>
+                  <p style={{ fontSize: 10, fontWeight: 600, color: "var(--color-text-tertiary)", margin: "0 0 8px", textTransform: "uppercase", letterSpacing: "0.1em" }}>{g.group}</p>
+                  {g.items.filter(s => s.id !== "overview").map(s => (
+                    <button key={s.id} onClick={() => setActive(s.id)} style={{ display: "block", width: "100%", textAlign: "left", padding: "4px 8px", fontSize: 12, cursor: "pointer", borderRadius: "var(--border-radius-md)", background: "var(--color-background-secondary)", border: "0.5px solid var(--color-border-tertiary)", color: "var(--color-text-primary)", marginBottom: 4 }}>
+                      <i className={`ti ${s.icon}`} style={{ marginRight: 6, fontSize: 12 }} aria-hidden="true" />{s.label}
+                    </button>
+                  ))}
+                </Card>
+              ))}
+            </div>
+            <div style={{ background: "var(--color-background-warning)", border: "0.5px solid var(--color-border-warning)", borderRadius: "var(--border-radius-lg)", padding: "1rem 1.25rem", marginBottom: "1.5rem" }}>
+              <p style={{ fontWeight: 500, fontSize: 14, color: "var(--color-text-warning)", margin: "0 0 6px" }}>⚡ World Cup 2026 — Critical Timing Window</p>
+              <p style={{ fontSize: 13, color: "var(--color-text-warning)", margin: 0 }}>The FIFA World Cup 2026 is in progress NOW (June–July 2026), hosted across USA/Canada/Mexico. YouTube is an official FIFA Preferred Platform. This is the single largest traffic opportunity in football content for the next 4 years. Every day of delay is lost traffic, subscribers, and revenue.</p>
+            </div>
+            <SubTitle>Company Overview</SubTitle>
             <Card>
-              <p style={{ fontWeight: 500, fontSize: 14, marginBottom: 8, color: "var(--color-text-primary)" }}>Navigate this plan using the sidebar. Use the sections in order or jump to what you need.</p>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 6 }}>
-                {sections.slice(1).map(s => (
-                  <button key={s.id} onClick={() => setActive(s.id)} style={{ textAlign: "left", padding: "6px 10px", fontSize: 13, cursor: "pointer", borderRadius: "var(--border-radius-md)", background: "var(--color-background-secondary)", border: "0.5px solid var(--color-border-tertiary)", color: "var(--color-text-primary)" }}>
-                    <i className={`ti ${s.icon}`} style={{ marginRight: 6, fontSize: 14 }} aria-hidden="true" />
-                    {s.label}
-                  </button>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                {[["Brand", "BallSnaps"], ["Model", "Football-first digital media brand"], ["Primary Platform", "YouTube Shorts → Long-form"], ["Primary Market", "United States"], ["Secondary Markets", "Canada, UK, Australia, Europe"], ["Tertiary", "Global English-speaking audience"]].map(([k, v], i) => (
+                  <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "4px 0", borderBottom: "0.5px solid var(--color-border-tertiary)", fontSize: 13 }}>
+                    <span style={{ color: "var(--color-text-tertiary)" }}>{k}</span>
+                    <span style={{ fontWeight: 500, color: "var(--color-text-primary)" }}>{v}</span>
+                  </div>
                 ))}
               </div>
+            </Card>
+            <SubTitle>Core Objectives</SubTitle>
+            {["Generate tens of millions of annual views across multiple platforms", "Build a highly engaged, returning audience with >30% returning viewer rate", "Maximize retention and subscriber conversion through narrative-driven content", "Achieve premium RPM by targeting US audience and high-value advertiser categories", "Create evergreen content assets that compound traffic over years", "Build a defensible media brand that remains relevant beyond the World Cup 2026 cycle"].map((f, i) => (
+              <p key={i} style={{ fontSize: 13, color: "var(--color-text-secondary)", margin: "4px 0", paddingLeft: 12, borderLeft: "2px solid var(--color-border-info)" }}>{f}</p>
+            ))}
+          </div>
+        );
+
+      case "philosophy":
+        return (
+          <div>
+            <SectionTitle>Brand Philosophy & Vision</SectionTitle>
+            <Card style={{ background: "var(--color-background-info)", border: "0.5px solid var(--color-border-info)", marginBottom: "1.5rem" }}>
+              <p style={{ fontWeight: 500, fontSize: 14, color: "var(--color-text-info)", margin: "0 0 6px" }}>Core Belief</p>
+              <p style={{ fontSize: 13, color: "var(--color-text-info)", margin: 0, lineHeight: 1.7 }}>This brand is built on the belief that football is far more than a sport. Football is culture, business, identity, innovation, competition, history, and human emotion at a global scale. While most channels report events, this brand tells stories. People do not remember information; they remember stories.</p>
+            </Card>
+            <SubTitle>Strategic Directives</SubTitle>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
+              {[
+                { title: "Vision", text: brandPhilosophy.vision },
+                { title: "Mission", text: brandPhilosophy.mission },
+                { title: "Long-Term Objective", text: brandPhilosophy.longTermObjective },
+                { title: "Core Editorial Philosophy", text: brandPhilosophy.corePhilosophy },
+                { title: "Strategic Positioning", text: brandPhilosophy.positioning }
+              ].map((item, i) => (
+                <Card key={i} style={{ margin: 0 }}>
+                  <p style={{ fontWeight: 500, fontSize: 14, margin: "0 0 4px", color: "var(--color-text-primary)" }}>{item.title}</p>
+                  <p style={{ fontSize: 13, color: "var(--color-text-secondary)", margin: 0, lineHeight: 1.6 }}>{item.text}</p>
+                </Card>
+              ))}
+            </div>
+            <Card style={{ marginTop: "1.5rem" }}>
+              <p style={{ fontWeight: 500, fontSize: 14, margin: "0 0 8px", color: "var(--color-text-primary)" }}>Target Mission Outcomes</p>
+              {brandPhilosophy.missionOutcomes.map((f, i) => (
+                <p key={i} style={{ fontSize: 13, color: "var(--color-text-secondary)", margin: "4px 0", paddingLeft: 12, borderLeft: "2px solid var(--color-border-success)" }}>{f}</p>
+              ))}
             </Card>
           </div>
         );
@@ -397,7 +454,7 @@ export default function BallSnaps() {
       case "analysis":
         return (
           <div>
-            <SectionTitle>Part 1 — Football Shorts Market Analysis</SectionTitle>
+            <SectionTitle>Macro Opportunity Analysis</SectionTitle>
             <MetricGrid metrics={[
               { label: "Global football audience", value: "4 billion+", sub: "Largest sport on earth" },
               { label: "US soccer viewers (2026)", value: "58% weekly", sub: "US adults engage with football" },
@@ -443,6 +500,108 @@ export default function BallSnaps() {
               <p style={{ fontSize: 13, color: "var(--color-text-secondary)", lineHeight: 1.8, margin: 0 }}>
                 A football Shorts channel is sustainable long-term ONLY if it diversifies revenue. Ad revenue from Shorts alone will never pay the bills at under 1M subscribers. The correct model is: Shorts as the growth engine → funnel to long-form videos (higher RPM) → build a brand → monetise through sponsorships, affiliates, and owned products. Football provides a permanent evergreen content supply with predictable annual events (World Cup every 4 years, Euros every 4 years, UCL and domestic leagues every year, transfer windows twice a year). The business model is sustainable if you treat it as a media brand, not a single-platform content channel.
               </p>
+            </Card>
+          </div>
+        );
+
+      case "positioning":
+        return (
+          <div>
+            <SectionTitle>Market Positioning Strategy</SectionTitle>
+            <Card style={{ background: "var(--color-background-info)", border: "0.5px solid var(--color-border-info)" }}>
+              <p style={{ fontWeight: 500, fontSize: 14, color: "var(--color-text-info)", margin: "0 0 6px" }}>The Niche+ Model</p>
+              <p style={{ fontSize: 13, color: "var(--color-text-info)", margin: 0, lineHeight: 1.7 }}>{uvp}</p>
+            </Card>
+            <SubTitle>Positioning Angles</SubTitle>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
+              {positioningAngles.map((p, i) => (
+                <Card key={i} style={{ margin: 0 }}>
+                  <p style={{ fontWeight: 500, fontSize: 14, margin: "0 0 4px", color: "var(--color-text-primary)" }}>{p.angle}</p>
+                  <p style={{ fontSize: 13, color: "var(--color-text-secondary)", margin: "0 0 8px" }}>{p.desc}</p>
+                  <p style={{ fontSize: 12, color: "var(--color-text-tertiary)", margin: 0 }}><i>Example: {p.example}</i></p>
+                </Card>
+              ))}
+            </div>
+          </div>
+        );
+
+      case "editorial":
+        return (
+          <div>
+            <SectionTitle>Editorial Standards & Quality</SectionTitle>
+            <SubTitle>Editorial Selection Criteria</SubTitle>
+            <p style={{ fontSize: 13, color: "var(--color-text-secondary)", marginBottom: 12 }}>A story becomes a candidate when it satisfies one or more of the following. Stories meeting multiple criteria receive priority.</p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 8 }}>
+              {editorialCriteria.map((c, i) => (
+                <Card key={i} style={{ margin: 0 }}>
+                  <p style={{ fontWeight: 500, fontSize: 15, margin: "0 0 4px", color: "var(--color-text-primary)" }}>{c.criteria}</p>
+                  <p style={{ fontSize: 13, color: "var(--color-text-secondary)", margin: "0 0 8px" }}>{c.desc}</p>
+                  <div style={{ background: "var(--color-background-secondary)", borderRadius: "var(--border-radius-md)", padding: "8px 12px" }}>
+                    <p style={{ fontSize: 11, fontWeight: 500, color: "var(--color-text-tertiary)", margin: "0 0 4px" }}>EXAMPLES:</p>
+                    {c.examples.map((ex, j) => (
+                      <p key={j} style={{ fontSize: 12, color: "var(--color-text-primary)", margin: "2px 0" }}>• {ex}</p>
+                    ))}
+                  </div>
+                </Card>
+              ))}
+            </div>
+            <SubTitle>Content Quality Standards</SubTitle>
+            <Card style={{ background: "var(--color-background-warning)", border: "0.5px solid var(--color-border-warning)" }}>
+              <p style={{ fontWeight: 500, fontSize: 14, color: "var(--color-text-warning)", margin: "0 0 6px" }}>The Golden Rule</p>
+              <p style={{ fontSize: 13, color: "var(--color-text-warning)", margin: 0 }}>{contentQualityStandards.principle}</p>
+            </Card>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10, marginTop: "1rem" }}>
+              <Card style={{ margin: 0 }}>
+                <p style={{ fontWeight: 500, fontSize: 14, margin: "0 0 8px", color: "var(--color-text-primary)" }}>Editorial Priorities</p>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                  {contentQualityStandards.editorialPriorities.map((ep, i) => (
+                    <Badge key={i} color="success">{ep}</Badge>
+                  ))}
+                </div>
+              </Card>
+              <Card style={{ margin: 0 }}>
+                <p style={{ fontWeight: 500, fontSize: 14, margin: "0 0 8px", color: "var(--color-text-primary)" }}>Visual Storytelling Standards</p>
+                {contentQualityStandards.visual.map((v, i) => (
+                  <p key={i} style={{ fontSize: 13, color: "var(--color-text-secondary)", margin: "4px 0", paddingLeft: 12, borderLeft: "2px solid var(--color-border-info)" }}>{v}</p>
+                ))}
+              </Card>
+            </div>
+          </div>
+        );
+
+      case "subniches":
+        return (
+          <div>
+            <SectionTitle>Sub-Niche Selection Framework</SectionTitle>
+            <Card>
+              <p style={{ fontSize: 13, color: "var(--color-text-secondary)", marginBottom: 12 }}>Scoring matrix for content categories (1-10 scale). Focus on Primary and Secondary categories.</p>
+              <div style={{ overflowX: "auto" }}>
+                <table style={{ width: "100%", fontSize: 12, borderCollapse: "collapse", textAlign: "left" }}>
+                  <thead>
+                    <tr style={{ borderBottom: "1px solid var(--color-border-secondary)" }}>
+                      <th style={{ padding: "8px 4px", color: "var(--color-text-primary)" }}>Category</th>
+                      {nicheColumns.map(c => <th key={c} style={{ padding: "8px 4px", color: "var(--color-text-secondary)", fontWeight: 500 }}>{c}</th>)}
+                      <th style={{ padding: "8px 4px", color: "var(--color-text-primary)" }}>Rec.</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {subNiches.map((n, i) => (
+                      <tr key={i} style={{ borderBottom: "0.5px solid var(--color-border-tertiary)" }}>
+                        <td style={{ padding: "8px 4px", color: "var(--color-text-primary)", fontWeight: 500 }}>{n.name}</td>
+                        <td style={{ padding: "8px 4px", color: "var(--color-text-success)" }}>{n.growth}</td>
+                        <td style={{ padding: "8px 4px", color: "var(--color-text-success)" }}>{n.rpm}</td>
+                        <td style={{ padding: "8px 4px", color: "var(--color-text-success)" }}>{n.subConv}</td>
+                        <td style={{ padding: "8px 4px", color: "var(--color-text-info)" }}>{n.retention}</td>
+                        <td style={{ padding: "8px 4px", color: "var(--color-text-info)" }}>{n.virality}</td>
+                        <td style={{ padding: "8px 4px", color: "var(--color-text-warning)" }}>{n.copyright}</td>
+                        <td style={{ padding: "8px 4px", color: "var(--color-text-secondary)" }}>{n.scale}</td>
+                        <td style={{ padding: "8px 4px", color: "var(--color-text-secondary)" }}>{n.evergreen}</td>
+                        <td style={{ padding: "8px 4px" }}><Badge color={n.rec === "PRIMARY" ? "success" : n.rec === "AVOID" ? "danger" : "warning"}>{n.rec}</Badge></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </Card>
           </div>
         );
@@ -510,21 +669,35 @@ export default function BallSnaps() {
       case "content":
         return (
           <div>
-            <SectionTitle>Part 4 — Content Strategy</SectionTitle>
-            <SubTitle>Content Pillars</SubTitle>
-            {contentPillars.map((p, i) => (
-              <Card key={i}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6, flexWrap: "wrap", gap: 6 }}>
-                  <p style={{ fontWeight: 500, fontSize: 15, margin: 0, color: "var(--color-text-primary)" }}>{p.name}</p>
-                  <div style={{ display: "flex", gap: 6 }}>
-                    <Badge color="success">RPM: {p.rpm}</Badge>
-                    <Badge color="info">Virality: {p.virality}</Badge>
+            <SectionTitle>Content Architecture Pillars</SectionTitle>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
+              {contentPillarsV2.map((p, i) => (
+                <Card key={i} style={{ margin: 0 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6 }}>
+                    <p style={{ fontWeight: 500, fontSize: 15, margin: 0, color: "var(--color-text-primary)" }}>{p.name}</p>
+                    <Badge color={p.share.includes("35") ? "success" : p.share.includes("20") ? "info" : "warning"}>{p.share}</Badge>
                   </div>
+                  <p style={{ fontSize: 13, color: "var(--color-text-secondary)", margin: "0 0 8px" }}><strong>Focus Areas:</strong> {p.focus}</p>
+                  <div style={{ background: "var(--color-background-secondary)", borderRadius: "var(--border-radius-md)", padding: "8px 12px" }}>
+                    <p style={{ fontSize: 12, color: "var(--color-text-primary)", margin: 0 }}><strong>Objective:</strong> {p.objective}</p>
+                  </div>
+                </Card>
+              ))}
+            </div>
+            <Card style={{ marginTop: "1.5rem", marginBottom: "1.5rem", background: "var(--color-background-info)", border: "0.5px solid var(--color-border-info)" }}>
+              <p style={{ fontWeight: 500, fontSize: 14, color: "var(--color-text-info)", margin: "0 0 6px" }}>Distribution Strategy</p>
+              <p style={{ fontSize: 13, color: "var(--color-text-info)", margin: "0 0 8px" }}>{distributionStrategy.approach}</p>
+              <div style={{ display: "flex", gap: 12 }}>
+                <div>
+                  <p style={{ fontSize: 11, fontWeight: 500, color: "var(--color-text-info)", margin: "0 0 4px", opacity: 0.8 }}>PRIMARY</p>
+                  {distributionStrategy.primary.map((p, j) => <div key={j} style={{ fontSize: 12, color: "var(--color-text-info)" }}>• {p}</div>)}
                 </div>
-                <p style={{ fontSize: 13, color: "var(--color-text-secondary)", margin: "0 0 4px" }}>{p.why}</p>
-                <p style={{ fontSize: 12, color: "var(--color-text-tertiary)", margin: 0 }}>Expected views per Short: {p.views}</p>
-              </Card>
-            ))}
+                <div>
+                  <p style={{ fontSize: 11, fontWeight: 500, color: "var(--color-text-info)", margin: "0 0 4px", opacity: 0.8 }}>EXPANSION</p>
+                  {distributionStrategy.expansion.map((e, j) => <div key={j} style={{ fontSize: 12, color: "var(--color-text-info)" }}>• {e}</div>)}
+                </div>
+              </div>
+            </Card>
             <IdeaList title="50 Viral Football Shorts Ideas" ideas={viralIdeas} color="info" />
             <IdeaList title="50 World Cup 2026 Content Ideas" ideas={worldCupIdeas} color="success" />
             <IdeaList title="50 Evergreen Football Ideas" ideas={evergreenIdeas} color="warning" />
@@ -556,6 +729,113 @@ export default function BallSnaps() {
                 "How the UEFA Financial Fair Play rules changed everything", "The night Diego Maradona scored the two most famous goals in history",
               ]}
             />
+          </div>
+        );
+
+      case "publishing":
+        return (
+          <div>
+            <SectionTitle>Publishing & Scaling Strategy</SectionTitle>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
+              {publishingPhases.map((p, i) => (
+                <Card key={i} style={{ margin: 0 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8, flexWrap: "wrap", gap: 8 }}>
+                    <p style={{ fontWeight: 500, fontSize: 15, margin: 0, color: "var(--color-text-primary)" }}>{p.phase}</p>
+                    <div style={{ display: "flex", gap: 6 }}>
+                      <Badge color="info">{p.period}</Badge>
+                      <Badge color="success">{p.uploads}</Badge>
+                    </div>
+                  </div>
+                  <p style={{ fontSize: 13, color: "var(--color-text-secondary)", margin: "0 0 4px" }}><strong>Focus:</strong> {p.focus}</p>
+                  <p style={{ fontSize: 13, color: "var(--color-text-warning)", margin: "0 0 8px" }}><strong>Triggers:</strong> {p.triggers}</p>
+                  <p style={{ fontSize: 12, fontWeight: 500, color: "var(--color-text-primary)", margin: "0 0 4px" }}>Actions:</p>
+                  <ul style={{ margin: "0 0 0 16px", padding: 0, fontSize: 12, color: "var(--color-text-secondary)", lineHeight: 1.6 }}>
+                    {p.actions.map((a, j) => <li key={j}>{a}</li>)}
+                  </ul>
+                </Card>
+              ))}
+            </div>
+          </div>
+        );
+
+      case "psychology":
+        return (
+          <div>
+            <SectionTitle>Audience Psychology Framework</SectionTitle>
+            <Card style={{ background: "var(--color-background-warning)", border: "0.5px solid var(--color-border-warning)", marginBottom: "1.5rem" }}>
+              <p style={{ fontWeight: 500, fontSize: 14, color: "var(--color-text-warning)", margin: "0 0 6px" }}>The Core Principle</p>
+              <p style={{ fontSize: 13, color: "var(--color-text-warning)", margin: 0, lineHeight: 1.7 }}>{audiencePsychology.principle}</p>
+            </Card>
+            <SubTitle>Primary Psychological Drivers</SubTitle>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "1.5rem" }}>
+              {audiencePsychology.primaryDrivers.map((driver, i) => (
+                <div key={i} style={{ background: "var(--color-background-secondary)", border: "0.5px solid var(--color-border-tertiary)", padding: "8px 16px", borderRadius: "var(--border-radius-lg)" }}>
+                  <p style={{ fontSize: 14, fontWeight: 500, color: "var(--color-text-primary)", margin: 0 }}>{driver}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+
+      case "viral":
+        return (
+          <div>
+            <SectionTitle>Viral Intelligence & Hooks</SectionTitle>
+            <SubTitle>The Idea Machine Workflow</SubTitle>
+            <Card>
+              <p style={{ fontSize: 13, color: "var(--color-text-secondary)", lineHeight: 1.7, margin: 0 }}>
+                Virality is engineered, not accidental. Build an Airtable/Notion database to track ideas.
+                <br/><br/>
+                <strong>Trend Detection:</strong> Monitor Twitter/X for breaking football drama. Check Reddit (r/soccer) for highly upvoted obscure facts. Use Google Trends for rising player names.
+                <br/><br/>
+                <strong>Idea Scoring Model:</strong> Score every idea 1-10 on (1) Broad Appeal, (2) Emotional Weight, (3) Visual Potential. Only produce 24+ scoring ideas.
+              </p>
+            </Card>
+            <SubTitle>Viral Hook Library</SubTitle>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
+              {hookCategories.map((h, i) => (
+                <Card key={i} style={{ borderLeft: `3px solid var(--color-border-${h.color})`, margin: 0 }}>
+                  <p style={{ fontWeight: 500, fontSize: 15, margin: "0 0 4px", color: "var(--color-text-primary)" }}>{h.type}</p>
+                  <p style={{ fontSize: 12, color: "var(--color-text-secondary)", margin: "0 0 10px" }}><strong>Psychology:</strong> {h.psychology}</p>
+                  <div style={{ background: "var(--color-background-secondary)", borderRadius: "var(--border-radius-md)", padding: "8px 12px" }}>
+                    {h.hooks.map((hook, j) => (
+                      <p key={j} style={{ fontSize: 13, color: "var(--color-text-primary)", margin: "4px 0" }}>• {hook}</p>
+                    ))}
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </div>
+        );
+
+      case "scripting":
+        return (
+          <div>
+            <SectionTitle>Script Engineering & Structure</SectionTitle>
+            <SubTitle>Story Structure Framework</SubTitle>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
+              {storyStructureV2.map((s, i) => (
+                <Card key={i} style={{ margin: 0 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                    <p style={{ fontWeight: 500, fontSize: 14, margin: 0, color: "var(--color-text-primary)" }}>{s.stage}</p>
+                    <Badge color="info">{s.time}</Badge>
+                  </div>
+                  <p style={{ fontSize: 13, color: "var(--color-text-secondary)", margin: 0 }}>{s.purpose}</p>
+                </Card>
+              ))}
+            </div>
+            <SubTitle>Retention Engineering</SubTitle>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 8 }}>
+              {retentionTechniques.map((t, i) => (
+                <Card key={i} style={{ margin: 0 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <p style={{ fontWeight: 500, fontSize: 13, margin: 0, color: "var(--color-text-primary)" }}>{t.name}</p>
+                    <Badge color="success">{t.metric}</Badge>
+                  </div>
+                  <p style={{ fontSize: 12, color: "var(--color-text-secondary)", margin: 0 }}>{t.desc}</p>
+                </Card>
+              ))}
+            </div>
           </div>
         );
 
@@ -683,58 +963,71 @@ export default function BallSnaps() {
           </div>
         );
 
-      case "optimization":
+      case "worldcup":
         return (
           <div>
-            <SectionTitle>Part 8 — Channel Optimisation</SectionTitle>
-            <div style={{ background: "var(--color-background-warning)", border: "0.5px solid var(--color-border-warning)", borderRadius: "var(--border-radius-lg)", padding: "1rem 1.25rem", marginBottom: "1.5rem" }}>
-              <p style={{ fontWeight: 500, fontSize: 14, color: "var(--color-text-warning)", margin: "0 0 4px" }}>Current Channel Status</p>
-              <p style={{ fontSize: 13, color: "var(--color-text-warning)", margin: 0 }}>30 subscribers, 8 videos, joined Dec 2017 but inactive. The channel age is an advantage (older channels get slightly more trust from YouTube's algorithm). Prioritise a complete rebrand before posting more content.</p>
-            </div>
-            {[
-              { field: "Channel Name", current: "BallSnaps", optimised: "PitchPulse Football (or best name from Top 50)", why: "Adds the keyword 'Football' for SEO. A professional name builds authority faster. Rename before the World Cup content push." },
-              { field: "Handle", current: "@BallSnaps", optimised: "@PitchPulseFC", why: "Short, memorable, professional. FC suffix adds football identity. Use the same handle across all platforms (YouTube, TikTok, Instagram, X)." },
-              { field: "Channel Description", current: "Generic, no keyword optimisation, personal email exposed", optimised: optimizedChannel.description, why: "Includes platform keywords, competition names, a clear content promise, cross-platform social handles, and a professional email. Formatted for skimmability." },
-              { field: "Profile Picture", current: "Unknown/unoptimised", optimised: "Custom logo: football icon or wordmark on solid dark background. Clean on mobile (50px circle). White on dark works best. Avoid busy designs. Commission from Fiverr ($15–50) or design in Canva Pro.", why: "Profile picture is visible everywhere in YouTube — search, comments, notifications. A professional logo is non-negotiable." },
-              { field: "Banner / Channel Art", current: "Unknown", optimised: "2560×1440px banner. Bold channel name on left, 4–5 content type icons centre, social handles right. Include World Cup 2026 badge during tournament period. Use Canva Pro template then customise.", why: "Banner is a first impression. It needs to communicate your content type within 3 seconds on desktop and mobile." },
-              { field: "Watermark", current: "None", optimised: "Small logo watermark in bottom-right corner of all long-form videos. Should appear at 20-second mark (prompt viewers to subscribe before end of video).", why: "Watermarks reinforce brand on embedded and shared videos. Requires enabling in YouTube Studio > Customisation > Branding." },
-              { field: "Keywords (Channel Tags)", current: "Unknown", optimised: optimizedChannel.keywords.join(", "), why: "Channel-level keywords help YouTube categorise your channel. Include competition names, 'shorts', 'news', and 'facts' to cast a wide discovery net." },
-              { field: "Upload Defaults", current: "Unknown", optimised: "Set default: Category = Sports, Comments = On (filtered for spam), Licence = Standard YouTube. Pre-fill default description template with social links and hashtags. Set default visibility to Private then manually review before publishing.", why: "Upload defaults save time and ensure consistency across every video." },
-              { field: "Featured Sections (Homepage)", current: "Unknown", optimised: "Row 1: World Cup 2026 (featured playlist). Row 2: Latest uploads. Row 3: Player Stories playlist. Row 4: Football History Vault. Row 5: Fan Debates. Row 6: Evergreen Facts.", why: "Organised homepage dramatically improves session time. New visitors see a structured media brand, not a random video dump." },
-              { field: "About / Contact", current: "Personal Gmail exposed", optimised: "Create a dedicated business email: hello@pitchpulsefc.com (use Google Workspace $6/mo). This signals professionalism to sponsors. Keep personal email separate.", why: "A professional email address is the difference between getting a $500 sponsor reply vs being ignored." },
-            ].map((item, i) => (
-              <Card key={i}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8, flexWrap: "wrap", gap: 4 }}>
-                  <p style={{ fontWeight: 500, fontSize: 14, margin: 0, color: "var(--color-text-primary)" }}>{item.field}</p>
-                </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 8 }}>
-                  <div style={{ background: "var(--color-background-danger)", borderRadius: "var(--border-radius-md)", padding: "6px 10px" }}>
-                    <p style={{ fontSize: 11, color: "var(--color-text-danger)", margin: "0 0 2px", fontWeight: 500 }}>Current</p>
-                    <p style={{ fontSize: 12, color: "var(--color-text-danger)", margin: 0 }}>{item.current}</p>
+            <SectionTitle>FIFA World Cup 2026 Execution Blueprint</SectionTitle>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
+              {wcPhases.map((p, i) => (
+                <Card key={i} style={{ borderLeft: `3px solid var(--color-border-${p.color})`, margin: 0 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <p style={{ fontWeight: 500, fontSize: 15, margin: 0, color: "var(--color-text-primary)" }}>{p.phase}</p>
+                    <Badge color={p.color}>{p.period}</Badge>
                   </div>
-                  <div style={{ background: "var(--color-background-success)", borderRadius: "var(--border-radius-md)", padding: "6px 10px" }}>
-                    <p style={{ fontSize: 11, color: "var(--color-text-success)", margin: "0 0 2px", fontWeight: 500 }}>Optimised</p>
-                    <p style={{ fontSize: 12, color: "var(--color-text-success)", margin: 0, whiteSpace: "pre-line" }}>{item.optimised}</p>
-                  </div>
-                </div>
-                <p style={{ fontSize: 12, color: "var(--color-text-secondary)", margin: 0 }}>{item.why}</p>
-              </Card>
-            ))}
-            <SubTitle>Recommended Hashtags</SubTitle>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-              {optimizedChannel.hashtags.map((h, i) => <Badge key={i} color="info">{h}</Badge>)}
+                  <p style={{ fontSize: 12, color: "var(--color-text-secondary)", margin: "0 0 8px" }}><strong>Target Freq:</strong> {p.freq}</p>
+                  <p style={{ fontSize: 12, fontWeight: 500, color: "var(--color-text-primary)", margin: "0 0 4px" }}>Priorities:</p>
+                  <ul style={{ margin: "0 0 8px 16px", padding: 0, fontSize: 12, color: "var(--color-text-secondary)" }}>
+                    {p.priorities.map((pr, j) => <li key={j}>{pr}</li>)}
+                  </ul>
+                  <p style={{ fontSize: 12, color: "var(--color-text-secondary)", margin: "0 0 4px" }}><strong>Audience:</strong> {p.audience}</p>
+                  <p style={{ fontSize: 12, color: "var(--color-text-success)", margin: 0 }}><strong>Monetization:</strong> {p.monetization}</p>
+                </Card>
+              ))}
             </div>
-            <SubTitle>Recommended Playlists</SubTitle>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 8 }}>
-              {optimizedChannel.playlists.map((p, i) => <Badge key={i} color="success">{p}</Badge>)}
-            </div>
+          </div>
+        );
+
+      case "kpis":
+        return (
+          <div>
+            <SectionTitle>Performance KPI Dashboard</SectionTitle>
+            <Card>
+              <div style={{ overflowX: "auto" }}>
+                <table style={{ width: "100%", fontSize: 12, borderCollapse: "collapse", textAlign: "left" }}>
+                  <thead>
+                    <tr style={{ borderBottom: "1px solid var(--color-border-secondary)" }}>
+                      <th style={{ padding: "8px 4px", color: "var(--color-text-primary)" }}>Metric</th>
+                      <th style={{ padding: "8px 4px", color: "var(--color-text-secondary)" }}>Description</th>
+                      <th style={{ padding: "8px 4px", color: "var(--color-text-danger)" }}>Poor</th>
+                      <th style={{ padding: "8px 4px", color: "var(--color-text-warning)" }}>Avg</th>
+                      <th style={{ padding: "8px 4px", color: "var(--color-text-info)" }}>Good</th>
+                      <th style={{ padding: "8px 4px", color: "var(--color-text-success)" }}>Elite</th>
+                      <th style={{ padding: "8px 4px", color: "var(--color-text-primary)" }}>World-Class</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {kpis.map((k, i) => (
+                      <tr key={i} style={{ borderBottom: "0.5px solid var(--color-border-tertiary)" }}>
+                        <td style={{ padding: "8px 4px", color: "var(--color-text-primary)", fontWeight: 500 }}>{k.metric}</td>
+                        <td style={{ padding: "8px 4px", color: "var(--color-text-secondary)" }}>{k.desc}</td>
+                        <td style={{ padding: "8px 4px", color: "var(--color-text-danger)" }}>{k.poor}</td>
+                        <td style={{ padding: "8px 4px", color: "var(--color-text-warning)" }}>{k.avg}</td>
+                        <td style={{ padding: "8px 4px", color: "var(--color-text-info)" }}>{k.good}</td>
+                        <td style={{ padding: "8px 4px", color: "var(--color-text-success)" }}>{k.elite}</td>
+                        <td style={{ padding: "8px 4px", color: "var(--color-text-primary)", fontWeight: 500 }}>{k.worldClass}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Card>
           </div>
         );
 
       case "monetization":
         return (
           <div>
-            <SectionTitle>Part 9 — Monetisation Roadmap</SectionTitle>
+            <SectionTitle>Monetisation & Revenue Architecture</SectionTitle>
             {monRoadmap.map((m, i) => (
               <Card key={i}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10, flexWrap: "wrap", gap: 6 }}>
@@ -779,38 +1072,21 @@ export default function BallSnaps() {
       case "roadmap":
         return (
           <div>
-            <SectionTitle>Part 10 — 12-Month Execution Roadmap</SectionTitle>
-            <Card style={{ background: "var(--color-background-info)", border: "0.5px solid var(--color-border-info)" }}>
-              <p style={{ fontWeight: 500, fontSize: 14, color: "var(--color-text-info)", margin: "0 0 6px" }}>World Cup 2026 Priority Window</p>
-              <p style={{ fontSize: 13, color: "var(--color-text-info)", margin: 0 }}>Months 1–2 (June–July 2026) represent the biggest single opportunity. The tournament runs until mid-July. YouTube and FIFA are officially partnered. Search traffic for football content is at 4–8x normal levels. Start posting World Cup content IMMEDIATELY. Every day of delay is lost traffic.</p>
-            </Card>
-            {roadmap.map((r, i) => <RoadmapMonth key={i} month={r.month} data={r} />)}
-            <SubTitle>Revenue Projection Summary</SubTitle>
-            <div style={{ overflowX: "auto" }}>
-              <table style={{ width: "100%", fontSize: 13, borderCollapse: "collapse", tableLayout: "fixed" }}>
-                <thead>
-                  <tr style={{ borderBottom: "0.5px solid var(--color-border-tertiary)" }}>
-                    {["Period", "Subscribers", "Monthly Views", "YT Ad Revenue", "Sponsorships", "Affiliates", "Total Est."].map((h, i) => (
-                      <th key={i} style={{ textAlign: "left", padding: "8px 6px", fontWeight: 500, color: "var(--color-text-secondary)", fontSize: 12 }}>{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {[
-                    ["Month 1–3", "300–1,500", "100K–500K", "$0–$50", "$0", "$0–$20", "$0–$70"],
-                    ["Month 4–6", "3K–8K", "500K–3M", "$50–$300", "$0–$300", "$20–$150", "$70–$750"],
-                    ["Month 7–9", "12K–25K", "3M–10M", "$300–$1,200", "$300–$1,500", "$100–$500", "$700–$3,200"],
-                    ["Month 10–12", "35K–70K", "10M–30M", "$1,200–$3,500", "$1,000–$5,000", "$300–$1,500", "$2,500–$10,000"],
-                    ["Year 2 end", "200K–500K", "30M–100M/mo", "$5,000–$15,000", "$5,000–$25,000", "$1,000–$5,000", "$11K–$45K/mo"],
-                  ].map((row, i) => (
-                    <tr key={i} style={{ borderBottom: "0.5px solid var(--color-border-tertiary)" }}>
-                      {row.map((cell, j) => (
-                        <td key={j} style={{ padding: "8px 6px", color: j === row.length - 1 ? "var(--color-text-success)" : "var(--color-text-primary)", fontWeight: j === row.length - 1 ? 500 : 400 }}>{cell}</td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <SectionTitle>90-Day Operator Roadmap</SectionTitle>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
+              {ninetyDayPlan.map((r, i) => (
+                <Card key={i} style={{ margin: 0 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <p style={{ fontWeight: 500, fontSize: 14, margin: 0, color: "var(--color-text-primary)" }}>{r.week}: {r.obj}</p>
+                    <Badge color="info">{r.uploads} Uploads</Badge>
+                  </div>
+                  <p style={{ fontSize: 12, color: "var(--color-text-secondary)", margin: "0 0 4px" }}><strong>Research:</strong> {r.research}</p>
+                  <p style={{ fontSize: 12, color: "var(--color-text-secondary)", margin: "0 0 6px" }}><strong>Test:</strong> {r.test}</p>
+                  <div style={{ background: "var(--color-background-success)", padding: "6px 10px", borderRadius: "var(--border-radius-md)", display: "inline-block" }}>
+                    <p style={{ fontSize: 12, color: "var(--color-text-success)", margin: 0 }}><strong>Milestone:</strong> {r.milestone}</p>
+                  </div>
+                </Card>
+              ))}
             </div>
             <Card style={{ marginTop: "1.5rem" }}>
               <p style={{ fontWeight: 500, fontSize: 14, margin: "0 0 8px", color: "var(--color-text-primary)" }}>Key success factors</p>
@@ -827,6 +1103,28 @@ export default function BallSnaps() {
             </Card>
           </div>
         );
+        return (
+          <div>
+            <SectionTitle>FIFA World Cup 2026 Execution Blueprint</SectionTitle>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
+              {wcPhases.map((p, i) => (
+                <Card key={i} style={{ borderLeft: `3px solid var(--color-border-${p.color})`, margin: 0 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                    <p style={{ fontWeight: 500, fontSize: 15, margin: 0, color: "var(--color-text-primary)" }}>{p.phase}</p>
+                    <Badge color={p.color}>{p.period}</Badge>
+                  </div>
+                  <p style={{ fontSize: 12, color: "var(--color-text-secondary)", margin: "0 0 8px" }}><strong>Target Freq:</strong> {p.freq}</p>
+                  <p style={{ fontSize: 12, fontWeight: 500, color: "var(--color-text-primary)", margin: "0 0 4px" }}>Priorities:</p>
+                  <ul style={{ margin: "0 0 8px 16px", padding: 0, fontSize: 12, color: "var(--color-text-secondary)" }}>
+                    {p.priorities.map((pr, j) => <li key={j}>{pr}</li>)}
+                  </ul>
+                  <p style={{ fontSize: 12, color: "var(--color-text-secondary)", margin: "0 0 4px" }}><strong>Audience:</strong> {p.audience}</p>
+                  <p style={{ fontSize: 12, color: "var(--color-text-success)", margin: 0 }}><strong>Monetization:</strong> {p.monetization}</p>
+                </Card>
+              ))}
+            </div>
+          </div>
+        );
 
       default:
         return null;
@@ -835,26 +1133,31 @@ export default function BallSnaps() {
 
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: "transparent" }}>
-      <h2 className="sr-only">BallSnaps complete YouTube football channel growth strategy — 10-part professional plan</h2>
-      <nav style={{ width: 220, flexShrink: 0, background: "var(--color-background-primary)", borderRight: "0.5px solid var(--color-border-tertiary)", padding: "1rem 0", position: "sticky", top: 0, height: "100vh", overflowY: "auto" }}>
+      <h2 className="sr-only">BallSnaps — Master Strategic Brief</h2>
+      <nav style={{ width: 240, flexShrink: 0, background: "var(--color-background-primary)", borderRight: "0.5px solid var(--color-border-tertiary)", padding: "1rem 0", position: "sticky", top: 0, height: "100vh", overflowY: "auto" }}>
         <div style={{ padding: "0 1rem 1rem", borderBottom: "0.5px solid var(--color-border-tertiary)", marginBottom: "0.5rem" }}>
-          <p style={{ fontWeight: 500, fontSize: 14, margin: 0, color: "var(--color-text-primary)" }}>BallSnaps Strategy</p>
-          <p style={{ fontSize: 12, color: "var(--color-text-tertiary)", margin: "2px 0 0" }}>10-Part Growth Plan</p>
+          <p style={{ fontWeight: 600, fontSize: 15, margin: 0, color: "var(--color-text-primary)", letterSpacing: "-0.02em" }}>⚽ BallSnaps</p>
+          <p style={{ fontSize: 11, color: "var(--color-text-tertiary)", margin: "4px 0 0", textTransform: "uppercase", letterSpacing: "0.08em" }}>Master Strategic Brief</p>
         </div>
-        {sections.map(s => (
-          <button key={s.id} onClick={() => setActive(s.id)} style={{
-            display: "block", width: "100%", textAlign: "left", padding: "7px 1rem", fontSize: 13,
-            background: active === s.id ? "var(--color-background-info)" : "transparent",
-            color: active === s.id ? "var(--color-text-info)" : "var(--color-text-secondary)",
-            border: "none", cursor: "pointer", borderRadius: 0,
-            borderLeft: active === s.id ? "2px solid var(--color-border-info)" : "2px solid transparent",
-          }}>
-            <i className={`ti ${s.icon}`} style={{ marginRight: 8, fontSize: 13 }} aria-hidden="true" />
-            {s.label.replace(/Part \d+ — /, "")}
-          </button>
+        {sectionGroups.map(g => (
+          <div key={g.group}>
+            <p style={{ fontSize: 10, fontWeight: 600, color: "var(--color-text-tertiary)", padding: "12px 1rem 4px", textTransform: "uppercase", letterSpacing: "0.1em", margin: 0 }}>{g.group}</p>
+            {g.items.map(s => (
+              <button key={s.id} onClick={() => setActive(s.id)} style={{
+                display: "block", width: "100%", textAlign: "left", padding: "6px 1rem", fontSize: 12,
+                background: active === s.id ? "var(--color-background-info)" : "transparent",
+                color: active === s.id ? "var(--color-text-info)" : "var(--color-text-secondary)",
+                border: "none", cursor: "pointer", borderRadius: 0,
+                borderLeft: active === s.id ? "2px solid var(--color-text-info)" : "2px solid transparent",
+              }}>
+                <i className={`ti ${s.icon}`} style={{ marginRight: 8, fontSize: 12 }} aria-hidden="true" />
+                {s.label}
+              </button>
+            ))}
+          </div>
         ))}
       </nav>
-      <main style={{ flex: 1, padding: "1.5rem", overflowY: "auto", maxWidth: 720 }}>
+      <main style={{ flex: 1, padding: "1.5rem 2rem", overflowY: "auto", maxWidth: 860 }}>
         {renderSection()}
       </main>
     </div>
