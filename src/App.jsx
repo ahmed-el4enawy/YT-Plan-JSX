@@ -1,232 +1,29 @@
 import { useState } from "react";
-import PromptSuite from "./PromptSuite.jsx";
-import { publishingPhases, hookCategories, retentionTechniques, wcPhases, kpis, ninetyDayPlan, contentPillarsV2, storyStructureV2, distributionStrategy } from "./strategicData.js";
-
-const sectionGroups = [
-  { group: "STRATEGY", items: [
-    { id: "overview", label: "Executive Summary", icon: "ti-layout-dashboard" },
-    { id: "competitors", label: "Competitive Intel", icon: "ti-target" },
-    { id: "content", label: "Content Architecture", icon: "ti-building" },
-    { id: "publishing", label: "Publishing & Scale", icon: "ti-rocket" },
-  ]},
-  { group: "EXECUTION", items: [
-    { id: "viral", label: "Viral Intelligence", icon: "ti-bolt" },
-    { id: "scripting", label: "Story Structure", icon: "ti-file-text" },
-    { id: "production", label: "Production System", icon: "ti-video" },
-    { id: "promptsuite", label: "Prompt Suite", icon: "ti-wand" },
-    { id: "copyright", label: "Copyright & Safety", icon: "ti-shield-check" },
-  ]},
-  { group: "GROWTH", items: [
-    { id: "worldcup", label: "World Cup 2026", icon: "ti-trophy" },
-    { id: "kpis", label: "Performance KPIs", icon: "ti-gauge" },
-    { id: "monetization", label: "Monetization", icon: "ti-currency-dollar" },
-    { id: "roadmap", label: "90-Day Roadmap", icon: "ti-map-2" },
-    { id: "resources", label: "Resources", icon: "ti-database" },
-  ]},
-];
+import { Badge, Card, SectionTitle, SubTitle, MetricGrid, IdeaList, CompetitorCard } from "./components/ui/index.jsx";
+import PromptSuite from "./components/PromptSuite.jsx";
+import { sectionGroups, competitors, viralIdeas, worldCupIdeas, evergreenIdeas, tools, resources, publishingPhases, hookCategories, retentionTechniques, wcPhases, kpis, ninetyDayPlan, contentPillarsV2, storyStructureV2, distributionStrategy } from "./data/strategicData.js";
 
 
-const Badge = ({ children, color = "info" }) => (
-  <span style={{
-    display: "inline-block",
-    padding: "2px 10px",
-    borderRadius: "var(--border-radius-md)",
-    fontSize: "12px",
-    fontWeight: 500,
-    background: `var(--color-background-${color})`,
-    color: `var(--color-text-${color})`,
-    border: `0.5px solid var(--color-border-${color})`,
-  }}>{children}</span>
-);
-
-const Card = ({ children, style = {} }) => (
-  <div style={{
-    background: "var(--color-background-primary)",
-    border: "0.5px solid var(--color-border-tertiary)",
-    borderRadius: "var(--border-radius-lg)",
-    padding: "1rem 1.25rem",
-    marginBottom: "1rem",
-    ...style
-  }}>{children}</div>
-);
-
-const SectionTitle = ({ children }) => (
-  <h2 style={{ fontSize: 18, fontWeight: 500, marginBottom: "1.5rem", marginTop: "2rem", color: "var(--color-text-primary)" }}>{children}</h2>
-);
-
-const SubTitle = ({ children }) => (
-  <h3 style={{ fontSize: 16, fontWeight: 500, marginBottom: "0.75rem", marginTop: "1.5rem", color: "var(--color-text-primary)" }}>{children}</h3>
-);
-
-const MetricGrid = ({ metrics }) => (
-  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 12, marginBottom: "1.5rem" }}>
-    {metrics.map((m, i) => (
-      <div key={i} style={{ background: "var(--color-background-secondary)", borderRadius: "var(--border-radius-md)", padding: "0.875rem 1rem" }}>
-        <p style={{ fontSize: 13, color: "var(--color-text-secondary)", margin: "0 0 4px" }}>{m.label}</p>
-        <p style={{ fontSize: 22, fontWeight: 500, margin: 0, color: "var(--color-text-primary)" }}>{m.value}</p>
-        {m.sub && <p style={{ fontSize: 12, color: "var(--color-text-tertiary)", margin: "2px 0 0" }}>{m.sub}</p>}
-      </div>
-    ))}
-  </div>
-);
 
 
-const IdeaList = ({ title, ideas, color = "info" }) => (
-  <Card>
-    <p style={{ fontWeight: 500, fontSize: 14, marginBottom: 12, color: "var(--color-text-primary)" }}>{title}</p>
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 6 }}>
-      {ideas.map((idea, i) => (
-        <div key={i} style={{ fontSize: 13, padding: "4px 8px", background: "var(--color-background-secondary)", borderRadius: "var(--border-radius-md)", color: "var(--color-text-primary)", borderLeft: `2px solid var(--color-border-${color})` }}>
-          <span style={{ color: "var(--color-text-tertiary)", fontSize: 11, marginRight: 6 }}>{String(i + 1).padStart(2, "0")}</span>
-          {idea}
-        </div>
-      ))}
-    </div>
-  </Card>
-);
-
-
-const CompetitorCard = ({ ch }) => (
-  <Card>
-    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
-      <div>
-        <p style={{ fontWeight: 500, fontSize: 15, margin: 0, color: "var(--color-text-primary)" }}>{ch.name}</p>
-        <p style={{ fontSize: 12, color: "var(--color-text-secondary)", margin: "2px 0 0" }}>{ch.country} · {ch.type}</p>
-      </div>
-      <Badge color="info">{ch.subs}</Badge>
-    </div>
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginTop: 8 }}>
-      <div>
-        <p style={{ fontSize: 12, fontWeight: 500, color: "var(--color-text-success)", margin: "0 0 4px" }}>Copy from them</p>
-        {ch.copy.map((c, i) => <p key={i} style={{ fontSize: 12, margin: "2px 0", color: "var(--color-text-secondary)" }}>+ {c}</p>)}
-      </div>
-      <div>
-        <p style={{ fontSize: 12, fontWeight: 500, color: "var(--color-text-danger)", margin: "0 0 4px" }}>Avoid their mistakes</p>
-        {ch.avoid.map((a, i) => <p key={i} style={{ fontSize: 12, margin: "2px 0", color: "var(--color-text-secondary)" }}>– {a}</p>)}
-      </div>
-    </div>
-  </Card>
-);
 
 export default function NinetyFootball() {
   const [active, setActive] = useState("overview");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  const competitors = [
-    { name: "Goal (GOAL's Front Three)", country: "UK/Global", type: "Football news & stories", subs: "710K+", copy: ["Editorial-style storytelling", "Mix of news + nostalgia", "Strong SEO titles"], avoid: ["Over-reliance on text overlays", "Inconsistent posting rhythm"] },
-    { name: "HITC Sevens", country: "UK", type: "Football lists & history", subs: "800K+", copy: ["List-format hooks", "Nostalgic content performs well", "Fast-paced editing"], avoid: ["Narrow topic scope", "Heavy UK-centric focus"] },
-    { name: "Copa90", country: "UK", type: "Football culture & stories", subs: "1.5M+", copy: ["Culture angle on football", "Fan-focused narratives", "High production energy"], avoid: ["Long-form heavy (hard to scale)", "Expensive to replicate"] },
-    { name: "HQ Sports Shorts", country: "USA", type: "Viral sports highlights", subs: "1.75M+", copy: ["US audience framing", "Reaction hooks", "Daily upload discipline"], avoid: ["Generic commentary", "Low information density"] },
-    { name: "The Overlap / Gary Neville", country: "UK", type: "Football analysis & interviews", subs: "600K+", copy: ["Authority positioning", "Long-form clips repurposed as Shorts"], avoid: ["Requires on-camera talent", "Expensive production"] },
-    { name: "Tifo Football", country: "UK", type: "Tactical & business analysis", subs: "1.1M+", copy: ["Deep dive angle = trust", "Business of football is underserved"], avoid: ["Animation-heavy (high cost)", "Niche audience at scale"] },
-    { name: "StatMan Dave", country: "UK", type: "Football statistics", subs: "400K+", copy: ["Data-driven hooks", "Stat graphics are shareable", "Low production cost"], avoid: ["Limited storytelling", "Algorithm-dependent spikes"] },
-    { name: "Footy Accumulators", country: "UK", type: "Football predictions & betting", subs: "200K+", copy: ["Betting/predictions angle for US = high RPM", "Weekly recurring content formats"], avoid: ["Compliance risks in some markets", "Audience loyalty issues"] },
-    { name: "ESPN FC (YouTube)", country: "USA", type: "Football news & analysis", subs: "2M+", copy: ["US sports framing of football", "Debate format works well", "High search visibility"], avoid: ["Requires credentialed access", "Studio budget"] },
-    { name: "Deestroying", country: "USA", type: "Football entertainment & challenges", subs: "5M+", copy: ["US-native personality + football = viral", "Entertainment over education", "Consistent brand identity"], avoid: ["Requires on-camera presence", "Heavy production"] },
-  ];
+  
 
 
-  const viralIdeas = [
-    "The most expensive transfer flop in history", "Ronaldo vs Messi career stats in 60 seconds", "The day this goalkeeper scored from his box",
-    "Every World Cup final goal ever in 60 seconds", "Which club has spent the most money in history?", "The most embarrassing own goals ever",
-    "This player went from homeless to world class", "The referee who changed football history", "When a team signed a 73-year-old player",
-    "The player who played for 6 different national teams", "The match that started a war", "Football's greatest free kick takers ranked",
-    "The richest club in football history", "The player who faked his own death to escape a contract", "Every Ballon d'Or winner since 1956",
-    "The forgotten World Cup goal that changed everything", "Which national team has the most World Cup wins?", "The club that went bankrupt and came back",
-    "Football's most iconic celebrations ranked", "The player who missed a World Cup final penalty and became president",
-    "The stadium that holds 100,000 fans", "Football's fastest ever goal in history", "The team that won the league without losing a match",
-    "The goalkeeper who scored a hat-trick", "Which manager has won the most trophies?", "The most yellow cards in a single match",
-    "The match where 149 own goals were scored", "The penalty shootout that lasted 48 kicks", "Football's worst ever signing (and why it failed)",
-    "The player who appeared on the cover of FIFA 30 times", "When Real Madrid had every Ballon d'Or winner in the squad", "The World Cup host that got embarrassed at home",
-    "The club owner who ruined everything in one summer", "Football's greatest ever last-minute goals", "The transfer that saved a club from bankruptcy",
-    "This player scored 5 goals in 9 minutes", "The match that changed the offside rule forever", "Football's biggest upsets of all time",
-    "The country that plays football on a glacier", "The World Cup that nobody wanted to host", "When a player's mother collapsed in the stands mid-match",
-    "The referee who admitted he got the decision wrong", "Football's most underrated defenders ever", "The kit that was banned for being too revealing",
-    "The player who scored against his own team 3 times in one season", "Why this World Cup trophy is not the original", "The city with the most football world champions",
-    "This player walked out of a World Cup — and was right to", "Football's greatest hat-tricks ever scored", "When VAR robbed the underdog",
-  ];
+  
 
-  const worldCupIdeas = [
-    "Every 2026 group explained in 60 seconds", "Predicting the World Cup winner using stats only", "The best 2026 World Cup kits ranked",
-    "Which 2026 host city should you visit?", "The player who deserves a World Cup medal but never got one", "Every World Cup winning goal ever",
-    "2026 dark horses: 5 teams nobody is talking about", "The World Cup's greatest individual performances ever", "How the USA team built for 2026",
-    "The countries playing in their first ever World Cup", "Ranking every World Cup mascot in history", "The oldest player to score at a World Cup",
-    "The biggest shock result in World Cup group stages ever", "All 32 national anthems in 5 minutes", "The World Cup golden boot race explained",
-    "What happens if two teams draw at the World Cup?", "The rules change that shocked the 2026 tournament", "How VAR works at the World Cup",
-    "Every World Cup penalty shootout in history", "The stadium that hosted the 2026 final and its history",
-    "This country has never lost a group stage game", "The World Cup hat-trick scorers ranked", "When a 17-year-old won the World Cup",
-    "The World Cup moments even non-fans remember", "Ranking every World Cup ball in history", "The 2026 opening ceremony explained",
-    "How much money does winning the World Cup pay?", "Every country that has hosted the World Cup", "The World Cup's greatest goalkeepers",
-    "Why 48 teams makes the 2026 World Cup different", "The referee governing the World Cup final and their history",
-    "The 2026 USA squad: every player's story in 5 minutes", "Every World Cup final score in history", "The World Cup squad that cost $2 billion",
-    "Breaking down every 2026 quarter-final prediction", "The World Cup player who scored in 4 tournaments", "Why Messi's 2022 win was the greatest World Cup story",
-    "The country that has lost 3 World Cup finals", "How England finally won the World Cup in 1966", "2026 World Cup: who is the referee to watch?",
-    "The night Germany got humiliated 7–1 at a World Cup", "World Cup 2026: every group stage result predicted", "The first African nation to win a World Cup?",
-    "When a World Cup was abandoned and restarted", "The journalist who predicted the World Cup winner 4 times", "The World Cup 2026 final venue in 60 seconds",
-    "Every World Cup winner since 1930 in under 2 minutes", "The 2026 breakthrough star before they were famous",
-    "Predicting the 2030 World Cup hosts already", "The 2026 World Cup economic impact on USA",
-  ];
+  
 
-  const evergreenIdeas = [
-    "The story of football's greatest ever comeback", "Why Pelé is still the GOAT for purists", "The forgotten footballer who changed the game forever",
-    "The worst referee decisions in Champions League history", "How Messi's contract leaked and changed football forever", "The club that invented the offside trap",
-    "Football's most iconic jersey numbers and why they matter", "The manager who won leagues in 5 different countries",
-    "The Academy that produced 20 world stars", "The city with two rival clubs and their history", "The night Ajax shocked Europe with teenagers",
-    "How the Premier League became the richest league on earth", "The player who reinvented the false nine position",
-    "The goalkeeper who revolutionised modern football", "Every Champions League final score since 1955", "The worst penalty kicks in World Cup history",
-    "When a club were banned from their own stadium", "The transfer window rule that changed football forever",
-    "The country that plays in a league in another country", "Every footballer to win the Treble", "The player who left Real Madrid and came back 10 years later",
-    "How Bosman ruling changed football contracts forever", "The club that has never been relegated in 100 years",
-    "Every club to win the Champions League more than once", "The forgotten golden generation that never won anything",
-    "How data analytics changed how clubs sign players", "The most dangerous football stadium in history",
-    "The player who scored the most penalties ever", "The manager who built three different dynasties", "Football's most iconic number 10s ranked",
-    "When a club played a game with no fans", "The league that had 4 top-6 clubs finish bottom 6",
-    "How shirt sponsorship money changed football", "The player whose career ended at 23 due to injury — and what happened next",
-    "The club with the most youth academy graduates in its first team", "The country where football is the national religion",
-    "How Wembley Stadium was rebuilt and why it matters", "The night Liverpool came back from 3–0 down",
-    "Every player to score 50+ Champions League goals", "The managers who transformed a club's identity in one season",
-    "Football's funniest press conference moments", "The dirtiest match in football history", "The transfer that never happened and why",
-    "When a player punched the referee and got a contract", "How the Champions League format changed in 2024",
-    "The club that played three finals in one week", "Every team to win the league unbeaten",
-    "The forgotten striker who outscored everyone in the 90s", "Why third goalkeepers barely ever play",
-  ];
+  
 
 
-  const tools = [
-    { name: "CapCut", type: "Editing", price: "Free/Pro", use: "Primary Short-form video editor. Best for quick cuts, text overlays, trending transitions" },
-    { name: "Adobe Premiere Pro", type: "Editing", price: "$55/mo", use: "Professional editing for longer-form content and documentary shorts" },
-    { name: "DaVinci Resolve", type: "Editing", price: "Free", use: "Professional colour grading and editing, excellent free alternative" },
-    { name: "ElevenLabs", type: "Voiceover", price: "$5–22/mo", use: "Best AI voiceover tool for football narration. High quality, natural-sounding voices" },
-    { name: "Murf AI", type: "Voiceover", price: "$19/mo", use: "Reliable AI voice generation, good for multiple voice styles" },
-    { name: "Opus Clip", type: "Automation", price: "$19/mo", use: "Auto-clips long videos into Shorts with AI-driven curation" },
-    { name: "VidIQ", type: "Analytics/SEO", price: "Free/$10/mo", use: "YouTube keyword research, channel analytics, competitor tracking" },
-    { name: "TubeBuddy", type: "SEO", price: "Free/$9/mo", use: "Tag research, A/B thumbnail testing, upload optimisation" },
-    { name: "ChatGPT / Claude", type: "Research/Scripts", price: "$20/mo", use: "Script writing, story research, idea generation, title brainstorming" },
-    { name: "Canva Pro", type: "Thumbnails/Branding", price: "$13/mo", use: "Thumbnail creation, banner design, branding assets" },
-    { name: "Adobe Firefly", type: "AI Images", price: "Free/$5/mo", use: "Generate background images, custom visuals, thumbnail backgrounds — no copyright risk" },
-    { name: "Descript", type: "Transcription/Subtitles", price: "$12/mo", use: "Auto transcription, subtitle burning, audio cleanup" },
-    { name: "Notion", type: "Workflow", price: "Free", use: "Content calendar, script database, idea tracking" },
-    { name: "Buffer / Later", type: "Scheduling", price: "$15/mo", use: "Cross-platform post scheduling for YouTube, TikTok, Instagram simultaneously" },
-    { name: "Airtable", type: "Database", price: "Free", use: "Track all video ideas, scripts, status, performance data" },
-  ];
+  
 
-  const resources = [
-    { name: "Sofascore", type: "Match Data", price: "Free", rel: "★★★★★", use: "Live scores, player ratings, detailed match statistics" },
-    { name: "FBref.com", type: "Statistics", price: "Free", rel: "★★★★★", use: "Advanced football stats, historical data, player comparison — powered by StatsBomb" },
-    { name: "Transfermarkt", type: "Transfer/Value", price: "Free", rel: "★★★★★", use: "Player market values, transfer history, contract data — essential for transfer content" },
-    { name: "WhoScored.com", type: "Statistics", price: "Free", rel: "★★★★", use: "Match and player ratings, formation analysis" },
-    { name: "BBC Sport / Sky Sports", type: "News", price: "Free", rel: "★★★★★", use: "Breaking news, official statements, injury updates" },
-    { name: "The Athletic", type: "Deep News", price: "$12/mo", rel: "★★★★★", use: "Exclusive behind-the-scenes stories, excellent for documentary content ideas" },
-    { name: "FIFA Media Library", type: "Images/Video", price: "Free (licensed)", rel: "★★★★", use: "Official FIFA content, historical World Cup footage — requires media accreditation" },
-    { name: "Getty Images / Shutterstock", type: "Images", price: "$30–150/mo", rel: "★★★★★", use: "Licensed football photography — essential for legal thumbnails and B-roll stills" },
-    { name: "Pixabay / Unsplash", type: "Images", price: "Free", rel: "★★★", use: "Generic sports backgrounds, crowd shots, atmosphere photography" },
-    { name: "YouTube Audio Library", type: "Music", price: "Free", rel: "★★★★", use: "Copyright-free background music for all content" },
-    { name: "Artlist.io", type: "Music", price: "$199/yr", rel: "★★★★★", use: "Best licensed music library for sports content, no claim issues" },
-    { name: "ESPN Stats & Info API", type: "API", price: "Media partners", rel: "★★★★", use: "Real-time sports data for graphics overlays" },
-    { name: "SportMonks API", type: "API", price: "$25+/mo", rel: "★★★★", use: "Live football data API for data-driven Short graphics" },
-    { name: "RSSSF", type: "Historical", price: "Free", rel: "★★★★", use: "Historical football records, results archives going back to 1800s" },
-    { name: "Wikidata / Wikipedia", type: "Reference", price: "Free", rel: "★★★", use: "Player biographies, club histories, verified facts for scripts" },
-  ];
+  
 
   const copyrightInfo = [
     { topic: "Fair Use Basics", content: "Fair Use (US law) allows limited use of copyrighted material for commentary, criticism, education, or transformative works. For football content, this means: brief clips with substantial commentary may qualify, but raw highlight compilations without transformation do NOT qualify. Fair use is a legal defense, not a guaranteed right." },
