@@ -110,6 +110,7 @@ const CompetitorCard = ({ ch }) => (
 
 export default function NinetyFootball() {
   const [active, setActive] = useState("overview");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const competitors = [
     { name: "Goal (GOAL's Front Three)", country: "UK/Global", type: "Football news & stories", subs: "710K+", copy: ["Editorial-style storytelling", "Mix of news + nostalgia", "Strong SEO titles"], avoid: ["Over-reliance on text overlays", "Inconsistent posting rhythm"] },
@@ -759,25 +760,61 @@ export default function NinetyFootball() {
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: "transparent" }}>
       <h2 className="sr-only">Ninety Football — Master Strategic Brief</h2>
-      <nav style={{ width: 240, flexShrink: 0, background: "var(--color-background-primary)", borderRight: "0.5px solid var(--color-border-tertiary)", padding: "1rem 0", position: "sticky", top: 0, height: "100vh", overflowY: "auto" }}>
-        <div style={{ padding: "1rem", borderBottom: "0.5px solid var(--color-border-tertiary)", marginBottom: "0.5rem", display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <img src="/Ninety-Football-Logo.png" alt="Ninety Football Logo" style={{ width: "80%", maxWidth: "150px", marginBottom: "0.75rem", borderRadius: "var(--border-radius-md)" }} />
-          <p style={{ fontWeight: 600, fontSize: 15, margin: 0, color: "var(--color-text-primary)", letterSpacing: "-0.02em" }}>Ninety Football</p>
-          <p style={{ fontSize: 11, color: "var(--color-text-tertiary)", margin: "4px 0 0", textTransform: "uppercase", letterSpacing: "0.08em" }}>Master Strategic Brief</p>
+      <nav style={{ 
+        width: isSidebarOpen ? 240 : 70, 
+        transition: "width 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+        flexShrink: 0, 
+        background: "var(--color-background-primary)", 
+        borderRight: "0.5px solid var(--color-border-tertiary)", 
+        padding: "1rem 0", 
+        position: "sticky", 
+        top: 0, 
+        height: "100vh", 
+        overflowY: "auto",
+        overflowX: "hidden"
+      }}>
+        <div style={{ padding: "0 1rem", marginBottom: "1rem", display: "flex", justifyContent: isSidebarOpen ? "flex-end" : "center" }}>
+          <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} style={{ background: "transparent", border: "none", color: "var(--color-text-secondary)", cursor: "pointer", padding: "4px", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "var(--border-radius-md)" }}>
+            <i className={`ti ${isSidebarOpen ? "ti-chevron-left" : "ti-chevron-right"}`} style={{ fontSize: 20 }} />
+          </button>
         </div>
+        
+        <div style={{ 
+          padding: isSidebarOpen ? "0 1rem 1rem" : "0 4px", 
+          borderBottom: isSidebarOpen ? "0.5px solid var(--color-border-tertiary)" : "none", 
+          marginBottom: "0.5rem", 
+          display: "flex", 
+          flexDirection: "column", 
+          alignItems: "center",
+          opacity: isSidebarOpen ? 1 : 0,
+          maxHeight: isSidebarOpen ? "200px" : "0px",
+          transition: "all 0.3s ease",
+          overflow: "hidden"
+        }}>
+          <img src="/Ninety-Football-Logo.png" alt="Ninety Football Logo" style={{ width: "80%", maxWidth: "150px", marginBottom: "0.75rem", borderRadius: "var(--border-radius-md)" }} />
+          <p style={{ fontWeight: 600, fontSize: 15, margin: 0, color: "var(--color-text-primary)", letterSpacing: "-0.02em", whiteSpace: "nowrap" }}>Ninety Football</p>
+          <p style={{ fontSize: 11, color: "var(--color-text-tertiary)", margin: "4px 0 0", textTransform: "uppercase", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>Master Strategic Brief</p>
+        </div>
+
         {sectionGroups.map(g => (
-          <div key={g.group}>
-            <p style={{ fontSize: 10, fontWeight: 600, color: "var(--color-text-tertiary)", padding: "12px 1rem 4px", textTransform: "uppercase", letterSpacing: "0.1em", margin: 0 }}>{g.group}</p>
+          <div key={g.group} style={{ marginTop: "0.5rem" }}>
+            {isSidebarOpen ? (
+              <p style={{ fontSize: 10, fontWeight: 600, color: "var(--color-text-tertiary)", padding: "12px 1rem 8px", textTransform: "uppercase", letterSpacing: "0.1em", margin: 0, whiteSpace: "nowrap" }}>{g.group}</p>
+            ) : (
+              <div style={{ height: 16 }} />
+            )}
             {g.items.map(s => (
-              <button key={s.id} onClick={() => setActive(s.id)} style={{
-                display: "block", width: "100%", textAlign: "left", padding: "6px 1rem", fontSize: 12,
+              <button key={s.id} onClick={() => setActive(s.id)} title={!isSidebarOpen ? s.label : ""} style={{
+                display: "flex", width: "100%", alignItems: "center", justifyContent: isSidebarOpen ? "flex-start" : "center",
+                padding: isSidebarOpen ? "8px 1rem" : "12px 0", fontSize: 13,
                 background: active === s.id ? "var(--color-background-info)" : "transparent",
                 color: active === s.id ? "var(--color-text-info)" : "var(--color-text-secondary)",
                 border: "none", cursor: "pointer", borderRadius: 0,
-                borderLeft: active === s.id ? "2px solid var(--color-text-info)" : "2px solid transparent",
+                borderLeft: active === s.id ? "3px solid var(--color-text-info)" : "3px solid transparent",
+                transition: "all 0.2s"
               }}>
-                <i className={`ti ${s.icon}`} style={{ marginRight: 8, fontSize: 12 }} aria-hidden="true" />
-                {s.label}
+                <i className={`ti ${s.icon}`} style={{ marginRight: isSidebarOpen ? 12 : 0, fontSize: 18 }} aria-hidden="true" />
+                {isSidebarOpen && <span style={{ whiteSpace: "nowrap" }}>{s.label}</span>}
               </button>
             ))}
           </div>
