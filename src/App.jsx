@@ -760,8 +760,9 @@ export default function NinetyFootball() {
     <div style={{ display: "flex", minHeight: "100vh", background: "transparent" }}>
       <h2 className="sr-only">Ninety Football — Master Strategic Brief</h2>
       <nav style={{ width: 240, flexShrink: 0, background: "var(--color-background-primary)", borderRight: "0.5px solid var(--color-border-tertiary)", padding: "1rem 0", position: "sticky", top: 0, height: "100vh", overflowY: "auto" }}>
-        <div style={{ padding: "0 1rem 1rem", borderBottom: "0.5px solid var(--color-border-tertiary)", marginBottom: "0.5rem" }}>
-          <p style={{ fontWeight: 600, fontSize: 15, margin: 0, color: "var(--color-text-primary)", letterSpacing: "-0.02em" }}>⚽ Ninety Football</p>
+        <div style={{ padding: "1rem", borderBottom: "0.5px solid var(--color-border-tertiary)", marginBottom: "0.5rem", display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <img src="/Ninety-Football-Logo.png" alt="Ninety Football Logo" style={{ width: "80%", maxWidth: "150px", marginBottom: "0.75rem", borderRadius: "var(--border-radius-md)" }} />
+          <p style={{ fontWeight: 600, fontSize: 15, margin: 0, color: "var(--color-text-primary)", letterSpacing: "-0.02em" }}>Ninety Football</p>
           <p style={{ fontSize: 11, color: "var(--color-text-tertiary)", margin: "4px 0 0", textTransform: "uppercase", letterSpacing: "0.08em" }}>Master Strategic Brief</p>
         </div>
         {sectionGroups.map(g => (
