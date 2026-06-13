@@ -27,7 +27,6 @@ const sectionGroups = [
     { id: "kpis", label: "Performance KPIs", icon: "ti-gauge" },
     { id: "monetization", label: "Monetization", icon: "ti-currency-dollar" },
     { id: "roadmap", label: "90-Day Roadmap", icon: "ti-map-2" },
-    { id: "branding", label: "Brand & Channel", icon: "ti-palette" },
     { id: "resources", label: "Resources", icon: "ti-database" },
   ]},
 ];
@@ -147,7 +146,7 @@ const CompetitorCard = ({ ch }) => (
   </Card>
 );
 
-export default function BallSnaps() {
+export default function NinetyFootball() {
   const [active, setActive] = useState("overview");
 
   const competitors = [
@@ -161,59 +160,6 @@ export default function BallSnaps() {
     { name: "Footy Accumulators", country: "UK", type: "Football predictions & betting", subs: "200K+", copy: ["Betting/predictions angle for US = high RPM", "Weekly recurring content formats"], avoid: ["Compliance risks in some markets", "Audience loyalty issues"] },
     { name: "ESPN FC (YouTube)", country: "USA", type: "Football news & analysis", subs: "2M+", copy: ["US sports framing of football", "Debate format works well", "High search visibility"], avoid: ["Requires credentialed access", "Studio budget"] },
     { name: "Deestroying", country: "USA", type: "Football entertainment & challenges", subs: "5M+", copy: ["US-native personality + football = viral", "Entertainment over education", "Consistent brand identity"], avoid: ["Requires on-camera presence", "Heavy production"] },
-  ];
-
-  const channelNames = [
-    { rank: 1, name: "PitchPulse", why: "Energetic, suggests real-time sports content, easy domain" },
-    { rank: 2, name: "NetBreaker", why: "Evokes goals, viral moments, strong brandability" },
-    { rank: 3, name: "FootballFeed", why: "Descriptive, SEO-rich, highly searchable" },
-    { rank: 4, name: "StrikeFeed", why: "Punchy, sports-native, memorable" },
-    { rank: 5, name: "GoalFrame", why: "Clean, visual, scalable to merchandise" },
-    { rank: 6, name: "TheKickOff", why: "Familiar phrase, authority feel, US-friendly" },
-    { rank: 7, name: "PressPass FC", why: "Journalist angle, credibility, niche authority" },
-    { rank: 8, name: "BallReport", why: "News-media feel, trustworthy, SEO-friendly" },
-    { rank: 9, name: "KickCut", why: "Short-form native, editing metaphor, punchy" },
-    { rank: 10, name: "FootageFC", why: "Suggests clips and media, scalable brand" },
-    { rank: 11, name: "TopBins", why: "UK slang for top corner goals, cult appeal" },
-    { rank: 12, name: "PitchSide", why: "Insider perspective, credible, clean" },
-    { rank: 13, name: "FinalThird", why: "Tactical term, niche credibility, unique" },
-    { rank: 14, name: "MatchDayMedia", why: "Clear content positioning, professional" },
-    { rank: 15, name: "GoalReel", why: "Visual + football, suggests highlight content" },
-    { rank: 16, name: "FootballVault", why: "Suggests history & archives, evergreen" },
-    { rank: 17, name: "TheCrossbar", why: "Iconic football image, sports slang" },
-    { rank: 18, name: "CornerFlag", why: "Niche football detail, unique angle" },
-    { rank: 19, name: "TacticalTV", why: "Analysis niche, strong for educated fans" },
-    { rank: 20, name: "KickoffClips", why: "Descriptive for Shorts, SEO-direct" },
-    { rank: 21, name: "FootballFirst", why: "News-first positioning, clean brand" },
-    { rank: 22, name: "SoccerSurge", why: "US-friendly (soccer), growth metaphor" },
-    { rank: 23, name: "SoccerVault", why: "Archive angle, evergreen content signal" },
-    { rank: 24, name: "StadiumStories", why: "Narrative brand, scalable" },
-    { rank: 25, name: "TheMatchReport", why: "Classic journalism term, authority" },
-    { rank: 26, name: "BackOfTheNet", why: "Famous phrase, recognisable, fun" },
-    { rank: 27, name: "FootballFlash", why: "Breaking news feel, fast content" },
-    { rank: 28, name: "GoalGate", why: "Alliteration, memorable, unique" },
-    { rank: 29, name: "FootballWire", why: "News wire feel, journalistic" },
-    { rank: 30, name: "ElasticoFC", why: "Skill move reference, cult appeal" },
-    { rank: 31, name: "PenaltyArc", why: "Tactical image, unique brand name" },
-    { rank: 32, name: "FootballBuzz", why: "Trending feel, shareable" },
-    { rank: 33, name: "NinetyPlusFive", why: "Stoppage time drama reference" },
-    { rank: 34, name: "DeepBlockFC", why: "Tactical niche, strong sub-brand" },
-    { rank: 35, name: "VolleyClub", why: "Skill reference, community feel" },
-    { rank: 36, name: "TheBallReport", why: "Media-style brand, trustworthy" },
-    { rank: 37, name: "SoccerPulse", why: "US-market friendly, energetic" },
-    { rank: 38, name: "WorldGoals", why: "International scope, clear content" },
-    { rank: 39, name: "KickFeed", why: "Social-first feel, clean name" },
-    { rank: 40, name: "PitchPress", why: "Journalism angle, credible" },
-    { rank: 41, name: "GoalReport", why: "SEO-direct, simple, searchable" },
-    { rank: 42, name: "FootballChronicle", why: "Long-form documentary feel" },
-    { rank: 43, name: "ClubHouseFeed", why: "Community-first brand" },
-    { rank: 44, name: "ThePressRoom", why: "Journalism metaphor" },
-    { rank: 45, name: "StrikeLine", why: "Football + news fusion" },
-    { rank: 46, name: "SoccerArena", why: "US market, broad scope" },
-    { rank: 47, name: "CentreCircle", why: "Football geography, unique" },
-    { rank: 48, name: "FootballCanvas", why: "Creative, artistic angle" },
-    { rank: 49, name: "BallBreaker", why: "Edgy, viral potential" },
-    { rank: 50, name: "SoccerScript", why: "Storytelling angle" },
   ];
 
 
@@ -343,17 +289,9 @@ export default function BallSnaps() {
   ];
 
   const optimizedChannel = {
-    name: "PitchPulse Football (or your chosen name from Top 50 list)",
-    handle: "@PitchPulseFC",
-    description: `⚽ The fastest football shorts channel in the USA — stories, facts, debates & daily news in under 60 seconds.
-
-🏆 Champions League · Premier League · World Cup 2026
-🔥 Daily videos | Every transfer, goal & controversy covered
-
-📱 TikTok | Instagram | X → @PitchPulseFC
-
-📧 Sponsorship & Business: [your email]
-🌐 pitchpulsefc.com`,
+    name: "Ninety Football",
+    handle: "@NinetyFootballYT",
+    description: `Delivering football news, analysis, and stories from around the world ⚽️`,
     keywords: ["football shorts", "soccer news", "Champions League", "Premier League highlights", "World Cup 2026", "football facts", "transfer news", "football stories", "soccer shorts", "football debate"],
     playlists: ["World Cup 2026 Daily", "Transfer Window News", "Player Stories", "Football History Vault", "Fan Debates", "Champions League", "Football Facts", "Legends Series"],
     hashtags: ["#FootballShorts", "#SoccerNews", "#WorldCup2026", "#PremierLeague", "#UCL", "#TransferNews", "#FootballFacts", "#SoccerShorts", "#FootballDebate", "#FootballHistory"],
@@ -374,7 +312,7 @@ export default function BallSnaps() {
             <SectionTitle>Executive Summary — Master Strategic Brief</SectionTitle>
             <Card style={{ background: "var(--color-background-info)", border: "0.5px solid var(--color-border-info)", marginBottom: "1.5rem" }}>
               <p style={{ fontWeight: 500, fontSize: 14, color: "var(--color-text-info)", margin: "0 0 6px" }}>Mission Statement</p>
-              <p style={{ fontSize: 13, color: "var(--color-text-info)", margin: 0, lineHeight: 1.7 }}>Build BallSnaps into a category-leading football media brand capable of achieving massive scale before, during, and after the FIFA World Cup 2026 — generating tens of millions of annual views, a highly engaged US-first audience, premium RPM, and diversified revenue streams that sustain long-term growth.</p>
+              <p style={{ fontSize: 13, color: "var(--color-text-info)", margin: 0, lineHeight: 1.7 }}>Build Ninety Football into a category-leading football media brand capable of achieving massive scale before, during, and after the FIFA World Cup 2026 — generating tens of millions of annual views, a highly engaged US-first audience, premium RPM, and diversified revenue streams that sustain long-term growth.</p>
             </Card>
             <MetricGrid metrics={[
               { label: "Primary Market", value: "United States", sub: "Highest RPM geography" },
@@ -404,7 +342,7 @@ export default function BallSnaps() {
             <SubTitle>Company Overview</SubTitle>
             <Card>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                {[["Brand", "BallSnaps"], ["Model", "Football-first digital media brand"], ["Primary Platform", "YouTube Shorts → Long-form"], ["Primary Market", "United States"], ["Secondary Markets", "Canada, UK, Australia, Europe"], ["Tertiary", "Global English-speaking audience"]].map(([k, v], i) => (
+                {[["Brand", "Ninety Football"], ["Model", "Football-first digital media brand"], ["Primary Platform", "YouTube Shorts → Long-form"], ["Primary Market", "United States"], ["Secondary Markets", "Canada, UK, Australia, Europe"], ["Tertiary", "Global English-speaking audience"]].map(([k, v], i) => (
                   <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "4px 0", borderBottom: "0.5px solid var(--color-border-tertiary)", fontSize: 13 }}>
                     <span style={{ color: "var(--color-text-tertiary)" }}>{k}</span>
                     <span style={{ fontWeight: 500, color: "var(--color-text-primary)" }}>{v}</span>
@@ -606,34 +544,6 @@ export default function BallSnaps() {
           </div>
         );
 
-      case "branding":
-        return (
-          <div>
-            <SectionTitle>Part 2 — Channel Branding</SectionTitle>
-            <SubTitle>BallSnaps — Brand Assessment</SubTitle>
-            <ProsCons
-              pros={["'Ball' is universal and sport-neutral, allowing expansion", "'Snaps' captures the short-form, moment-based content idea", "Short and easy to pronounce in American English", "Suitable for Instagram (Snaps = Stories connection)", "Available as a domain (.com possible)"]}
-              cons={["'Snaps' feels more aligned with Snapchat than YouTube — wrong platform association", "Not immediately identifiable as football/soccer", "Lacks authority or news-media credibility", "Hard to build into a serious football media brand", "Low SEO value — no football keyword in the name"]}
-            />
-            <p style={{ fontSize: 14, color: "var(--color-text-secondary)", marginBottom: 8 }}>Verdict: BallSnaps is a functional working name but should be upgraded before serious growth. A better name will help with SEO, brand recall, and sponsorship conversations.</p>
-            <SubTitle>Top 50 Alternative Channel Names</SubTitle>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 8 }}>
-              {channelNames.map(n => (
-                <div key={n.rank} style={{ background: "var(--color-background-secondary)", borderRadius: "var(--border-radius-md)", padding: "8px 12px", display: "flex", gap: 10, alignItems: "flex-start" }}>
-                  <span style={{ fontSize: 11, color: "var(--color-text-tertiary)", minWidth: 24, paddingTop: 2 }}>#{n.rank}</span>
-                  <div>
-                    <p style={{ fontWeight: 500, fontSize: 14, margin: "0 0 2px", color: "var(--color-text-primary)" }}>{n.name}</p>
-                    <p style={{ fontSize: 12, color: "var(--color-text-secondary)", margin: 0 }}>{n.why}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <Card style={{ marginTop: "1.5rem", background: "var(--color-background-info)", border: "0.5px solid var(--color-border-info)" }}>
-              <p style={{ fontWeight: 500, fontSize: 14, color: "var(--color-text-info)", margin: "0 0 6px" }}>Top Recommendation: PitchPulse</p>
-              <p style={{ fontSize: 13, color: "var(--color-text-info)", margin: 0 }}>PitchPulse is energetic, sports-native, has no conflicting associations, is domain-available, works for US and global audiences, and scales into a serious media brand. It signals speed, energy, and football without being limited to one content type.</p>
-            </Card>
-          </div>
-        );
 
       case "competitors":
         return (
@@ -1133,10 +1043,10 @@ export default function BallSnaps() {
 
   return (
     <div style={{ display: "flex", minHeight: "100vh", background: "transparent" }}>
-      <h2 className="sr-only">BallSnaps — Master Strategic Brief</h2>
+      <h2 className="sr-only">Ninety Football — Master Strategic Brief</h2>
       <nav style={{ width: 240, flexShrink: 0, background: "var(--color-background-primary)", borderRight: "0.5px solid var(--color-border-tertiary)", padding: "1rem 0", position: "sticky", top: 0, height: "100vh", overflowY: "auto" }}>
         <div style={{ padding: "0 1rem 1rem", borderBottom: "0.5px solid var(--color-border-tertiary)", marginBottom: "0.5rem" }}>
-          <p style={{ fontWeight: 600, fontSize: 15, margin: 0, color: "var(--color-text-primary)", letterSpacing: "-0.02em" }}>⚽ BallSnaps</p>
+          <p style={{ fontWeight: 600, fontSize: 15, margin: 0, color: "var(--color-text-primary)", letterSpacing: "-0.02em" }}>⚽ Ninety Football</p>
           <p style={{ fontSize: 11, color: "var(--color-text-tertiary)", margin: "4px 0 0", textTransform: "uppercase", letterSpacing: "0.08em" }}>Master Strategic Brief</p>
         </div>
         {sectionGroups.map(g => (

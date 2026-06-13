@@ -1,4 +1,4 @@
-# BallSnaps ⚽
+# Ninety Football ⚽
 
 > **The Ultimate YouTube Football Channel Growth Strategy Dashboard**
 
@@ -6,7 +6,7 @@
 [![Vite](https://img.shields.io/badge/Vite-5.0.0-purple.svg?style=for-the-badge&logo=vite)](https://vitejs.dev/)
 [![Style](https://img.shields.io/badge/Style-Glow_Dark_Theme-black.svg?style=for-the-badge)](#)
 
-BallSnaps is a sleek, professional web dashboard built with React that outlines a comprehensive 10-part growth strategy for launching and scaling a highly successful YouTube Shorts football channel.
+Ninety Football is a sleek, professional web dashboard built with React that outlines a comprehensive 10-part growth strategy for launching and scaling a highly successful YouTube Shorts football channel.
 
 This interactive presentation features a **premium "glowy" dark theme** inspired by cutting-edge fintech and developer tools (like Vercel and Linear), ensuring that the data and strategy are presented with maximum visual impact.
 

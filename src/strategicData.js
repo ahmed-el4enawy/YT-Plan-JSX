@@ -27,7 +27,7 @@ export const positioningAngles = [
   { angle: "Leadership & Culture", desc: "Football as a lens for leadership, teamwork, culture-building. Bridges football into self-improvement and business audiences (highest RPM crossover).", example: "\"How Sir Alex Ferguson managed 38 egos for 26 years\" — framed as a leadership masterclass." },
 ];
 
-export const uvp = "BallSnaps is a football media brand that tells the stories, psychology, and drama behind the world's biggest sport — not another highlights channel. Every Short is a mini-documentary built for the US audience, combining narrative storytelling, data-driven insights, and cinematic pacing to make football's greatest moments feel like breaking news.";
+export const uvp = "Ninety Football is a football media brand that tells the stories, psychology, and drama behind the world's biggest sport — not another highlights channel. Every Short is a mini-documentary built for the US audience, combining narrative storytelling, data-driven insights, and cinematic pacing to make football's greatest moments feel like breaking news.";
 
 // ── Publishing & Scaling Phases ───────────────────────────────────
 export const publishingPhases = [
