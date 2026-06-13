@@ -1,23 +1,15 @@
 import { useState } from "react";
 import PromptSuite from "./PromptSuite.jsx";
-import { subNiches, nicheColumns, positioningAngles, uvp, publishingPhases, hookCategories, retentionTechniques, wcPhases, kpis, ninetyDayPlan, brandPhilosophy, editorialCriteria, contentPillarsV2, audiencePsychology, storyStructureV2, contentQualityStandards, distributionStrategy } from "./strategicData.js";
+import { publishingPhases, hookCategories, retentionTechniques, wcPhases, kpis, ninetyDayPlan, contentPillarsV2, storyStructureV2, distributionStrategy } from "./strategicData.js";
 
 const sectionGroups = [
   { group: "STRATEGY", items: [
     { id: "overview", label: "Executive Summary", icon: "ti-layout-dashboard" },
-    { id: "philosophy", label: "Brand Philosophy", icon: "ti-flag" },
-    { id: "analysis", label: "Macro Opportunity", icon: "ti-chart-line" },
-    { id: "positioning", label: "Market Positioning", icon: "ti-compass" },
     { id: "competitors", label: "Competitive Intel", icon: "ti-target" },
-  ]},
-  { group: "ARCHITECTURE", items: [
-    { id: "editorial", label: "Editorial Standards", icon: "ti-book" },
-    { id: "subniches", label: "Sub-Niche Framework", icon: "ti-grid-dots" },
     { id: "content", label: "Content Architecture", icon: "ti-building" },
     { id: "publishing", label: "Publishing & Scale", icon: "ti-rocket" },
   ]},
   { group: "EXECUTION", items: [
-    { id: "psychology", label: "Audience Psychology", icon: "ti-brain" },
     { id: "viral", label: "Viral Intelligence", icon: "ti-bolt" },
     { id: "scripting", label: "Story Structure", icon: "ti-file-text" },
     { id: "production", label: "Production System", icon: "ti-video" },
@@ -78,18 +70,6 @@ const MetricGrid = ({ metrics }) => (
   </div>
 );
 
-const ProsCons = ({ pros, cons }) => (
-  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: "1rem" }}>
-    <div style={{ background: "var(--color-background-success)", borderRadius: "var(--border-radius-md)", padding: "0.875rem 1rem", border: "0.5px solid var(--color-border-success)" }}>
-      <p style={{ fontWeight: 500, fontSize: 13, color: "var(--color-text-success)", margin: "0 0 8px" }}>Strengths / Opportunities</p>
-      {pros.map((p, i) => <p key={i} style={{ fontSize: 13, margin: "4px 0", color: "var(--color-text-success)" }}>+ {p}</p>)}
-    </div>
-    <div style={{ background: "var(--color-background-danger)", borderRadius: "var(--border-radius-md)", padding: "0.875rem 1rem", border: "0.5px solid var(--color-border-danger)" }}>
-      <p style={{ fontWeight: 500, fontSize: 13, color: "var(--color-text-danger)", margin: "0 0 8px" }}>Weaknesses / Risks</p>
-      {cons.map((c, i) => <p key={i} style={{ fontSize: 13, margin: "4px 0", color: "var(--color-text-danger)" }}>– {c}</p>)}
-    </div>
-  </div>
-);
 
 const IdeaList = ({ title, ideas, color = "info" }) => (
   <Card>
@@ -317,194 +297,6 @@ export default function NinetyFootball() {
           </div>
         );
 
-      case "philosophy":
-        return (
-          <div>
-            <SectionTitle>Brand Philosophy & Vision</SectionTitle>
-            <Card style={{ background: "var(--color-background-info)", border: "0.5px solid var(--color-border-info)", marginBottom: "1.5rem" }}>
-              <p style={{ fontWeight: 500, fontSize: 14, color: "var(--color-text-info)", margin: "0 0 6px" }}>Core Belief</p>
-              <p style={{ fontSize: 13, color: "var(--color-text-info)", margin: 0, lineHeight: 1.7 }}>This brand is built on the belief that football is far more than a sport. Football is culture, business, identity, innovation, competition, history, and human emotion at a global scale. While most channels report events, this brand tells stories. People do not remember information; they remember stories.</p>
-            </Card>
-            <SubTitle>Strategic Directives</SubTitle>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
-              {[
-                { title: "Vision", text: brandPhilosophy.vision },
-                { title: "Mission", text: brandPhilosophy.mission },
-                { title: "Long-Term Objective", text: brandPhilosophy.longTermObjective },
-                { title: "Core Editorial Philosophy", text: brandPhilosophy.corePhilosophy },
-                { title: "Strategic Positioning", text: brandPhilosophy.positioning }
-              ].map((item, i) => (
-                <Card key={i} style={{ margin: 0 }}>
-                  <p style={{ fontWeight: 500, fontSize: 14, margin: "0 0 4px", color: "var(--color-text-primary)" }}>{item.title}</p>
-                  <p style={{ fontSize: 13, color: "var(--color-text-secondary)", margin: 0, lineHeight: 1.6 }}>{item.text}</p>
-                </Card>
-              ))}
-            </div>
-            <Card style={{ marginTop: "1.5rem" }}>
-              <p style={{ fontWeight: 500, fontSize: 14, margin: "0 0 8px", color: "var(--color-text-primary)" }}>Target Mission Outcomes</p>
-              {brandPhilosophy.missionOutcomes.map((f, i) => (
-                <p key={i} style={{ fontSize: 13, color: "var(--color-text-secondary)", margin: "4px 0", paddingLeft: 12, borderLeft: "2px solid var(--color-border-success)" }}>{f}</p>
-              ))}
-            </Card>
-          </div>
-        );
-
-      case "analysis":
-        return (
-          <div>
-            <SectionTitle>Macro Opportunity Analysis</SectionTitle>
-            <MetricGrid metrics={[
-              { label: "Global football audience", value: "4 billion+", sub: "Largest sport on earth" },
-              { label: "US soccer viewers (2026)", value: "58% weekly", sub: "US adults engage with football" },
-              { label: "YouTube Shorts daily views", value: "70–90B", sub: "Global daily Shorts views" },
-              { label: "Football search volume", value: "Top 3 niches", sub: "On YouTube globally" },
-            ]} />
-            <SubTitle>Current Market Opportunity</SubTitle>
-            <Card>
-              <p style={{ fontSize: 14, color: "var(--color-text-primary)", lineHeight: 1.8, margin: 0 }}>
-                Football Shorts represents one of the highest-opportunity niches on YouTube in 2026 for three converging reasons: (1) The FIFA World Cup 2026 is being hosted in the USA — for the first time, the American audience is deeply engaged with football, and FIFA has officially partnered with YouTube as a Preferred Platform, meaning unprecedented traffic is being directed to football creators. (2) YouTube Shorts per-watch-hour revenue reached parity with long-form in the US in May 2025 — the monetisation gap has closed significantly. (3) The football shorts space is large but fragmented — most successful channels are UK-based and do not speak to the US audience with American-framing, sports culture context, or US sports media production values.
-              </p>
-            </Card>
-            <SubTitle>RPM Reality Check</SubTitle>
-            <Card>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                <div>
-                  <p style={{ fontSize: 13, fontWeight: 500, marginBottom: 8, color: "var(--color-text-primary)" }}>Shorts RPM benchmarks</p>
-                  {[["US-targeted football Shorts", "$0.05–0.15"], ["General sports Shorts", "$0.03–0.08"], ["Business of football content", "$0.10–0.25"], ["1M Shorts views (US audience)", "$50–$150"]].map(([k, v], i) => (
-                    <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "4px 0", borderBottom: "0.5px solid var(--color-border-tertiary)", fontSize: 13 }}>
-                      <span style={{ color: "var(--color-text-secondary)" }}>{k}</span>
-                      <span style={{ fontWeight: 500, color: "var(--color-text-primary)" }}>{v}</span>
-                    </div>
-                  ))}
-                </div>
-                <div>
-                  <p style={{ fontSize: 13, fontWeight: 500, marginBottom: 8, color: "var(--color-text-primary)" }}>Long-form RPM potential</p>
-                  {[["Football news (US)", "$3–7"], ["Football analysis", "$4–9"], ["Football business", "$8–18"], ["10M long-form views/yr", "$30K–$90K"]].map(([k, v], i) => (
-                    <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "4px 0", borderBottom: "0.5px solid var(--color-border-tertiary)", fontSize: 13 }}>
-                      <span style={{ color: "var(--color-text-secondary)" }}>{k}</span>
-                      <span style={{ fontWeight: 500, color: "var(--color-text-primary)" }}>{v}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </Card>
-            <SubTitle>Competition Level</SubTitle>
-            <ProsCons
-              pros={["Most top football Shorts channels are UK-based with UK framing", "Very few channels are combining all content types in one brand", "World Cup 2026 is bringing millions of new American football fans online", "The FIFA–YouTube partnership creates discovery opportunities", "Transfer windows, UCL, and weekly league results = daily content opportunities"]}
-              cons={["Premier League and UCL footage is heavily copyright-claimed", "Channels like ESPN FC and Sky Sports have massive head starts", "Algorithm favours established channels in early months", "Shorts RPM alone is not enough to build a business — diversification required", "World Cup content surge will die down post-July 2026"]}
-            />
-            <SubTitle>Sustainability of the Business Model</SubTitle>
-            <Card>
-              <p style={{ fontSize: 13, color: "var(--color-text-secondary)", lineHeight: 1.8, margin: 0 }}>
-                A football Shorts channel is sustainable long-term ONLY if it diversifies revenue. Ad revenue from Shorts alone will never pay the bills at under 1M subscribers. The correct model is: Shorts as the growth engine → funnel to long-form videos (higher RPM) → build a brand → monetise through sponsorships, affiliates, and owned products. Football provides a permanent evergreen content supply with predictable annual events (World Cup every 4 years, Euros every 4 years, UCL and domestic leagues every year, transfer windows twice a year). The business model is sustainable if you treat it as a media brand, not a single-platform content channel.
-              </p>
-            </Card>
-          </div>
-        );
-
-      case "positioning":
-        return (
-          <div>
-            <SectionTitle>Market Positioning Strategy</SectionTitle>
-            <Card style={{ background: "var(--color-background-info)", border: "0.5px solid var(--color-border-info)" }}>
-              <p style={{ fontWeight: 500, fontSize: 14, color: "var(--color-text-info)", margin: "0 0 6px" }}>The Niche+ Model</p>
-              <p style={{ fontSize: 13, color: "var(--color-text-info)", margin: 0, lineHeight: 1.7 }}>{uvp}</p>
-            </Card>
-            <SubTitle>Positioning Angles</SubTitle>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
-              {positioningAngles.map((p, i) => (
-                <Card key={i} style={{ margin: 0 }}>
-                  <p style={{ fontWeight: 500, fontSize: 14, margin: "0 0 4px", color: "var(--color-text-primary)" }}>{p.angle}</p>
-                  <p style={{ fontSize: 13, color: "var(--color-text-secondary)", margin: "0 0 8px" }}>{p.desc}</p>
-                  <p style={{ fontSize: 12, color: "var(--color-text-tertiary)", margin: 0 }}><i>Example: {p.example}</i></p>
-                </Card>
-              ))}
-            </div>
-          </div>
-        );
-
-      case "editorial":
-        return (
-          <div>
-            <SectionTitle>Editorial Standards & Quality</SectionTitle>
-            <SubTitle>Editorial Selection Criteria</SubTitle>
-            <p style={{ fontSize: 13, color: "var(--color-text-secondary)", marginBottom: 12 }}>A story becomes a candidate when it satisfies one or more of the following. Stories meeting multiple criteria receive priority.</p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 8 }}>
-              {editorialCriteria.map((c, i) => (
-                <Card key={i} style={{ margin: 0 }}>
-                  <p style={{ fontWeight: 500, fontSize: 15, margin: "0 0 4px", color: "var(--color-text-primary)" }}>{c.criteria}</p>
-                  <p style={{ fontSize: 13, color: "var(--color-text-secondary)", margin: "0 0 8px" }}>{c.desc}</p>
-                  <div style={{ background: "var(--color-background-secondary)", borderRadius: "var(--border-radius-md)", padding: "8px 12px" }}>
-                    <p style={{ fontSize: 11, fontWeight: 500, color: "var(--color-text-tertiary)", margin: "0 0 4px" }}>EXAMPLES:</p>
-                    {c.examples.map((ex, j) => (
-                      <p key={j} style={{ fontSize: 12, color: "var(--color-text-primary)", margin: "2px 0" }}>• {ex}</p>
-                    ))}
-                  </div>
-                </Card>
-              ))}
-            </div>
-            <SubTitle>Content Quality Standards</SubTitle>
-            <Card style={{ background: "var(--color-background-warning)", border: "0.5px solid var(--color-border-warning)" }}>
-              <p style={{ fontWeight: 500, fontSize: 14, color: "var(--color-text-warning)", margin: "0 0 6px" }}>The Golden Rule</p>
-              <p style={{ fontSize: 13, color: "var(--color-text-warning)", margin: 0 }}>{contentQualityStandards.principle}</p>
-            </Card>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10, marginTop: "1rem" }}>
-              <Card style={{ margin: 0 }}>
-                <p style={{ fontWeight: 500, fontSize: 14, margin: "0 0 8px", color: "var(--color-text-primary)" }}>Editorial Priorities</p>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                  {contentQualityStandards.editorialPriorities.map((ep, i) => (
-                    <Badge key={i} color="success">{ep}</Badge>
-                  ))}
-                </div>
-              </Card>
-              <Card style={{ margin: 0 }}>
-                <p style={{ fontWeight: 500, fontSize: 14, margin: "0 0 8px", color: "var(--color-text-primary)" }}>Visual Storytelling Standards</p>
-                {contentQualityStandards.visual.map((v, i) => (
-                  <p key={i} style={{ fontSize: 13, color: "var(--color-text-secondary)", margin: "4px 0", paddingLeft: 12, borderLeft: "2px solid var(--color-border-info)" }}>{v}</p>
-                ))}
-              </Card>
-            </div>
-          </div>
-        );
-
-      case "subniches":
-        return (
-          <div>
-            <SectionTitle>Sub-Niche Selection Framework</SectionTitle>
-            <Card>
-              <p style={{ fontSize: 13, color: "var(--color-text-secondary)", marginBottom: 12 }}>Scoring matrix for content categories (1-10 scale). Focus on Primary and Secondary categories.</p>
-              <div style={{ overflowX: "auto" }}>
-                <table style={{ width: "100%", fontSize: 12, borderCollapse: "collapse", textAlign: "left" }}>
-                  <thead>
-                    <tr style={{ borderBottom: "1px solid var(--color-border-secondary)" }}>
-                      <th style={{ padding: "8px 4px", color: "var(--color-text-primary)" }}>Category</th>
-                      {nicheColumns.map(c => <th key={c} style={{ padding: "8px 4px", color: "var(--color-text-secondary)", fontWeight: 500 }}>{c}</th>)}
-                      <th style={{ padding: "8px 4px", color: "var(--color-text-primary)" }}>Rec.</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {subNiches.map((n, i) => (
-                      <tr key={i} style={{ borderBottom: "0.5px solid var(--color-border-tertiary)" }}>
-                        <td style={{ padding: "8px 4px", color: "var(--color-text-primary)", fontWeight: 500 }}>{n.name}</td>
-                        <td style={{ padding: "8px 4px", color: "var(--color-text-success)" }}>{n.growth}</td>
-                        <td style={{ padding: "8px 4px", color: "var(--color-text-success)" }}>{n.rpm}</td>
-                        <td style={{ padding: "8px 4px", color: "var(--color-text-success)" }}>{n.subConv}</td>
-                        <td style={{ padding: "8px 4px", color: "var(--color-text-info)" }}>{n.retention}</td>
-                        <td style={{ padding: "8px 4px", color: "var(--color-text-info)" }}>{n.virality}</td>
-                        <td style={{ padding: "8px 4px", color: "var(--color-text-warning)" }}>{n.copyright}</td>
-                        <td style={{ padding: "8px 4px", color: "var(--color-text-secondary)" }}>{n.scale}</td>
-                        <td style={{ padding: "8px 4px", color: "var(--color-text-secondary)" }}>{n.evergreen}</td>
-                        <td style={{ padding: "8px 4px" }}><Badge color={n.rec === "PRIMARY" ? "success" : n.rec === "AVOID" ? "danger" : "warning"}>{n.rec}</Badge></td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </Card>
-          </div>
-        );
-
-
       case "competitors":
         return (
           <div>
@@ -623,25 +415,6 @@ export default function NinetyFootball() {
                     {p.actions.map((a, j) => <li key={j}>{a}</li>)}
                   </ul>
                 </Card>
-              ))}
-            </div>
-          </div>
-        );
-
-      case "psychology":
-        return (
-          <div>
-            <SectionTitle>Audience Psychology Framework</SectionTitle>
-            <Card style={{ background: "var(--color-background-warning)", border: "0.5px solid var(--color-border-warning)", marginBottom: "1.5rem" }}>
-              <p style={{ fontWeight: 500, fontSize: 14, color: "var(--color-text-warning)", margin: "0 0 6px" }}>The Core Principle</p>
-              <p style={{ fontSize: 13, color: "var(--color-text-warning)", margin: 0, lineHeight: 1.7 }}>{audiencePsychology.principle}</p>
-            </Card>
-            <SubTitle>Primary Psychological Drivers</SubTitle>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: "1.5rem" }}>
-              {audiencePsychology.primaryDrivers.map((driver, i) => (
-                <div key={i} style={{ background: "var(--color-background-secondary)", border: "0.5px solid var(--color-border-tertiary)", padding: "8px 16px", borderRadius: "var(--border-radius-lg)" }}>
-                  <p style={{ fontSize: 14, fontWeight: 500, color: "var(--color-text-primary)", margin: 0 }}>{driver}</p>
-                </div>
               ))}
             </div>
           </div>

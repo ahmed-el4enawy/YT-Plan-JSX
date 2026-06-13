@@ -5,7 +5,7 @@
   --color-background-secondary: #16181d;
   --color-background-tertiary: #1e2128;
   
-  --color-background-info: rgba(56, 189, 248, 0.1);
+  --color-background-info: rgba(246, 255, 0, 0.1);
   --color-background-success: rgba(52, 211, 153, 0.1);
   --color-background-danger: rgba(248, 113, 113, 0.1);
   --color-background-warning: rgba(251, 191, 36, 0.1);
@@ -14,7 +14,7 @@
   --color-text-secondary: #a1a1aa;
   --color-text-tertiary: #71717a;
   
-  --color-text-info: #38bdf8;
+  --color-text-info: #f6ff00;
   --color-text-success: #34d399;
   --color-text-danger: #f87171;
   --color-text-warning: #fbbf24;
@@ -23,12 +23,12 @@
   --color-border-secondary: rgba(255, 255, 255, 0.08);
   --color-border-tertiary: rgba(255, 255, 255, 0.04);
 
-  --color-border-info: rgba(56, 189, 248, 0.4);
+  --color-border-info: rgba(246, 255, 0, 0.4);
   --color-border-success: rgba(52, 211, 153, 0.4);
   --color-border-danger: rgba(248, 113, 113, 0.4);
   --color-border-warning: rgba(251, 191, 36, 0.4);
 
-  --glow-info: 0 0 20px rgba(56, 189, 248, 0.15);
+  --glow-info: 0 0 20px rgba(246, 255, 0, 0.15);
   --glow-success: 0 0 20px rgba(52, 211, 153, 0.15);
   --glow-danger: 0 0 20px rgba(248, 113, 113, 0.15);
   --glow-warning: 0 0 20px rgba(251, 191, 36, 0.15);
@@ -53,7 +53,7 @@ body {
   
   /* Deep glowy background */
   background-image: 
-    radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.06), transparent 35%),
+    radial-gradient(circle at 15% 50%, rgba(246, 255, 0, 0.06), transparent 35%),
     radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.06), transparent 35%),
     radial-gradient(circle at 50% 100%, rgba(52, 211, 153, 0.04), transparent 40%);
   background-attachment: fixed;
