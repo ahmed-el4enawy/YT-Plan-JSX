@@ -61,6 +61,33 @@ const Badge = ({ children, color }) => {
   );
 };
 
+const BlockHeader = ({ title, sub, icon, badgeText, color }) => {
+  let iconBg, iconColor;
+  if (color === "danger") { iconBg = "var(--color-background-danger)"; iconColor = "var(--color-text-danger)"; }
+  else if (color === "info") { iconBg = "var(--color-background-info)"; iconColor = "var(--color-text-info)"; }
+  else if (color === "success") { iconBg = "var(--color-background-success)"; iconColor = "var(--color-text-success)"; }
+  else if (color === "warning") { iconBg = "var(--color-background-warning)"; iconColor = "var(--color-text-warning)"; }
+  
+  return (
+    <div style={{ padding: "1rem 1.25rem", borderBottom: "0.5px solid var(--color-border-tertiary)", display: "flex", alignItems: "center", gap: "10px" }}>
+      <div style={{ width: "32px", height: "32px", borderRadius: "var(--border-radius-md)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px", flexShrink: 0, background: iconBg, color: iconColor }}>
+        <i className={icon} aria-hidden="true"></i>
+      </div>
+      <div>
+        <div style={{ fontSize: "15px", fontWeight: 500, color: "var(--color-text-primary)" }}>{title}</div>
+        <div style={{ fontSize: "12px", color: "var(--color-text-secondary)", marginTop: "1px" }}>{sub}</div>
+      </div>
+      <Badge color={color}>{badgeText}</Badge>
+    </div>
+  );
+};
+
+const Block = ({ children }) => (
+  <div style={{ background: "var(--color-background-primary)", border: "0.5px solid var(--color-border-tertiary)", borderRadius: "var(--border-radius-lg)", overflow: "hidden", marginBottom: "2rem" }}>
+    {children}
+  </div>
+);
+
 export default function PromptSuite() {
   const [globalChannel, setGlobalChannel] = useState("Ninety Football");
   const [globalNiche, setGlobalNiche] = useState("Football / Soccer");
@@ -231,32 +258,7 @@ VOICE DIRECTION:
     overflowY: "auto"
   };
 
-  const BlockHeader = ({ title, sub, icon, badgeText, color }) => {
-    let iconBg, iconColor;
-    if (color === "danger") { iconBg = "var(--color-background-danger)"; iconColor = "var(--color-text-danger)"; }
-    else if (color === "info") { iconBg = "var(--color-background-info)"; iconColor = "var(--color-text-info)"; }
-    else if (color === "success") { iconBg = "var(--color-background-success)"; iconColor = "var(--color-text-success)"; }
-    else if (color === "warning") { iconBg = "var(--color-background-warning)"; iconColor = "var(--color-text-warning)"; }
-    
-    return (
-      <div style={{ padding: "1rem 1.25rem", borderBottom: "0.5px solid var(--color-border-tertiary)", display: "flex", alignItems: "center", gap: "10px" }}>
-        <div style={{ width: "32px", height: "32px", borderRadius: "var(--border-radius-md)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px", flexShrink: 0, background: iconBg, color: iconColor }}>
-          <i className={icon} aria-hidden="true"></i>
-        </div>
-        <div>
-          <div style={{ fontSize: "15px", fontWeight: 500, color: "var(--color-text-primary)" }}>{title}</div>
-          <div style={{ fontSize: "12px", color: "var(--color-text-secondary)", marginTop: "1px" }}>{sub}</div>
-        </div>
-        <Badge color={color}>{badgeText}</Badge>
-      </div>
-    );
-  };
 
-  const Block = ({ children }) => (
-    <div style={{ background: "var(--color-background-primary)", border: "0.5px solid var(--color-border-tertiary)", borderRadius: "var(--border-radius-lg)", overflow: "hidden", marginBottom: "2rem" }}>
-      {children}
-    </div>
-  );
 
   return (
     <div>

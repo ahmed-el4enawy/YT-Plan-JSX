@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PromptSuite from "./PromptSuite.jsx";
-import { subNiches, nicheColumns, positioningAngles, uvp, publishingPhases, hookCategories, scriptStages, retentionTechniques, wcPhases, kpis, ninetyDayPlan, brandPhilosophy, editorialCriteria, contentPillarsV2, audiencePsychology, storyStructureV2, contentQualityStandards, distributionStrategy } from "./strategicData.js";
+import { subNiches, nicheColumns, positioningAngles, uvp, publishingPhases, hookCategories, retentionTechniques, wcPhases, kpis, ninetyDayPlan, brandPhilosophy, editorialCriteria, contentPillarsV2, audiencePsychology, storyStructureV2, contentQualityStandards, distributionStrategy } from "./strategicData.js";
 
 const sectionGroups = [
   { group: "STRATEGY", items: [
@@ -32,7 +32,7 @@ const sectionGroups = [
     { id: "resources", label: "Resources", icon: "ti-database" },
   ]},
 ];
-const sections = sectionGroups.flatMap(g => g.items);
+
 
 const Badge = ({ children, color = "info" }) => (
   <span style={{
@@ -105,26 +105,6 @@ const IdeaList = ({ title, ideas, color = "info" }) => (
   </Card>
 );
 
-const RoadmapMonth = ({ month, data }) => (
-  <Card>
-    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 8 }}>
-      <div>
-        <p style={{ fontWeight: 500, fontSize: 15, margin: "0 0 4px", color: "var(--color-text-primary)" }}>{month}</p>
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-          <Badge color="info">{data.subs}</Badge>
-          <Badge color="success">{data.revenue}</Badge>
-          <Badge color="warning">{data.focus}</Badge>
-        </div>
-      </div>
-      <div style={{ fontSize: 13, color: "var(--color-text-secondary)", textAlign: "right" }}>{data.posts} posts</div>
-    </div>
-    <div style={{ marginTop: 12, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 6 }}>
-      {data.actions.map((a, i) => (
-        <p key={i} style={{ fontSize: 13, margin: 0, padding: "3px 0", color: "var(--color-text-secondary)", borderBottom: "0.5px solid var(--color-border-tertiary)" }}>→ {a}</p>
-      ))}
-    </div>
-  </Card>
-);
 
 const CompetitorCard = ({ ch }) => (
   <Card>
@@ -230,20 +210,6 @@ export default function NinetyFootball() {
     "The forgotten striker who outscored everyone in the 90s", "Why third goalkeepers barely ever play",
   ];
 
-  const roadmap = [
-    { month: "Month 1 (Jun 2026)", subs: "Target: 300 subs", revenue: "$0 (pre-monetisation)", focus: "World Cup Launch", posts: "30 posts", actions: ["Rename channel to top-10 name from list", "Redesign all branding", "Post 1 Short/day, World Cup focus", "Set up TikTok + Instagram reposts", "Target 500K total views"] },
-    { month: "Month 2 (Jul 2026)", subs: "Target: 800 subs", revenue: "$0–$20", focus: "World Cup Peak", posts: "31 posts", actions: ["World Cup daily content (final + knockout stages)", "Test 5 content formats", "Track top 3 performing topics", "Build Instagram to 500 followers", "Apply for YPP if 500+ subs hit"] },
-    { month: "Month 3 (Aug 2026)", subs: "Target: 1,500 subs", revenue: "$20–$80", focus: "Post-WC consolidation", posts: "31 posts", actions: ["Shift to evergreen + transfer news content", "First YPP application (if 1K reached)", "Introduce Facts + History pillars", "Analyse top 10 performing Shorts", "Start building email list"] },
-    { month: "Month 4 (Sep 2026)", subs: "Target: 3,000 subs", revenue: "$50–$150", focus: "Transfer window content", posts: "30 posts", actions: ["Deadline day live updates as Shorts series", "Introduce fan debate format", "Reach out to first football sponsor", "Experiment with 90-sec format", "Test YouTube Community posts"] },
-    { month: "Month 5 (Oct 2026)", subs: "Target: 5,000 subs", revenue: "$100–$300", focus: "Champions League content", posts: "31 posts", actions: ["UCL group stage daily Shorts", "Launch Legends Series playlist", "First affiliate link (football gear)", "Post one 'documentary short' per week", "Grow TikTok to 2,000 followers"] },
-    { month: "Month 6 (Nov 2026)", subs: "Target: 8,000 subs", revenue: "$200–$500", focus: "Debate & Nostalgia", posts: "30 posts", actions: ["GOAT debate content for Q4", "Reach 10M total channel views", "Test merch (print-on-demand football tees)", "First sponsored post negotiation", "Introduce community polls"] },
-    { month: "Month 7 (Dec 2026)", subs: "Target: 12,000 subs", revenue: "$400–$800", focus: "Year-end content", posts: "31 posts", actions: ["Best goals of 2026 series", "Best transfers of 2026", "Year-in-review World Cup retrospective", "Holiday themed football content", "Revisit copyright strategy"] },
-    { month: "Month 8 (Jan 2027)", subs: "Target: 18,000 subs", revenue: "$600–$1,200", focus: "New year transfer window", posts: "31 posts", actions: ["January transfer window daily Shorts", "Introduce Business of Football pillar (high RPM)", "Launch second channel or long-form channel", "Scale to 45 posts/month (mix of Shorts + longer)", "First brand deal target: $300–$500"] },
-    { month: "Month 9 (Feb 2027)", subs: "Target: 25,000 subs", revenue: "$800–$1,800", focus: "UCL knockout rounds", posts: "28 posts", actions: ["UCL last-16 prediction + reaction Shorts", "Grow email newsletter to 1,000 subscribers", "Create a football facts digital product ($5–$15)", "Target football betting site affiliate", "Reach 50M total channel views milestone"] },
-    { month: "Month 10 (Mar 2027)", subs: "Target: 35,000 subs", revenue: "$1,200–$2,500", focus: "Storytelling deep dives", posts: "31 posts", actions: ["Weekly long-form Short (>3 min) experiment", "Produce first proper mini-documentary Short", "Re-pitch bigger brand deals ($500–$1,500)", "Invest in better editing tools / VA support", "A/B test thumbnail styles at scale"] },
-    { month: "Month 11 (Apr 2027)", subs: "Target: 50,000 subs", revenue: "$1,800–$4,000", focus: "Scale & diversify", posts: "30 posts", actions: ["Hit 50K — post celebration Short", "Launch Channel Membership", "Hire first part-time editor (freelancer)", "Expand to Facebook Reels for extra reach", "Forecast path to 100K by month 15–18"] },
-    { month: "Month 12 (May 2027)", subs: "Target: 70,000 subs", revenue: "$3,000–$6,000", focus: "Brand authority", posts: "31 posts", actions: ["Publish full monthly revenue transparency Short", "Lock in minimum 2 brand deals/month", "Evaluate channel sale or partnership value", "Plan next World Cup / Euro 2028 strategy", "Full 12-month analytics review"] },
-  ];
 
   const tools = [
     { name: "CapCut", type: "Editing", price: "Free/Pro", use: "Primary Short-form video editor. Best for quick cuts, text overlays, trending transitions" },
@@ -290,14 +256,6 @@ export default function NinetyFootball() {
     { topic: "Best Legal Strategy", content: "1) Use AI-generated or original visuals as primary content. 2) Use officially released club/federation clips. 3) License footage from Getty Sport or AP Images when budget allows. 4) Build a library of public domain historical football footage from archive.org. 5) Always add significant original voiceover, analysis, and graphics as transformation." },
   ];
 
-  const optimizedChannel = {
-    name: "Ninety Football",
-    handle: "@NinetyFootballYT",
-    description: `Delivering football news, analysis, and stories from around the world ⚽️`,
-    keywords: ["football shorts", "soccer news", "Champions League", "Premier League highlights", "World Cup 2026", "football facts", "transfer news", "football stories", "soccer shorts", "football debate"],
-    playlists: ["World Cup 2026 Daily", "Transfer Window News", "Player Stories", "Football History Vault", "Fan Debates", "Champions League", "Football Facts", "Legends Series"],
-    hashtags: ["#FootballShorts", "#SoccerNews", "#WorldCup2026", "#PremierLeague", "#UCL", "#TransferNews", "#FootballFacts", "#SoccerShorts", "#FootballDebate", "#FootballHistory"],
-  };
 
   const monRoadmap = [
     { milestone: "0–1,000 subscribers", timeframe: "Month 1–3", revenue: "$0–$50/mo", strategies: ["Focus entirely on views/reach, not revenue", "Build social following to complement YouTube", "Test content formats relentlessly", "Set up affiliate links in description (Football boots, gear) ready for YPP"] },
@@ -1018,28 +976,7 @@ export default function NinetyFootball() {
             </Card>
           </div>
         );
-        return (
-          <div>
-            <SectionTitle>FIFA World Cup 2026 Execution Blueprint</SectionTitle>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
-              {wcPhases.map((p, i) => (
-                <Card key={i} style={{ borderLeft: `3px solid var(--color-border-${p.color})`, margin: 0 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-                    <p style={{ fontWeight: 500, fontSize: 15, margin: 0, color: "var(--color-text-primary)" }}>{p.phase}</p>
-                    <Badge color={p.color}>{p.period}</Badge>
-                  </div>
-                  <p style={{ fontSize: 12, color: "var(--color-text-secondary)", margin: "0 0 8px" }}><strong>Target Freq:</strong> {p.freq}</p>
-                  <p style={{ fontSize: 12, fontWeight: 500, color: "var(--color-text-primary)", margin: "0 0 4px" }}>Priorities:</p>
-                  <ul style={{ margin: "0 0 8px 16px", padding: 0, fontSize: 12, color: "var(--color-text-secondary)" }}>
-                    {p.priorities.map((pr, j) => <li key={j}>{pr}</li>)}
-                  </ul>
-                  <p style={{ fontSize: 12, color: "var(--color-text-secondary)", margin: "0 0 4px" }}><strong>Audience:</strong> {p.audience}</p>
-                  <p style={{ fontSize: 12, color: "var(--color-text-success)", margin: 0 }}><strong>Monetization:</strong> {p.monetization}</p>
-                </Card>
-              ))}
-            </div>
-          </div>
-        );
+
 
       default:
         return null;
