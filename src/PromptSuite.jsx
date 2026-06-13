@@ -186,18 +186,18 @@ Format each idea clearly under a numbered heading. Do not include generic filler
   };
 
   const genVoice = () => {
-    const intro = vScript ? \`Read the following script aloud:\\n\\n"""\\n\${vScript}\\n"""\` : "[Paste your script here before copying]";
+    const intro = vScript ? `Read the following script aloud:\\n\\n"""\\n${vScript}\\n"""` : "[Paste your script here before copying]";
 
-    const out = \`\${intro}
+    const out = `${intro}
 
 VOICE DIRECTION:
-- Delivery style: \${vChar}.
-- Pacing: \${vPace} — maintain this pace from the first word to the last with zero deceleration.
+- Delivery style: ${vChar}.
+- Pacing: ${vPace} — maintain this pace from the first word to the last with zero deceleration.
 - No pauses between sentences or paragraphs. Transitions should be completely seamless, as if one continuous thought.
 - No filler sounds, breath noises, or unnatural hesitations.
 - Emphasis should feel organic, not robotic — stress words that carry meaning, not every other word.
 - The listener should feel they are being spoken to directly by someone who genuinely believes every word they are saying.
-- Maintain consistent energy and vocal presence throughout. Do not fade at the end of sentences.\`;
+- Maintain consistent energy and vocal presence throughout. Do not fade at the end of sentences.`;
     setVoiceOut(out);
   };
 
