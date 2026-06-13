@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PromptSuite from "./PromptSuite.jsx";
 import { subNiches, nicheColumns, positioningAngles, uvp, publishingPhases, hookCategories, scriptStages, retentionTechniques, wcPhases, kpis, ninetyDayPlan, brandPhilosophy, editorialCriteria, contentPillarsV2, audiencePsychology, storyStructureV2, contentQualityStandards, distributionStrategy } from "./strategicData.js";
 
 const sectionGroups = [
@@ -20,6 +21,7 @@ const sectionGroups = [
     { id: "viral", label: "Viral Intelligence", icon: "ti-bolt" },
     { id: "scripting", label: "Story Structure", icon: "ti-file-text" },
     { id: "production", label: "Production System", icon: "ti-video" },
+    { id: "promptsuite", label: "Prompt Suite", icon: "ti-wand" },
     { id: "copyright", label: "Copyright & Safety", icon: "ti-shield-check" },
   ]},
   { group: "GROWTH", items: [
@@ -788,6 +790,9 @@ export default function NinetyFootball() {
             </div>
           </div>
         );
+
+      case "promptsuite":
+        return <PromptSuite />;
 
       case "copyright":
         return (
