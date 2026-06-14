@@ -314,3 +314,19 @@ export const sectionGroups = [
     { id: "resources", label: "Resources", icon: "ti-database" },
   ]},
 ];
+
+export const copyrightInfo = [
+    { topic: "Fair Use Basics", content: "Fair Use (US law) allows limited use of copyrighted material for commentary, criticism, education, or transformative works. For football content, this means: brief clips with substantial commentary may qualify, but raw highlight compilations without transformation do NOT qualify. Fair use is a legal defense, not a guaranteed right." },
+    { topic: "YouTube Content ID", content: "Most professional football footage (Premier League, Champions League, La Liga, etc.) is registered with YouTube's Content ID system. Using even 3 seconds of PL footage will trigger an automatic claim — your monetisation goes to the rights holder. The key practical rule: avoid all live match footage from top leagues unless licensed." },
+    { topic: "Safe Content Types", content: "Maximum copyright safety: AI-generated visuals, original commentary over static images, licensed Getty images, data visualisations and graphics, historic footage from pre-1928 (public domain), press conference clips (usually freely available), your own original filming." },
+    { topic: "Football Footage Risks", content: "HIGHEST RISK: Premier League, Champions League, La Liga, Serie A, Bundesliga clips. These rights holders are highly aggressive with Content ID and takedowns. MEDIUM RISK: International friendlies, lower leagues. LOWER RISK: Women's football, futsal, beach football, non-league. SAFE: Press conferences, training ground clips published by clubs officially." },
+    { topic: "The 'Reused Content' Policy", content: "YouTube has a separate 'reused content' monetisation policy. Channels that primarily compile others' content without transformative commentary risk demonetisation even if individual claims are cleared. Build original value into every video: unique narration, research, graphics, your own analysis." },
+    { topic: "Best Legal Strategy", content: "1) Use AI-generated or original visuals as primary content. 2) Use officially released club/federation clips. 3) License footage from Getty Sport or AP Images when budget allows. 4) Build a library of public domain historical football footage from archive.org. 5) Always add significant original voiceover, analysis, and graphics as transformation." },
+  ];
+
+export const monRoadmap = [
+    { milestone: "0–1,000 subscribers", timeframe: "Month 1–3", revenue: "$0–$50/mo", strategies: ["Focus entirely on views/reach, not revenue", "Build social following to complement YouTube", "Test content formats relentlessly", "Set up affiliate links in description (Football boots, gear) ready for YPP"] },
+    { milestone: "1,000–10,000 subscribers", timeframe: "Month 3–6", revenue: "$50–$500/mo", strategies: ["YPP active — Shorts pool revenue starts", "Affiliate marketing: boots, streaming services, football apps", "First brand deal possible at 5K+ subs ($50–$300 per sponsored Short)", "Digital product opportunity: football quiz/ebook ($5–$15)"] },
+    { milestone: "10,000–100,000 subscribers", timeframe: "Month 6–14", revenue: "$500–$8,000/mo", strategies: ["Consistent YPP Shorts revenue at scale", "Brand deals: $300–$2,500 per sponsored Short", "Channel memberships launch ($2.99–$9.99/mo)", "Affiliate income: sports betting sites ($50–$200 CPA), streaming subs", "Merchandise: print-on-demand football tees, mugs (Printful/Merch by Amazon)"] },
+    { milestone: "100,000–1,000,000 subscribers", timeframe: "Month 14–30+", revenue: "$5,000–$50,000/mo", strategies: ["RPM boost with dedicated US audience", "Major brand deals ($2,000–$20,000 per video)", "Agency representation for sponsorships", "Own e-commerce (football merchandise line)", "Subscription newsletter or membership community ($5–$25/mo)", "Licensing your original content to other media companies"] },
+  ];
