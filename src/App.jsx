@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Badge, Card, SectionTitle, SubTitle, MetricGrid, IdeaList, CompetitorCard } from "./components/ui/index.jsx";
-import PromptSuite from "./components/PromptSuite.jsx";
-import SynthesisChat from "./components/SynthesisChat.jsx";
+import PromptSuite from "./pages/PromptSuite.jsx";
+import SynthesisChat from "./pages/SynthesisChat.jsx";
 import Overview from "./pages/Overview.jsx";
 import Competitors from "./pages/Competitors.jsx";
 import Content from "./pages/Content.jsx";
@@ -16,34 +15,11 @@ import Kpis from "./pages/Kpis.jsx";
 import Monetization from "./pages/Monetization.jsx";
 import Roadmap from "./pages/Roadmap.jsx";
 
-import { sectionGroups, competitors, viralIdeas, worldCupIdeas, evergreenIdeas, tools, resources, publishingPhases, hookCategories, retentionTechniques, wcPhases, kpis, ninetyDayPlan, contentPillarsV2, storyStructureV2, distributionStrategy } from "./data/strategicData.js";
-
-
-
-
+import { sectionGroups } from "./data/strategicData.js";
 
 export default function NinetyFootball() {
   const [active, setActive] = useState("overview");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
-  
-
-
-  
-
-  
-
-  
-
-
-  
-
-  
-
-  
-
-
-  
 
   const renderSection = () => {
     switch (active) {
