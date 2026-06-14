@@ -1,62 +1,58 @@
-# Ninety Football ⚽
+# Ninety Football OS
 
-> **The Ultimate YouTube Football Channel Growth Strategy Dashboard**
+> **Strategic Operating System for Sports Media Intelligence**
 
-[![React](https://img.shields.io/badge/React-18.2.0-blue.svg?style=for-the-badge&logo=react)](https://reactjs.org/)
-[![Vite](https://img.shields.io/badge/Vite-5.0.0-purple.svg?style=for-the-badge&logo=vite)](https://vitejs.dev/)
-[![Style](https://img.shields.io/badge/Style-Glow_Dark_Theme-black.svg?style=for-the-badge)](#)
+Ninety Football OS is a specialized internal dashboard developed for the planning, execution, and analysis of modern sports media distribution. Engineered specifically for high-velocity football content, this platform centralizes competitive intelligence, script frameworks, monetization roadmaps, and production systems into a single executive interface.
 
-Ninety Football is a sleek, professional web dashboard built with React that outlines a comprehensive 10-part growth strategy for launching and scaling a highly successful YouTube Shorts football channel.
+## System Architecture
 
-This interactive presentation features a **premium "glowy" dark theme** inspired by cutting-edge fintech and developer tools (like Vercel and Linear), ensuring that the data and strategy are presented with maximum visual impact.
+The application is structured around four primary operational pillars:
 
-## ✨ Features
+1. **Core Strategy**: Executive summaries, long-term roadmaps, and structural brand architecture.
+2. **Intelligence**: Real-time competitor analysis, viral format libraries, and event-driven data tracking (e.g., World Cup 2026).
+3. **Production**: Proprietary script frameworks, automated prompt systems, and publishing pipelines.
+4. **Operations**: Performance KPI tracking, monetization frameworks, and resource aggregation.
 
-- **Interactive Navigation**: 10 distinct strategic sections including Market Analysis, Branding, Content Strategy, Monetization, and a 12-Month Roadmap.
-- **Premium Dark Mode UI**: Deep, rich backgrounds with subtle radial glows, frosted glass (backdrop-filter) navigation, and high-contrast text.
-- **Micro-Animations**: Snappy hover states, subtle card lifting, and neon-glowing accents for maximum interactivity.
-- **Technical Typography**: Utilizing `Inter` for unparalleled readability and `JetBrains Mono` for precise, technical data display (metrics, badges).
-- **Responsive Layout**: A modern CSS Grid and Flexbox foundation built to scale across standard viewports.
+## Technical Specifications
 
-## 🚀 Quick Start
+- **Framework**: React via Vite
+- **Interface**: Custom CSS design system optimized for data visualization and prolonged viewing.
+- **Data Architecture**: Modular local state management designed for rapid iteration.
+- **Environment**: Configured for local execution via Node.js or native desktop compilation via Electron.
 
-Ensure you have Node.js installed on your machine, then follow these steps:
+## Installation & Deployment
 
-1. **Install dependencies**:
+Ensure Node.js (v18+) is installed on your local environment.
+
+1. **Initialize the repository**:
    ```bash
    npm install
    ```
 
-2. **Start the development server**:
+2. **Execute via Local Server**:
    ```bash
    npm run dev
    ```
 
-3. **View the application**:
-   Open your browser and navigate to `http://localhost:5173/`
+3. **Execute via Native Desktop Wrapper**:
+   ```bash
+   npm run app
+   ```
+   *(Initializes a standalone, frameless desktop application window utilizing the Electron runtime).*
 
-## 📁 Project Structure
+## Directory Structure
 
 ```text
-yt-plan-jsx/
-├── public/
-│   └── favicon.svg         # Application icon
+ninety-football-os/
 ├── src/
-│   ├── App.jsx             # Main interactive dashboard component
-│   ├── index.css           # Global premium dark theme and CSS variables
-│   └── main.jsx            # React entry point
-├── index.html              # HTML entry point (includes Google Fonts & Tabler Icons)
-├── package.json            # Dependencies and scripts
-└── vite.config.js          # Vite bundler configuration
+│   ├── components/       # Feature-specific modules (PromptSuite, etc.)
+│   ├── components/ui/    # Reusable design system tokens
+│   ├── data/             # Centralized strategic intelligence logic
+│   ├── App.jsx           # Primary application router
+│   └── index.css         # Global design system
+├── main.cjs              # Electron runtime entry point
+└── Launch_Dashboard.vbs  # Silent execution script for Windows
 ```
 
-## 🎨 Design System & Technologies
-
-* **Framework**: React via Vite
-* **Icons**: Tabler Icons Webfont
-* **Fonts**: `Inter` (Sans-serif) & `JetBrains Mono` (Monospace)
-* **Styling**: Vanilla CSS utilizing CSS Variables (`--color-background-primary`, `--glow-info`, etc.) allowing for complete theme control without relying on heavy UI libraries.
-
-## 📝 License
-
-This project is intended for educational and strategic planning purposes.
+## Security & Compliance
+This software and its internal strategic data are proprietary. Unauthorized distribution of the competitive intelligence or production frameworks contained within is strictly prohibited.

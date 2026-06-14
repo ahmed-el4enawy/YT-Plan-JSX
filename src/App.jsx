@@ -74,7 +74,7 @@ export default function NinetyFootball() {
               ))}
             </div>
             <div style={{ background: "var(--color-background-warning)", border: "0.5px solid var(--color-border-warning)", borderRadius: "var(--border-radius-lg)", padding: "1rem 1.25rem", marginBottom: "1.5rem" }}>
-              <p style={{ fontWeight: 500, fontSize: 14, color: "var(--color-text-warning)", margin: "0 0 6px" }}>⚡ World Cup 2026 — Critical Timing Window</p>
+              <p style={{ fontWeight: 500, fontSize: 14, color: "var(--color-text-warning)", margin: "0 0 6px" }}> World Cup 2026 — Critical Timing Window</p>
               <p style={{ fontSize: 13, color: "var(--color-text-warning)", margin: 0 }}>The FIFA World Cup 2026 is in progress NOW (June–July 2026), hosted across USA/Canada/Mexico. YouTube is an official FIFA Preferred Platform. This is the single largest traffic opportunity in football content for the next 4 years. Every day of delay is lost traffic, subscribers, and revenue.</p>
             </div>
             <SubTitle>Company Overview</SubTitle>

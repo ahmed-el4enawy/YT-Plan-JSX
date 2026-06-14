@@ -262,7 +262,7 @@ VOICE DIRECTION:
 
   return (
     <div>
-      <h2 style={{ fontSize: 18, fontWeight: 500, marginBottom: "1.5rem", marginTop: "2rem", color: "var(--color-text-primary)" }}>AI Content Prompt Suite</h2>
+      <h2 style={{ fontSize: 18, fontWeight: 500, marginBottom: "1.5rem", marginTop: "2rem", color: "var(--color-text-primary)" }}>Production Scripting Engine</h2>
       
       <div style={{ padding: "1.25rem", background: "var(--color-background-secondary)", borderRadius: "var(--border-radius-lg)", border: "0.5px solid var(--color-border-tertiary)", marginBottom: "1.5rem" }}>
         <div style={{ fontSize: "13px", fontWeight: 500, color: "var(--color-text-secondary)", marginBottom: "10px", display: "flex", alignItems: "center", gap: "6px" }}>
@@ -354,7 +354,7 @@ VOICE DIRECTION:
 
       {/* LUMALABS */}
       <Block>
-        <BlockHeader title="LumaLabs image / video prompt" sub="Cinematic 16:9 visual for thumbnails or B-roll" icon="ti-camera" badgeText="Prompt 3" color="success" />
+        <BlockHeader title="Cinematic rendering specs" sub="Cinematic 16:9 visual for thumbnails or B-roll" icon="ti-camera" badgeText="Config 3" color="success" />
         <div style={{ padding: "1rem 1.25rem", display: "flex", flexDirection: "column", gap: "12px" }}>
           <Field label="Main focus">
             <input style={inputStyle} value={lFocus} onChange={e => setLFocus(e.target.value)} placeholder="e.g. a football striker celebrating a goal" />
@@ -373,7 +373,7 @@ VOICE DIRECTION:
         </div>
         <div style={{ height: "0.5px", background: "var(--color-border-tertiary)", margin: "0 1.25rem" }}></div>
         <div style={{ padding: "1rem 1.25rem 0", display: "flex", gap: "8px", marginBottom: "1rem" }}>
-          <button style={{ ...buttonStyle, flex: 1 }} onClick={genLuma}><i className="ti ti-wand" aria-hidden="true"></i> Generate LumaLabs prompt ↗</button>
+          <button style={{ ...buttonStyle, flex: 1 }} onClick={genLuma}><i className="ti ti-wand" aria-hidden="true"></i> Generate rendering specs ↗</button>
           <button style={buttonStyle} onClick={() => handleCopy(lumaOut, 'luma')}>
             {copied === 'luma' ? <><i className="ti ti-check" aria-hidden="true"></i> Copied</> : <><i className="ti ti-copy" aria-hidden="true"></i> Copy</>}
           </button>
@@ -383,7 +383,7 @@ VOICE DIRECTION:
 
       {/* GOOGLE AI STUDIO */}
       <Block>
-        <BlockHeader title="Google AI Studio voiceover prompt" sub="Read-aloud instruction for Gemini TTS" icon="ti-microphone" badgeText="Prompt 4" color="warning" />
+        <BlockHeader title="Voiceover synthesis config" sub="Read-aloud instruction for TTS engines" icon="ti-microphone" badgeText="Config 4" color="warning" />
         <div style={{ padding: "1rem 1.25rem", display: "flex", flexDirection: "column", gap: "12px" }}>
           <Field label="Script text to be read">
             <textarea style={inputStyle} rows={3} value={vScript} onChange={e => setVScript(e.target.value)} placeholder="Paste your final script here (or write a placeholder)" />
@@ -403,7 +403,7 @@ VOICE DIRECTION:
         </div>
         <div style={{ height: "0.5px", background: "var(--color-border-tertiary)", margin: "0 1.25rem" }}></div>
         <div style={{ padding: "1rem 1.25rem 0", display: "flex", gap: "8px", marginBottom: "1rem" }}>
-          <button style={{ ...buttonStyle, flex: 1 }} onClick={genVoice}><i className="ti ti-wand" aria-hidden="true"></i> Generate voice prompt ↗</button>
+          <button style={{ ...buttonStyle, flex: 1 }} onClick={genVoice}><i className="ti ti-wand" aria-hidden="true"></i> Generate synthesis config ↗</button>
           <button style={buttonStyle} onClick={() => handleCopy(voiceOut, 'voice')}>
             {copied === 'voice' ? <><i className="ti ti-check" aria-hidden="true"></i> Copied</> : <><i className="ti ti-copy" aria-hidden="true"></i> Copy</>}
           </button>

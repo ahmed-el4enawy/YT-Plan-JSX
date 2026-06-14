@@ -272,21 +272,21 @@ export const tools = [
   ];
 
 export const resources = [
-    { name: "Sofascore", type: "Match Data", price: "Free", rel: "★★★★★", use: "Live scores, player ratings, detailed match statistics" },
-    { name: "FBref.com", type: "Statistics", price: "Free", rel: "★★★★★", use: "Advanced football stats, historical data, player comparison — powered by StatsBomb" },
-    { name: "Transfermarkt", type: "Transfer/Value", price: "Free", rel: "★★★★★", use: "Player market values, transfer history, contract data — essential for transfer content" },
-    { name: "WhoScored.com", type: "Statistics", price: "Free", rel: "★★★★", use: "Match and player ratings, formation analysis" },
-    { name: "BBC Sport / Sky Sports", type: "News", price: "Free", rel: "★★★★★", use: "Breaking news, official statements, injury updates" },
-    { name: "The Athletic", type: "Deep News", price: "$12/mo", rel: "★★★★★", use: "Exclusive behind-the-scenes stories, excellent for documentary content ideas" },
-    { name: "FIFA Media Library", type: "Images/Video", price: "Free (licensed)", rel: "★★★★", use: "Official FIFA content, historical World Cup footage — requires media accreditation" },
-    { name: "Getty Images / Shutterstock", type: "Images", price: "$30–150/mo", rel: "★★★★★", use: "Licensed football photography — essential for legal thumbnails and B-roll stills" },
-    { name: "Pixabay / Unsplash", type: "Images", price: "Free", rel: "★★★", use: "Generic sports backgrounds, crowd shots, atmosphere photography" },
-    { name: "YouTube Audio Library", type: "Music", price: "Free", rel: "★★★★", use: "Copyright-free background music for all content" },
-    { name: "Artlist.io", type: "Music", price: "$199/yr", rel: "★★★★★", use: "Best licensed music library for sports content, no claim issues" },
-    { name: "ESPN Stats & Info API", type: "API", price: "Media partners", rel: "★★★★", use: "Real-time sports data for graphics overlays" },
-    { name: "SportMonks API", type: "API", price: "$25+/mo", rel: "★★★★", use: "Live football data API for data-driven Short graphics" },
-    { name: "RSSSF", type: "Historical", price: "Free", rel: "★★★★", use: "Historical football records, results archives going back to 1800s" },
-    { name: "Wikidata / Wikipedia", type: "Reference", price: "Free", rel: "★★★", use: "Player biographies, club histories, verified facts for scripts" },
+    { name: "Sofascore", type: "Match Data", price: "Free", rel: "", use: "Live scores, player ratings, detailed match statistics" },
+    { name: "FBref.com", type: "Statistics", price: "Free", rel: "", use: "Advanced football stats, historical data, player comparison — powered by StatsBomb" },
+    { name: "Transfermarkt", type: "Transfer/Value", price: "Free", rel: "", use: "Player market values, transfer history, contract data — essential for transfer content" },
+    { name: "WhoScored.com", type: "Statistics", price: "Free", rel: "", use: "Match and player ratings, formation analysis" },
+    { name: "BBC Sport / Sky Sports", type: "News", price: "Free", rel: "", use: "Breaking news, official statements, injury updates" },
+    { name: "The Athletic", type: "Deep News", price: "$12/mo", rel: "", use: "Exclusive behind-the-scenes stories, excellent for documentary content ideas" },
+    { name: "FIFA Media Library", type: "Images/Video", price: "Free (licensed)", rel: "", use: "Official FIFA content, historical World Cup footage — requires media accreditation" },
+    { name: "Getty Images / Shutterstock", type: "Images", price: "$30–150/mo", rel: "", use: "Licensed football photography — essential for legal thumbnails and B-roll stills" },
+    { name: "Pixabay / Unsplash", type: "Images", price: "Free", rel: "", use: "Generic sports backgrounds, crowd shots, atmosphere photography" },
+    { name: "YouTube Audio Library", type: "Music", price: "Free", rel: "", use: "Copyright-free background music for all content" },
+    { name: "Artlist.io", type: "Music", price: "$199/yr", rel: "", use: "Best licensed music library for sports content, no claim issues" },
+    { name: "ESPN Stats & Info API", type: "API", price: "Media partners", rel: "", use: "Real-time sports data for graphics overlays" },
+    { name: "SportMonks API", type: "API", price: "$25+/mo", rel: "", use: "Live football data API for data-driven Short graphics" },
+    { name: "RSSSF", type: "Historical", price: "Free", rel: "", use: "Historical football records, results archives going back to 1800s" },
+    { name: "Wikidata / Wikipedia", type: "Reference", price: "Free", rel: "", use: "Player biographies, club histories, verified facts for scripts" },
   ];
 
 export const sectionGroups = [
@@ -303,7 +303,7 @@ export const sectionGroups = [
   { group: "PRODUCTION", items: [
     { id: "scripting", label: "Story Structure", icon: "ti-file-text" },
     { id: "production", label: "Production System", icon: "ti-video" },
-    { id: "promptsuite", label: "Prompt Suite", icon: "ti-wand" },
+    { id: "promptsuite", label: "Scripting Engine", icon: "ti-wand" },
     { id: "publishing", label: "Publishing & Scale", icon: "ti-rocket" },
   ]},
   { group: "OPERATIONS", items: [
