@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PromptSuite from "./pages/PromptSuite.jsx";
 import SynthesisChat from "./pages/SynthesisChat.jsx";
 import Overview from "./pages/Overview.jsx";
@@ -20,6 +20,37 @@ import { sectionGroups } from "./data/strategicData.js";
 export default function NinetyFootball() {
   const [active, setActive] = useState("overview");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [zoom, setZoom] = useState(1);
+
+  useEffect(() => {
+    const handleWheel = (e) => {
+      if (e.ctrlKey) {
+        e.preventDefault();
+        setZoom(prev => Math.max(0.5, Math.min(prev + (e.deltaY > 0 ? -0.1 : 0.1), 2)));
+      }
+    };
+    
+    const handleKeyDown = (e) => {
+      if (e.ctrlKey && (e.key === '=' || e.key === '+' || e.key === '-')) {
+        e.preventDefault();
+        setZoom(prev => Math.max(0.5, Math.min(prev + (e.key === '-' ? -0.1 : 0.1), 2)));
+      } else if (e.ctrlKey && e.key === '0') {
+        e.preventDefault();
+        setZoom(1);
+      }
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  useEffect(() => {
+    document.body.style.zoom = zoom;
+  }, [zoom]);
 
   const renderSection = () => {
     switch (active) {
@@ -106,7 +137,7 @@ export default function NinetyFootball() {
           </div>
         ))}
       </nav>
-      <main style={{ flex: 1, padding: "1.5rem 2rem", overflowY: "auto", maxWidth: 860 }}>
+      <main style={{ flex: 1, padding: "1.5rem 2rem", overflowY: "auto", maxWidth: active === "generator" ? "100%" : 860, transition: "max-width 0.3s ease" }}>
         {renderSection()}
       </main>
     </div>

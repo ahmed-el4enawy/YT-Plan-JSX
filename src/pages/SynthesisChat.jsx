@@ -405,6 +405,11 @@ export default function SynthesisChat() {
                   {/* Hover Actions */}
                   {editingMsgId !== m.id && (
                     <div className="msg-actions" style={{ position: "absolute", top: "1.5rem", right: "2rem", display: "flex", gap: "8px" }}>
+                      {m.role === "model" && (
+                        <button onClick={() => navigator.clipboard.writeText(m.text)} className="msg-action-btn" title="Copy response">
+                          <i className="ti ti-copy"></i>
+                        </button>
+                      )}
                       <button onClick={() => handleEditMessage(m)} className="msg-action-btn" title="Edit message">
                         <i className="ti ti-pencil"></i>
                       </button>
