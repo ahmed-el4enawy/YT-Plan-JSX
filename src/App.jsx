@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Badge, Card, SectionTitle, SubTitle, MetricGrid, IdeaList, CompetitorCard } from "./components/ui/index.jsx";
 import PromptSuite from "./components/PromptSuite.jsx";
+import SynthesisChat from "./components/SynthesisChat.jsx";
 import { sectionGroups, competitors, viralIdeas, worldCupIdeas, evergreenIdeas, tools, resources, publishingPhases, hookCategories, retentionTechniques, wcPhases, kpis, ninetyDayPlan, contentPillarsV2, storyStructureV2, distributionStrategy } from "./data/strategicData.js";
 
 
@@ -322,6 +323,8 @@ export default function NinetyFootball() {
 
       case "promptsuite":
         return <PromptSuite />;
+      case "generator":
+        return <SynthesisChat />;
 
       case "copyright":
         return (

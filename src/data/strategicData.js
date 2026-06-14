@@ -304,6 +304,7 @@ export const sectionGroups = [
     { id: "scripting", label: "Story Structure", icon: "ti-file-text" },
     { id: "production", label: "Production System", icon: "ti-video" },
     { id: "promptsuite", label: "Scripting Engine", icon: "ti-wand" },
+    { id: "generator", label: "Synthesis Chat", icon: "ti-messages" },
     { id: "publishing", label: "Publishing & Scale", icon: "ti-rocket" },
   ]},
   { group: "OPERATIONS", items: [
