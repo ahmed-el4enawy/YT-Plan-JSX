@@ -290,24 +290,26 @@ export const resources = [
   ];
 
 export const sectionGroups = [
-  { group: "STRATEGY", items: [
+  { group: "CORE STRATEGY", items: [
     { id: "overview", label: "Executive Summary", icon: "ti-layout-dashboard" },
-    { id: "competitors", label: "Competitive Intel", icon: "ti-target" },
     { id: "content", label: "Content Architecture", icon: "ti-building" },
-    { id: "publishing", label: "Publishing & Scale", icon: "ti-rocket" },
+    { id: "roadmap", label: "90-Day Roadmap", icon: "ti-map-2" },
   ]},
-  { group: "EXECUTION", items: [
+  { group: "INTELLIGENCE", items: [
+    { id: "competitors", label: "Competitive Intel", icon: "ti-target" },
     { id: "viral", label: "Viral Intelligence", icon: "ti-bolt" },
+    { id: "worldcup", label: "World Cup 2026", icon: "ti-trophy" },
+  ]},
+  { group: "PRODUCTION", items: [
     { id: "scripting", label: "Story Structure", icon: "ti-file-text" },
     { id: "production", label: "Production System", icon: "ti-video" },
     { id: "promptsuite", label: "Prompt Suite", icon: "ti-wand" },
-    { id: "copyright", label: "Copyright & Safety", icon: "ti-shield-check" },
+    { id: "publishing", label: "Publishing & Scale", icon: "ti-rocket" },
   ]},
-  { group: "GROWTH", items: [
-    { id: "worldcup", label: "World Cup 2026", icon: "ti-trophy" },
+  { group: "OPERATIONS", items: [
     { id: "kpis", label: "Performance KPIs", icon: "ti-gauge" },
     { id: "monetization", label: "Monetization", icon: "ti-currency-dollar" },
-    { id: "roadmap", label: "90-Day Roadmap", icon: "ti-map-2" },
+    { id: "copyright", label: "Copyright & Safety", icon: "ti-shield-check" },
     { id: "resources", label: "Resources", icon: "ti-database" },
   ]},
 ];
