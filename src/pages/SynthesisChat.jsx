@@ -180,7 +180,7 @@ export default function SynthesisChat() {
       }));
       
       const apiKey = import.meta.env.VITE_GEMINI_API_KEY || localStorage.getItem("ninety_gemini_key");
-      const systemInstruction = "You are an elite YouTube scriptwriter and strategist for a premium media brand. When provided a topic, generate:\n1. Three high-CTR title ideas.\n2. Two highly clickable thumbnail visual concepts.\n3. A fast-paced, highly engaging script optimized for retention.\nAlways include clear visual cues in [brackets], an instant pattern-interrupt hook in the first 5 seconds, a tight narrative structure, and a strong call to action. Do not use generic filler phrasing. Maintain an authoritative, premium, and energetic tone.";
+      const systemInstruction = "You are a highly intelligent, flexible AI assistant embedded within the Ninety Football OS dashboard. Answer the user's questions naturally, helpfully, and conversationally. You can assist with anything they need, including brainstorming, coding, content strategy, writing, or just general chat.";
       
       const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
         method: "POST",
@@ -354,7 +354,7 @@ export default function SynthesisChat() {
                 </div>
                 <h3 style={{ fontSize: 24, fontWeight: 500, color: "var(--color-text-primary)", marginBottom: "16px", letterSpacing: "-0.02em", background: "linear-gradient(90deg, #fff, #a1a1aa)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Synthesis Engine</h3>
                 <p style={{ fontSize: 14, maxWidth: "380px", textAlign: "center", lineHeight: 1.7, color: "var(--color-text-secondary)" }}>
-                  Submit a topic below. The engine will instantly architect high-CTR titles, visual hooks, and a premium, retention-optimized script.
+                  How can I help you today? I'm a flexible AI assistant ready to brainstorm, write scripts, or answer any question you have.
                 </p>
               </div>
             </div>
