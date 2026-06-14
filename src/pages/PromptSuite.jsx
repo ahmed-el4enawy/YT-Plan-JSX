@@ -100,6 +100,7 @@ export default function PromptSuite() {
   const [sLength, setSLength] = useState("");
   const [sWords, setSWords] = useState("");
   const [sKw, setSKw] = useState("");
+  const [sInfo, setSInfo] = useState("");
   const [scriptOut, setScriptOut] = useState("Fill in the fields above and click \"Generate script prompt\" to build your professional prompt.");
 
   // Idea State
@@ -136,8 +137,9 @@ export default function PromptSuite() {
     const sub = sTopic || "[Topic]";
     const au = sAudience || "[Target Audience]";
     const le = sLength || "[Length]";
-    const wc = sWords || "[Word Count]";
+    const wc_line = sWords ? ` — total script length must be strictly ${sWords} words. Do not exceed or fall short.` : "";
     const kw_line = sKw ? `\nKeywords to weave in naturally: ${sKw}.` : "";
+    const info_line = sInfo ? `\n\nBACKGROUND INFO / DATA TO INCLUDE:\n${sInfo}` : "";
 
     const out = `You are an elite YouTube scriptwriter specialising in the ${ni} niche, with a deep understanding of short-form retention psychology and viral storytelling.
 
@@ -147,7 +149,7 @@ Topic: ${sub}
 
 TARGET AUDIENCE: ${au}
 
-RUNTIME: ${le} minutes — total script length must be strictly ${wc} words. Do not exceed or fall short.${kw_line}
+RUNTIME: ${le} minutes${wc_line}${kw_line}${info_line}
 
 STRUCTURE THE SCRIPT IN FOUR NAMED PARTS (use these exact part labels as plain inline text — do not use generic labels like "Hook" or "Call to Action"):
 
@@ -306,13 +308,16 @@ VOICE DIRECTION:
             </Field>
           </Row>
           <Row>
-            <Field label="Word count">
+            <Field label="Word count (optional)">
               <input style={inputStyle} value={sWords} onChange={e => setSWords(e.target.value)} placeholder="e.g. 150" />
             </Field>
             <Field label="Keywords (optional)">
               <input style={inputStyle} value={sKw} onChange={e => setSKw(e.target.value)} placeholder="e.g. dribbling, goals, legacy" />
             </Field>
           </Row>
+          <Field label="Info and data for the script (optional)">
+            <textarea style={inputStyle} rows={3} value={sInfo} onChange={e => setSInfo(e.target.value)} placeholder="Paste any background information, stats, or specific data from the internet here..." />
+          </Field>
         </div>
         <div style={{ height: "0.5px", background: "var(--color-border-tertiary)", margin: "0 1.25rem" }}></div>
         <div style={{ padding: "1rem 1.25rem 0", display: "flex", gap: "8px", marginBottom: "1rem" }}>
