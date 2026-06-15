@@ -74,10 +74,24 @@ def transcribe_audio(
     remove_fillers: bool = False
 ) -> dict:
     """Transcribe *video_path* using whisperx with precise word-level timestamps."""
+    import numpy as np
+    if not hasattr(np, "NaN"):
+        np.NaN = np.nan
+        np.NAN = np.nan
+    if not hasattr(np, "infty"):
+        np.infty = np.inf
+    if not hasattr(np, "float"):
+        np.float = float
+    if not hasattr(np, "bool"):
+        np.bool = bool
+    if not hasattr(np, "int"):
+        np.int = int
+    
     import torch
     import torchaudio
     if not hasattr(torchaudio, "set_audio_backend"):
         torchaudio.set_audio_backend = lambda *args, **kwargs: None
+        
     import whisperx  # type: ignore[import]
     
     # 1. Transcription
