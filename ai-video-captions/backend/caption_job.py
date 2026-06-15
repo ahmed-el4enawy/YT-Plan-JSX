@@ -91,6 +91,8 @@ def transcribe_audio(
     import torchaudio
     if not hasattr(torchaudio, "set_audio_backend"):
         torchaudio.set_audio_backend = lambda *args, **kwargs: None
+    if not hasattr(torchaudio, "get_audio_backend"):
+        torchaudio.get_audio_backend = lambda *args, **kwargs: "soundfile"
         
     import whisperx  # type: ignore[import]
     
