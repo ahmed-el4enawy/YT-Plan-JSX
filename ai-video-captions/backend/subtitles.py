@@ -95,14 +95,19 @@ def generate_ass(
         return False
 
     # ------------------------------------------------------------------
-    # Character-based grouping with multi-line support
+    # Smart Caption Segmentation Engine (MVP Phase 1)
     # ------------------------------------------------------------------
     max_chars_per_line, font_scale = get_subtitle_layout(language, style_config.font_size)
     max_lines = 2
-
+    
+    # AI Smart Splitting parameters
+    max_words_per_group = getattr(style_config, 'max_words', 3)  # default to 'Three Words' mode
+    max_pause_seconds = 0.5  # split on natural pauses
+    
     subtitles: list[tuple[float, float, list[tuple]]] = []
     current_lines: list[list[tuple]] = [[]]
     current_line_chars: list[int] = [0]
+    current_word_count = 0
     current_start: float | None = None
     current_end: float | None = None
 
@@ -122,13 +127,35 @@ def generate_ass(
             continue
 
         word_length = len(word)
+        
+        # 1. Speech rhythm / Natural pause detection
+        is_long_pause = current_end is not None and (start_rel - current_end) > max_pause_seconds
+        
+        # 2. Sentence structure / Punctuation detection
+        ends_with_punctuation = False
+        if current_lines and current_lines[-1]:
+            last_word = current_lines[-1][-1][0].rstrip()
+            if last_word and last_word[-1] in [".", "?", "!"]:
+                ends_with_punctuation = True
+                
+        # 3. Reading speed / Word count limit
+        should_split = is_long_pause or ends_with_punctuation or current_word_count >= max_words_per_group
 
-        # Start a new subtitle group if no words yet
-        if not any(current_lines):
+        # Start a new subtitle group if no words yet OR should split
+        if not any(current_lines[0]) or should_split:
+            if any(current_lines[0]):
+                # Flush current group
+                flattened_words = []
+                for line_idx, line in enumerate(current_lines):
+                    for word_tuple in line:
+                        flattened_words.append(word_tuple + (line_idx,))
+                subtitles.append((current_start, current_end, flattened_words))
+
             current_start = start_rel
             current_end = end_rel
             current_lines = [[(word, start_rel, end_rel)]]
             current_line_chars = [word_length]
+            current_word_count = 1
         else:
             current_line_idx = len(current_lines) - 1
             current_line = current_lines[current_line_idx]
@@ -142,13 +169,15 @@ def generate_ass(
                 current_line.append((word, start_rel, end_rel))
                 current_line_chars[current_line_idx] = chars_with_word
                 current_end = end_rel
+                current_word_count += 1
             elif current_line_idx + 1 < max_lines:
                 # Start new line within current subtitle group
                 current_lines.append([(word, start_rel, end_rel)])
                 current_line_chars.append(word_length)
                 current_end = end_rel
+                current_word_count += 1
             else:
-                # Current subtitle group is full — finalise and start new
+                # Current subtitle group is full physically — finalise and start new
                 flattened_words = []
                 for line_idx, line in enumerate(current_lines):
                     for word_tuple in line:
@@ -159,9 +188,10 @@ def generate_ass(
                 current_end = end_rel
                 current_lines = [[(word, start_rel, end_rel)]]
                 current_line_chars = [word_length]
+                current_word_count = 1
 
     # Flush the last subtitle group
-    if any(current_lines):
+    if any(current_lines[0]):
         flattened_words = []
         for line_idx, line in enumerate(current_lines):
             for word_tuple in line:
