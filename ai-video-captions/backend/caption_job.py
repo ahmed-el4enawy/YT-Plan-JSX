@@ -87,12 +87,28 @@ def transcribe_audio(
     if not hasattr(np, "int"):
         np.int = int
     
+    import sys
+    import types
     import torch
     import torchaudio
     if not hasattr(torchaudio, "set_audio_backend"):
         torchaudio.set_audio_backend = lambda *args, **kwargs: None
     if not hasattr(torchaudio, "get_audio_backend"):
         torchaudio.get_audio_backend = lambda *args, **kwargs: "soundfile"
+    
+    if "torchaudio.backend" not in sys.modules:
+        m_backend = types.ModuleType("torchaudio.backend")
+        sys.modules["torchaudio.backend"] = m_backend
+        m_common = types.ModuleType("torchaudio.backend.common")
+        sys.modules["torchaudio.backend.common"] = m_common
+        class AudioMetaData:
+            def __init__(self, sample_rate=None, num_frames=None, num_channels=None, bits_per_sample=None, encoding=None, **kwargs):
+                self.sample_rate = sample_rate
+                self.num_frames = num_frames
+                self.num_channels = num_channels
+                self.bits_per_sample = bits_per_sample
+                self.encoding = encoding
+        m_common.AudioMetaData = AudioMetaData
         
     import whisperx  # type: ignore[import]
     
