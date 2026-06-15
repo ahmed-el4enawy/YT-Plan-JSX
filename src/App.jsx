@@ -139,7 +139,7 @@ export default function NinetyFootball() {
           </div>
         ))}
       </nav>
-      <main style={{ flex: 1, padding: "1.5rem 2rem", overflowY: "auto", maxWidth: active === "generator" ? "100%" : 860, transition: "max-width 0.3s ease" }}>
+      <main style={{ flex: 1, padding: "1.5rem 2rem", overflowY: "auto", maxWidth: (active === "generator" || active === "captions") ? "100%" : 860, transition: "max-width 0.3s ease" }}>
         {renderSection()}
       </main>
     </div>
