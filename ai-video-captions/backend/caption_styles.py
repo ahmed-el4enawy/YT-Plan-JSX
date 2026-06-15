@@ -58,8 +58,18 @@ class CaptionStyleConfig:
     # - "scale": Subtle scale animation
     # - "bounce": Spring/bounce effect
     animation_type: str
+    
+    # Phase 2 & 3 Advanced Settings
+    max_words: int
+    highlight_mode: str
+    entry_animation: str
+    exit_animation: str
+    background_shape: str
+    background_color: str
+    background_opacity: int
+    background_padding: int
 
-
+# ... skipping helper methods but keeping lines structure ...
 def _clamp_color(value: int) -> int:
     """Clamp color value to valid 0-255 range."""
     return max(0, min(255, value))
@@ -172,6 +182,7 @@ def _create_caption_styles_from_config(config: dict) -> dict[str, CaptionStyleCo
         highlight_rgb = hex_to_rgb(style_data['highlightColor'])
         outline_rgb = hex_to_rgb(style_data['outlineColor'])
         shadow_rgb = hex_to_rgb(style_data['shadowColor'])
+        bg_color_rgb = hex_to_rgb(style_data.get('backgroundColor', '#000000'))
 
         styles[style_id] = CaptionStyleConfig(
             id=style_data['id'],
@@ -190,6 +201,14 @@ def _create_caption_styles_from_config(config: dict) -> dict[str, CaptionStyleCo
             letter_spacing=style_data['letterSpacing'],
             word_spacing=style_data['wordSpacing'],
             animation_type=style_data['animationType'],
+            max_words=style_data.get('captionMode', 3),
+            highlight_mode=style_data.get('highlightMode', 'active_word'),
+            entry_animation=style_data.get('entryAnimation', 'none'),
+            exit_animation=style_data.get('exitAnimation', 'none'),
+            background_shape=style_data.get('backgroundShape', 'none'),
+            background_color=rgb_to_ass(*bg_color_rgb),
+            background_opacity=style_data.get('backgroundOpacity', 0),
+            background_padding=style_data.get('backgroundPadding', 10),
         )
 
     return styles
