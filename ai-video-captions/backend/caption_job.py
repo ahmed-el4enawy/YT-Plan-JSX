@@ -110,6 +110,17 @@ def transcribe_audio(
                 self.encoding = encoding
         m_common.AudioMetaData = AudioMetaData
         
+    import faster_whisper
+    _orig_transcription_options = faster_whisper.transcribe.TranscriptionOptions
+    def _patched_transcription_options(*args, **kwargs):
+        if "multilingual" not in kwargs: kwargs["multilingual"] = False
+        if "max_new_tokens" not in kwargs: kwargs["max_new_tokens"] = None
+        if "clip_timestamps" not in kwargs: kwargs["clip_timestamps"] = "0"
+        if "hallucination_silence_threshold" not in kwargs: kwargs["hallucination_silence_threshold"] = None
+        if "hotwords" not in kwargs: kwargs["hotwords"] = None
+        return _orig_transcription_options(*args, **kwargs)
+    faster_whisper.transcribe.TranscriptionOptions = _patched_transcription_options
+
     import whisperx  # type: ignore[import]
     
     # 1. Transcription
