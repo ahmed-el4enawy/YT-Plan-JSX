@@ -74,13 +74,18 @@ def transcribe_audio(
     remove_fillers: bool = False
 ) -> dict:
     """Transcribe *video_path* using whisperx with precise word-level timestamps."""
+    import torch
+    import torchaudio
+    if not hasattr(torchaudio, "set_audio_backend"):
+        torchaudio.set_audio_backend = lambda *args, **kwargs: None
     import whisperx  # type: ignore[import]
-
-    device = "cpu"
+    
+    # 1. Transcription
+    device = "cuda" if torch.cuda.is_available() else "cpu"
     compute_type = "int8"
     
-    # Map processing mode to model size
-    model_size = _WHISPER_MODEL_SIZE
+    # Determine model size based on processing_mode
+    model_size = "large-v3"
     if processing_mode == "Fast":
         model_size = "base"
     elif processing_mode == "Balanced":
