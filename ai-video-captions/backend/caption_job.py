@@ -66,44 +66,75 @@ def probe_video(video_path: str) -> tuple[int, int, float]:
     return width, height, duration
 
 
-def transcribe_audio(video_path: str) -> dict:
-    """Transcribe *video_path* using whisperx with precise word-level timestamps.
-
-    Returns a dict with keys:
-        language  (str)   – detected language code, e.g. "en"
-        segments  (list)  – list of segment dicts, each containing:
-            start, end, text, words (list of word dicts with start/end/word)
-
-    The model size is controlled by the ``WHISPER_MODEL_SIZE`` environment
-    variable (default: "base").
-    """
+def transcribe_audio(
+    video_path: str,
+    processing_mode: str = "Fast",
+    language_override: str = "",
+    diarization: bool = False,
+    remove_fillers: bool = False
+) -> dict:
+    """Transcribe *video_path* using whisperx with precise word-level timestamps."""
     import whisperx  # type: ignore[import]
 
     device = "cpu"
     compute_type = "int8"
+    
+    # Map processing mode to model size
+    model_size = _WHISPER_MODEL_SIZE
+    if processing_mode == "Fast":
+        model_size = "base"
+    elif processing_mode == "Balanced":
+        model_size = "small"
+    elif processing_mode == "Maximum Accuracy":
+        model_size = "large-v3"
 
     # 1. Transcribe
-    model = whisperx.load_model(_WHISPER_MODEL_SIZE, device, compute_type=compute_type)
+    model = whisperx.load_model(model_size, device, compute_type=compute_type)
     audio = whisperx.load_audio(video_path)
-    result = model.transcribe(audio, batch_size=16)
+    
+    transcribe_kwargs = {"batch_size": 16}
+    if language_override:
+        transcribe_kwargs["language"] = language_override
+        
+    result = model.transcribe(audio, **transcribe_kwargs)
 
     # 2. Align timestamps
     model_a, metadata = whisperx.load_align_model(language_code=result["language"], device=device)
     result = whisperx.align(result["segments"], model_a, metadata, audio, device, return_char_alignments=False)
+    
+    # 3. Diarization (Optional)
+    if diarization:
+        try:
+            diarize_model = whisperx.DiarizationPipeline(use_auth_token=os.environ.get("HF_TOKEN", ""), device=device)
+            diarize_segments = diarize_model(audio)
+            result = whisperx.assign_word_speakers(diarize_segments, result)
+        except Exception as e:
+            logger.warning(f"Diarization failed (check HF_TOKEN): {e}")
 
+    # 4. Format and apply filler removal
+    filler_words = {"um", "uh", "like", "you know"}
+    
     segments = []
     for seg in result["segments"]:
         words = []
         for w in seg.get("words", []):
-            # whisperx alignment can sometimes omit start/end if confidence is low
             if "start" in w and "end" in w:
-                words.append({"word": w["word"], "start": w["start"], "end": w["end"]})
+                word_text = w["word"].strip()
+                # Filler word cleanup
+                if remove_fillers and word_text.lower() in filler_words:
+                    continue
+                
+                word_data = {"word": word_text, "start": w["start"], "end": w["end"]}
+                if "speaker" in w:
+                    word_data["speaker"] = w["speaker"]
+                words.append(word_data)
         
         segments.append({
             "start": seg["start"],
             "end": seg["end"],
             "text": seg["text"].strip(),
             "words": words,
+            "speaker": seg.get("speaker", "")
         })
 
     return {
@@ -183,9 +214,6 @@ def burn_subtitles(video_path: str, ass_path: str, output_path: str) -> bool:
 def process_caption_job(
     storage,
     job_id: str,
-    video_path: str,
-    caption_style: str,
-    caption_position: int,
     data_dir: str,
 ) -> None:
     """Run the full captioning pipeline for a job.
@@ -200,6 +228,21 @@ def process_caption_job(
     All exceptions are caught; on failure the job is marked "failed" with the
     exception message stored in ``error_message``.
     """
+    job = storage.get_job(job_id)
+    if not job:
+        logger.error(f"Job {job_id} not found in storage.")
+        return
+
+    video_path = job["video_path"]
+    caption_style = job["caption_style"]
+    caption_position = job["caption_position"]
+    
+    # Phase 1 Advanced Parameters
+    processing_mode = job.get("processing_mode", "Fast")
+    language_override = job.get("language_override", "")
+    diarization = job.get("diarization", False)
+    remove_fillers = job.get("remove_fillers", False)
+    
     # Derived paths
     ass_path = os.path.join(data_dir, "temp", job_id, "subtitles.ass")
     output_dir = os.path.join(data_dir, "output", job_id)
@@ -224,7 +267,13 @@ def process_caption_job(
         # ------------------------------------------------------------------
         # Phase 2: transcribe
         # ------------------------------------------------------------------
-        transcript = transcribe_audio(video_path)
+        transcript = transcribe_audio(
+            video_path=video_path,
+            processing_mode=processing_mode,
+            language_override=language_override,
+            diarization=diarization,
+            remove_fillers=remove_fillers
+        )
         language = transcript.get("language", "en")
         storage.update_status(job_id, language=language, progress=40)
 
