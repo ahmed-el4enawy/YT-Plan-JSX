@@ -67,7 +67,7 @@ def probe_video(video_path: str) -> tuple[int, int, float]:
 
 
 def transcribe_audio(video_path: str) -> dict:
-    """Transcribe *video_path* using faster-whisper with word-level timestamps.
+    """Transcribe *video_path* using whisperx with precise word-level timestamps.
 
     Returns a dict with keys:
         language  (str)   – detected language code, e.g. "en"
@@ -77,27 +77,37 @@ def transcribe_audio(video_path: str) -> dict:
     The model size is controlled by the ``WHISPER_MODEL_SIZE`` environment
     variable (default: "base").
     """
-    # Import here so tests can mock at the module level without importing
-    # faster-whisper at module load time (it is a heavy optional dependency).
-    from faster_whisper import WhisperModel  # type: ignore[import]
+    import whisperx  # type: ignore[import]
 
-    model = WhisperModel(_WHISPER_MODEL_SIZE, device="cpu", compute_type="int8")
-    segments_iter, info = model.transcribe(video_path, word_timestamps=True)
+    device = "cpu"
+    compute_type = "int8"
+
+    # 1. Transcribe
+    model = whisperx.load_model(_WHISPER_MODEL_SIZE, device, compute_type=compute_type)
+    audio = whisperx.load_audio(video_path)
+    result = model.transcribe(audio, batch_size=16)
+
+    # 2. Align timestamps
+    model_a, metadata = whisperx.load_align_model(language_code=result["language"], device=device)
+    result = whisperx.align(result["segments"], model_a, metadata, audio, device, return_char_alignments=False)
 
     segments = []
-    for seg in segments_iter:
+    for seg in result["segments"]:
         words = []
-        for w in (seg.words or []):
-            words.append({"word": w.word, "start": w.start, "end": w.end})
+        for w in seg.get("words", []):
+            # whisperx alignment can sometimes omit start/end if confidence is low
+            if "start" in w and "end" in w:
+                words.append({"word": w["word"], "start": w["start"], "end": w["end"]})
+        
         segments.append({
-            "start": seg.start,
-            "end": seg.end,
-            "text": seg.text.strip(),
+            "start": seg["start"],
+            "end": seg["end"],
+            "text": seg["text"].strip(),
             "words": words,
         })
 
     return {
-        "language": info.language,
+        "language": result["language"],
         "segments": segments,
     }
 

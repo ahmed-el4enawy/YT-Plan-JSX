@@ -134,6 +134,28 @@
       "animationType": "highlight",
       "previewText": "MOVE ME UP OR DOWN",
       "bestFor": "Viral & attention-grabbing"
+    },
+    "football_news": {
+      "id": "football_news",
+      "name": "Football News",
+      "description": "White Text, Black Stroke, Yellow Highlight",
+      "fontName": "Anton",
+      "fontNameFallback": "IBM Plex Sans",
+      "fontSize": 110,
+      "primaryColor": "#FFFFFF",
+      "highlightColor": "#FFFF00",
+      "outlineColor": "#000000",
+      "shadowColor": "#000000",
+      "shadowAlpha": 255,
+      "outlineSize": 8.0,
+      "shadowDepth": 5.0,
+      "bold": true,
+      "italic": false,
+      "letterSpacing": 0,
+      "wordSpacing": 100,
+      "animationType": "highlight",
+      "previewText": "FOOTBALL NEWS",
+      "bestFor": "Football News & Updates"
     }
   },
   "outputFormats": {

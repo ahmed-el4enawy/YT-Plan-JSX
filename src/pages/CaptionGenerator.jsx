@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Badge } from "../components/ui/index.jsx";
 
 const CAPTION_STYLES = [
+  { id: "football_news", label: "Football News", color: "#FFFF00", stroke: "#000" },
   { id: "hormozi", label: "Hormozi", color: "#00FFFF", stroke: "#000" },
   { id: "mrbeast", label: "MrBeast", color: "#FFFF00", stroke: "#FF6600" },
   { id: "karaoke", label: "Karaoke", color: "#FFFFFF", stroke: "#0080FF" },
