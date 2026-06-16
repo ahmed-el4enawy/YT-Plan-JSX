@@ -23,15 +23,7 @@
       "wordSpacing": 100,
       "animationType": "highlight",
       "previewText": "MOVE ME UP OR DOWN",
-      "bestFor": "Business & motivation",
-      "captionMode": 3,
-      "highlightMode": "active_word",
-      "entryAnimation": "fade",
-      "exitAnimation": "none",
-      "backgroundShape": "none",
-      "backgroundColor": "#000000",
-      "backgroundOpacity": 0,
-      "backgroundPadding": 10
+      "bestFor": "Business & motivation"
     },
     "mrbeast": {
       "id": "mrbeast",
@@ -53,15 +45,7 @@
       "wordSpacing": 100,
       "animationType": "highlight",
       "previewText": "MOVE ME UP OR DOWN",
-      "bestFor": "Gaming & entertainment",
-      "captionMode": 3,
-      "highlightMode": "active_word",
-      "entryAnimation": "fade",
-      "exitAnimation": "none",
-      "backgroundShape": "none",
-      "backgroundColor": "#000000",
-      "backgroundOpacity": 0,
-      "backgroundPadding": 10
+      "bestFor": "Gaming & entertainment"
     },
     "karaoke": {
       "id": "karaoke",
@@ -83,15 +67,7 @@
       "wordSpacing": 100,
       "animationType": "karaoke",
       "previewText": "MOVE ME UP OR DOWN",
-      "bestFor": "Music & sing-alongs",
-      "captionMode": 3,
-      "highlightMode": "active_word",
-      "entryAnimation": "fade",
-      "exitAnimation": "none",
-      "backgroundShape": "none",
-      "backgroundColor": "#000000",
-      "backgroundOpacity": 0,
-      "backgroundPadding": 10
+      "bestFor": "Music & sing-alongs"
     },
     "minimal": {
       "id": "minimal",
@@ -113,15 +89,7 @@
       "wordSpacing": 110,
       "animationType": "scale",
       "previewText": "MOVE ME UP OR DOWN",
-      "bestFor": "Professional & clean",
-      "captionMode": 3,
-      "highlightMode": "active_word",
-      "entryAnimation": "fade",
-      "exitAnimation": "none",
-      "backgroundShape": "none",
-      "backgroundColor": "#000000",
-      "backgroundOpacity": 0,
-      "backgroundPadding": 10
+      "bestFor": "Professional & clean"
     },
     "bounce": {
       "id": "bounce",
@@ -143,15 +111,7 @@
       "wordSpacing": 100,
       "animationType": "bounce",
       "previewText": "MOVE ME UP OR DOWN",
-      "bestFor": "Fun & energetic",
-      "captionMode": 3,
-      "highlightMode": "active_word",
-      "entryAnimation": "fade",
-      "exitAnimation": "none",
-      "backgroundShape": "none",
-      "backgroundColor": "#000000",
-      "backgroundOpacity": 0,
-      "backgroundPadding": 10
+      "bestFor": "Fun & energetic"
     },
     "classic": {
       "id": "classic",
@@ -173,45 +133,7 @@
       "wordSpacing": 100,
       "animationType": "highlight",
       "previewText": "MOVE ME UP OR DOWN",
-      "bestFor": "Viral & attention-grabbing",
-      "captionMode": 3,
-      "highlightMode": "active_word",
-      "entryAnimation": "fade",
-      "exitAnimation": "none",
-      "backgroundShape": "none",
-      "backgroundColor": "#000000",
-      "backgroundOpacity": 0,
-      "backgroundPadding": 10
-    },
-    "football_news": {
-      "id": "football_news",
-      "name": "Football News",
-      "description": "White Text, Black Stroke, Yellow Highlight",
-      "fontName": "Anton",
-      "fontNameFallback": "IBM Plex Sans",
-      "fontSize": 110,
-      "primaryColor": "#FFFFFF",
-      "highlightColor": "#FFFF00",
-      "outlineColor": "#000000",
-      "shadowColor": "#000000",
-      "shadowAlpha": 255,
-      "outlineSize": 8.0,
-      "shadowDepth": 5.0,
-      "bold": true,
-      "italic": false,
-      "letterSpacing": 0,
-      "wordSpacing": 100,
-      "animationType": "highlight",
-      "previewText": "FOOTBALL NEWS",
-      "bestFor": "Football News & Updates",
-      "captionMode": 3,
-      "highlightMode": "keywords_only",
-      "entryAnimation": "pop",
-      "exitAnimation": "none",
-      "backgroundShape": "none",
-      "backgroundColor": "#000000",
-      "backgroundOpacity": 0,
-      "backgroundPadding": 10
+      "bestFor": "Viral & attention-grabbing"
     }
   },
   "outputFormats": {

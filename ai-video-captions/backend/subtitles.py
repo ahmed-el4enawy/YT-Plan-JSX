@@ -21,17 +21,6 @@ from subtitle_utils import (
 )
 
 
-def _is_keyword(w: str) -> bool:
-    """Lightweight NER / Regex detection for important keywords."""
-    import re
-    w = w.strip()
-    if not w: return False
-    # Numbers, monetary values, scores, dates
-    if re.search(r'\d+|£|\$|€|%|-', w): return True
-    # Capitalized words (excluding first word of sentence, approximation for Names/Teams)
-    if len(w) > 3 and w[0].isupper() and not w.isupper(): return True
-    return False
-
 def generate_ass(
     transcript: dict,
     clip_start: float,
@@ -44,12 +33,31 @@ def generate_ass(
     video_width: int | None = None,
     video_height: int | None = None,
 ) -> bool:
-    """Generate an ASS subtitle file with styled word-by-word animations."""
+    """Generate an ASS subtitle file with styled word-by-word animations.
+
+    Args:
+        transcript: Dict with ``segments`` containing word-level timestamps.
+        clip_start: Start time of clip in seconds.
+        clip_end: End time of clip in seconds.
+        output_path: Path to write the ``.ass`` file.
+        caption_style: Style ID (hormozi, mrbeast, karaoke, minimal, bounce, classic).
+        caption_position: Position as percentage from bottom (5-50).
+        language: Language code for font selection (Latin vs fallback).
+        video_width: Actual video width (``None`` = default vertical 1080).
+        video_height: Actual video height (``None`` = default vertical 1920).
+
+    Returns:
+        ``True`` if successful, ``False`` if no words found in the clip range.
+    """
+    # ------------------------------------------------------------------
+    # Style and resolution setup
+    # ------------------------------------------------------------------
     style_config = get_caption_style(caption_style)
 
     if video_width and video_height:
         play_res_x = video_width
         play_res_y = video_height
+        # Scale relative to vertical reference (1920px height)
         dimension_scale = max(video_height / 1920, 0.35)
     else:
         format_config = get_output_format("vertical")
@@ -57,9 +65,12 @@ def generate_ass(
         play_res_y = format_config.height
         dimension_scale = 1.0
 
+    # Prefer auto-detected language from transcript over caller's default
     language = transcript.get("language", language)
 
-    # ... [skipping segment parsing] ...
+    # ------------------------------------------------------------------
+    # Extract and flatten words within the clip range
+    # ------------------------------------------------------------------
     clip_segments: list[dict] = []
     for segment in transcript.get("segments", []):
         for word_info in segment.get("words", []):
@@ -83,16 +94,15 @@ def generate_ass(
     if not clip_segments:
         return False
 
+    # ------------------------------------------------------------------
+    # Character-based grouping with multi-line support
+    # ------------------------------------------------------------------
     max_chars_per_line, font_scale = get_subtitle_layout(language, style_config.font_size)
     max_lines = 2
-    
-    max_words_per_group = getattr(style_config, 'max_words', 3)
-    max_pause_seconds = 0.5
-    
+
     subtitles: list[tuple[float, float, list[tuple]]] = []
     current_lines: list[list[tuple]] = [[]]
     current_line_chars: list[int] = [0]
-    current_word_count = 0
     current_start: float | None = None
     current_end: float | None = None
 
@@ -104,6 +114,7 @@ def generate_ass(
         if not word:
             continue
 
+        # Convert absolute timestamps to relative (clip-based)
         start_rel = max(0.0, seg_start - clip_start)
         end_rel = max(0.0, seg_end - clip_start)
 
@@ -111,48 +122,33 @@ def generate_ass(
             continue
 
         word_length = len(word)
-        
-        is_long_pause = current_end is not None and (start_rel - current_end) > max_pause_seconds
-        
-        ends_with_punctuation = False
-        if current_lines and current_lines[-1]:
-            last_word = current_lines[-1][-1][0].rstrip()
-            if last_word and last_word[-1] in [".", "?", "!"]:
-                ends_with_punctuation = True
-                
-        should_split = is_long_pause or ends_with_punctuation or current_word_count >= max_words_per_group
 
-        if not any(current_lines[0]) or should_split:
-            if any(current_lines[0]):
-                flattened_words = []
-                for line_idx, line in enumerate(current_lines):
-                    for word_tuple in line:
-                        flattened_words.append(word_tuple + (line_idx,))
-                subtitles.append((current_start, current_end, flattened_words))
-
+        # Start a new subtitle group if no words yet
+        if not any(current_lines):
             current_start = start_rel
             current_end = end_rel
             current_lines = [[(word, start_rel, end_rel)]]
             current_line_chars = [word_length]
-            current_word_count = 1
         else:
             current_line_idx = len(current_lines) - 1
             current_line = current_lines[current_line_idx]
             current_chars = current_line_chars[current_line_idx]
 
+            # Calculate characters if we add this word (including space)
             chars_with_word = current_chars + (1 if current_line else 0) + word_length
 
             if chars_with_word <= max_chars_per_line:
+                # Word fits on current line
                 current_line.append((word, start_rel, end_rel))
                 current_line_chars[current_line_idx] = chars_with_word
                 current_end = end_rel
-                current_word_count += 1
             elif current_line_idx + 1 < max_lines:
+                # Start new line within current subtitle group
                 current_lines.append([(word, start_rel, end_rel)])
                 current_line_chars.append(word_length)
                 current_end = end_rel
-                current_word_count += 1
             else:
+                # Current subtitle group is full — finalise and start new
                 flattened_words = []
                 for line_idx, line in enumerate(current_lines):
                     for word_tuple in line:
@@ -163,15 +159,18 @@ def generate_ass(
                 current_end = end_rel
                 current_lines = [[(word, start_rel, end_rel)]]
                 current_line_chars = [word_length]
-                current_word_count = 1
 
-    if any(current_lines[0]):
+    # Flush the last subtitle group
+    if any(current_lines):
         flattened_words = []
         for line_idx, line in enumerate(current_lines):
             for word_tuple in line:
                 flattened_words.append(word_tuple + (line_idx,))
         subtitles.append((current_start, current_end, flattened_words))
 
+    # ------------------------------------------------------------------
+    # Create ASS subtitle file
+    # ------------------------------------------------------------------
     subs = pysubs2.SSAFile()
 
     subs.info["WrapStyle"] = 3
@@ -180,6 +179,7 @@ def generate_ass(
     subs.info["PlayResY"] = play_res_y
     subs.info["ScriptType"] = "v4.00+"
 
+    # ---- helper: parse ASS colour string to pysubs2.Color ----
     def _parse_ass_color(ass_color: str) -> pysubs2.Color:
         color_hex = ass_color.replace("&H", "").replace("&", "")
         color_hex = color_hex.zfill(8)
@@ -189,6 +189,7 @@ def generate_ass(
         red = int(color_hex[6:8], 16)
         return pysubs2.Color(red, green, blue, alpha)
 
+    # ---- style definition ----
     style_name = "Default"
     new_style = pysubs2.SSAStyle()
 
@@ -201,23 +202,10 @@ def generate_ass(
     new_style.primarycolor = _parse_ass_color(style_config.primary_color)
     new_style.bold = style_config.bold
     new_style.italic = style_config.italic
-    
-    # Phase 3: Background Container Logic
-    bg_shape = getattr(style_config, 'background_shape', 'none')
-    if bg_shape != 'none':
-        new_style.borderstyle = 3 # Opaque box
-        new_style.outlinecolor = _parse_ass_color(getattr(style_config, 'background_color', '&H00000000'))
-        new_style.backcolor = _parse_ass_color(style_config.shadow_color) # use shadow as drop shadow of box
-        bg_padding = getattr(style_config, 'background_padding', 10)
-        new_style.outline = round(bg_padding * font_scale * dimension_scale, 1)
-        new_style.shadow = round(style_config.shadow_depth * font_scale * dimension_scale, 1)
-    else:
-        new_style.borderstyle = 1 # Outline + Shadow
-        new_style.outlinecolor = _parse_ass_color(style_config.outline_color)
-        new_style.shadowcolor = _parse_ass_color(style_config.shadow_color)
-        new_style.outline = round(style_config.outline_size * font_scale * dimension_scale, 1)
-        new_style.shadow = round(style_config.shadow_depth * font_scale * dimension_scale, 1)
-
+    new_style.outline = round(style_config.outline_size * font_scale * dimension_scale, 1)
+    new_style.outlinecolor = _parse_ass_color(style_config.outline_color)
+    new_style.shadow = round(style_config.shadow_depth * font_scale * dimension_scale, 1)
+    new_style.shadowcolor = _parse_ass_color(style_config.shadow_color)
     new_style.alignment = pysubs2.Alignment.BOTTOM_CENTER
     new_style.marginl = int(40 * dimension_scale)
     new_style.marginr = int(40 * dimension_scale)
@@ -244,8 +232,6 @@ def generate_ass(
             # Build full-line text with animation tags for the current word
             text_parts: list[str] = []
             prev_line_idx = None
-            
-            highlight_mode = getattr(style_config, 'highlight_mode', 'active_word')
 
             for i, (w, w_start, w_end, line_idx) in enumerate(word_list):
                 # Line break when moving to a new display line
@@ -254,29 +240,10 @@ def generate_ass(
 
                 w_display = w.upper()
                 w_upper = escape_ass_text(w_display)
-                
-                is_active = (i == idx)
-                
-                # Highlight Logic
-                is_kw = _is_keyword(w_display)
-                should_highlight = False
-                if highlight_mode == "entire_sentence":
-                    should_highlight = True
-                elif highlight_mode == "keywords_only":
-                    should_highlight = is_kw and is_active # or maybe just is_kw to always keep it highlighted? Let's highlight active keywords.
-                else: # "active_word"
-                    should_highlight = is_active
-                    
-                # Add persistent keyword color if it's a keyword in keywords_only mode
-                if highlight_mode == "keywords_only" and is_kw and not is_active:
-                    # keep keywords highlighted even when not active
-                    text_parts.append(f"{{\\c{highlight_color}}}{w_upper}{{\\r}}")
-                    prev_line_idx = line_idx
-                    continue
 
-                if is_active:
-                    # Current word — apply style-specific animations
-                    word_color = highlight_color if should_highlight else style_config.primary_color
+                if i == idx:
+                    # Current word — apply style-specific highlight
+                    word_color = highlight_color
 
                     if animation_type == "karaoke":
                         if is_rtl_language(language):
@@ -301,16 +268,10 @@ def generate_ass(
                         )
                     else:
                         # Default highlight: simple colour change
-                        if should_highlight:
-                            text_parts.append(f"{{\\c{word_color}}}{w_upper}{{\\r}}")
-                        else:
-                            text_parts.append(w_upper)
+                        text_parts.append(f"{{\\c{word_color}}}{w_upper}{{\\r}}")
                 else:
-                    # Not currently speaking AND not a persistent keyword
-                    if should_highlight:
-                        text_parts.append(f"{{\\c{highlight_color}}}{w_upper}{{\\r}}")
-                    else:
-                        text_parts.append(w_upper)
+                    # Not currently speaking — default style colour
+                    text_parts.append(w_upper)
 
                 prev_line_idx = line_idx
 
@@ -324,24 +285,6 @@ def generate_ass(
             # Apply letter spacing if non-zero
             if style_config.letter_spacing != 0:
                 text = f"{{\\fsp{style_config.letter_spacing}}}{text}"
-                
-            # Entry / Exit Animations (Phase 3)
-            anim_tags = ""
-            entry_anim = getattr(style_config, 'entry_animation', 'none')
-            exit_anim = getattr(style_config, 'exit_animation', 'none')
-            
-            if idx == 0:
-                if entry_anim == "pop":
-                    # pop in effect for the whole line group
-                    anim_tags += "{\\t(0,150,\\fscx110\\fscy110)\\t(150,300,\\fscx100\\fscy100)}"
-                elif entry_anim == "fade":
-                    anim_tags += "{\\fad(200,0)}"
-                    
-            if idx == len(word_list) - 1:
-                if exit_anim == "fade":
-                    anim_tags += "{\\fad(0,200)}"
-                    
-            text = anim_tags + text
 
             event = pysubs2.SSAEvent(
                 start=pysubs2.make_time(s=word_start),

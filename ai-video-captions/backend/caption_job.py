@@ -66,127 +66,58 @@ def probe_video(video_path: str) -> tuple[int, int, float]:
     return width, height, duration
 
 
-def transcribe_audio(
-    video_path: str,
-    processing_mode: str = "Fast",
-    language_override: str = "",
-    diarization: bool = False,
-    remove_fillers: bool = False
-) -> dict:
-    """Transcribe *video_path* using whisperx with precise word-level timestamps."""
-    import numpy as np
-    if not hasattr(np, "NaN"):
-        np.NaN = np.nan
-        np.NAN = np.nan
-    if not hasattr(np, "infty"):
-        np.infty = np.inf
-    if not hasattr(np, "float"):
-        np.float = float
-    if not hasattr(np, "bool"):
-        np.bool = bool
-    if not hasattr(np, "int"):
-        np.int = int
-    
-    import sys
-    import types
-    import torch
-    import torchaudio
-    if not hasattr(torchaudio, "set_audio_backend"):
-        torchaudio.set_audio_backend = lambda *args, **kwargs: None
-    if not hasattr(torchaudio, "get_audio_backend"):
-        torchaudio.get_audio_backend = lambda *args, **kwargs: "soundfile"
-    
-    if "torchaudio.backend" not in sys.modules:
-        m_backend = types.ModuleType("torchaudio.backend")
-        sys.modules["torchaudio.backend"] = m_backend
-        m_common = types.ModuleType("torchaudio.backend.common")
-        sys.modules["torchaudio.backend.common"] = m_common
-        class AudioMetaData:
-            def __init__(self, sample_rate=None, num_frames=None, num_channels=None, bits_per_sample=None, encoding=None, **kwargs):
-                self.sample_rate = sample_rate
-                self.num_frames = num_frames
-                self.num_channels = num_channels
-                self.bits_per_sample = bits_per_sample
-                self.encoding = encoding
-        m_common.AudioMetaData = AudioMetaData
-        
-    import faster_whisper
-    _orig_transcription_options = faster_whisper.transcribe.TranscriptionOptions
-    def _patched_transcription_options(*args, **kwargs):
-        if "multilingual" not in kwargs: kwargs["multilingual"] = False
-        if "max_new_tokens" not in kwargs: kwargs["max_new_tokens"] = None
-        if "clip_timestamps" not in kwargs: kwargs["clip_timestamps"] = "0"
-        if "hallucination_silence_threshold" not in kwargs: kwargs["hallucination_silence_threshold"] = None
-        if "hotwords" not in kwargs: kwargs["hotwords"] = None
-        return _orig_transcription_options(*args, **kwargs)
-    faster_whisper.transcribe.TranscriptionOptions = _patched_transcription_options
+def transcribe_audio(video_path: str) -> dict:
+    """Transcribe *video_path* using faster-whisper with word-level timestamps.
 
-    import whisperx  # type: ignore[import]
-    
-    # 1. Transcription
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    compute_type = "int8"
-    
-    # Determine model size based on processing_mode
-    model_size = "large-v3"
-    if processing_mode == "Fast":
-        model_size = "base"
-    elif processing_mode == "Balanced":
-        model_size = "small"
-    elif processing_mode == "Maximum Accuracy":
-        model_size = "large-v3"
+    Returns a dict with keys:
+        language  (str)   – detected language code, e.g. "en"
+        segments  (list)  – list of segment dicts, each containing:
+            start, end, text, words (list of word dicts with start/end/word)
 
-    # 1. Transcribe
-    model = whisperx.load_model(model_size, device, compute_type=compute_type)
-    audio = whisperx.load_audio(video_path)
+    The model size is controlled by the ``WHISPER_MODEL_SIZE`` environment
+    variable (default: "base").
+    """
+    # Import here so tests can mock at the module level without importing
+    # faster-whisper at module load time (it is a heavy optional dependency).
+    import os, sys, glob
     
-    transcribe_kwargs = {"batch_size": 16}
-    if language_override:
-        transcribe_kwargs["language"] = language_override
-        
-    result = model.transcribe(audio, **transcribe_kwargs)
+    # Add NVIDIA DLL directories to PATH for ctranslate2 (faster-whisper) on Windows
+    if os.name == "nt":
+        for path_dir in sys.path:
+            # Look for nvidia directories in site-packages
+            for nvidia_dir in glob.glob(os.path.join(path_dir, "nvidia", "*", "bin")):
+                if os.path.exists(nvidia_dir):
+                    os.environ["PATH"] = nvidia_dir + os.pathsep + os.environ.get("PATH", "")
+                    if hasattr(os, "add_dll_directory"):
+                        try:
+                            os.add_dll_directory(nvidia_dir)
+                        except Exception as e:
+                            logger.warning("Failed to add DLL directory %s: %s", nvidia_dir, e)
 
-    # 2. Align timestamps
-    model_a, metadata = whisperx.load_align_model(language_code=result["language"], device=device)
-    result = whisperx.align(result["segments"], model_a, metadata, audio, device, return_char_alignments=False)
-    
-    # 3. Diarization (Optional)
-    if diarization:
-        try:
-            diarize_model = whisperx.DiarizationPipeline(use_auth_token=os.environ.get("HF_TOKEN", ""), device=device)
-            diarize_segments = diarize_model(audio)
-            result = whisperx.assign_word_speakers(diarize_segments, result)
-        except Exception as e:
-            logger.warning(f"Diarization failed (check HF_TOKEN): {e}")
+    from faster_whisper import WhisperModel  # type: ignore[import]
 
-    # 4. Format and apply filler removal
-    filler_words = {"um", "uh", "like", "you know"}
+    try:
+        model = WhisperModel(_WHISPER_MODEL_SIZE, device="cuda", compute_type="int8_float16")
+    except Exception as e:
+        logger.warning("CUDA initialization failed (%s). Falling back to CPU.", e)
+        model = WhisperModel(_WHISPER_MODEL_SIZE, device="cpu", compute_type="int8")
     
+    segments_iter, info = model.transcribe(video_path, word_timestamps=True)
+
     segments = []
-    for seg in result["segments"]:
+    for seg in segments_iter:
         words = []
-        for w in seg.get("words", []):
-            if "start" in w and "end" in w:
-                word_text = w["word"].strip()
-                # Filler word cleanup
-                if remove_fillers and word_text.lower() in filler_words:
-                    continue
-                
-                word_data = {"word": word_text, "start": w["start"], "end": w["end"]}
-                if "speaker" in w:
-                    word_data["speaker"] = w["speaker"]
-                words.append(word_data)
-        
+        for w in (seg.words or []):
+            words.append({"word": w.word, "start": w.start, "end": w.end})
         segments.append({
-            "start": seg["start"],
-            "end": seg["end"],
-            "text": seg["text"].strip(),
+            "start": seg.start,
+            "end": seg.end,
+            "text": seg.text.strip(),
             "words": words,
-            "speaker": seg.get("speaker", "")
         })
 
     return {
-        "language": result["language"],
+        "language": info.language,
         "segments": segments,
     }
 
@@ -232,12 +163,14 @@ def burn_subtitles(video_path: str, ass_path: str, output_path: str) -> bool:
     Raises:
         RuntimeError: if ffmpeg is not installed or returns a non-zero exit code.
     """
-    ass_filter_path = os.path.abspath(ass_path).replace("\\", "/").replace(":", "\\:")
+    # FFmpeg filter parser needs special escaping on Windows for absolute paths
+    ass_path_escaped = ass_path.replace('\\', '/').replace(':', '\\:')
+    
     cmd = [
         "ffmpeg",
         "-y",
         "-i", video_path,
-        "-vf", f"ass='{ass_filter_path}'",
+        "-vf", f"ass='{ass_path_escaped}'",
         "-c:v", "libx264",
         "-preset", "veryfast",
         "-crf", "18",
@@ -262,6 +195,9 @@ def burn_subtitles(video_path: str, ass_path: str, output_path: str) -> bool:
 def process_caption_job(
     storage,
     job_id: str,
+    video_path: str,
+    caption_style: str,
+    caption_position: int,
     data_dir: str,
 ) -> None:
     """Run the full captioning pipeline for a job.
@@ -276,21 +212,6 @@ def process_caption_job(
     All exceptions are caught; on failure the job is marked "failed" with the
     exception message stored in ``error_message``.
     """
-    job = storage.get_job(job_id)
-    if not job:
-        logger.error(f"Job {job_id} not found in storage.")
-        return
-
-    video_path = job["video_path"]
-    caption_style = job["caption_style"]
-    caption_position = job["caption_position"]
-    
-    # Phase 1 Advanced Parameters
-    processing_mode = job.get("processing_mode", "Fast")
-    language_override = job.get("language_override", "")
-    diarization = job.get("diarization", False)
-    remove_fillers = job.get("remove_fillers", False)
-    
     # Derived paths
     ass_path = os.path.join(data_dir, "temp", job_id, "subtitles.ass")
     output_dir = os.path.join(data_dir, "output", job_id)
@@ -315,13 +236,7 @@ def process_caption_job(
         # ------------------------------------------------------------------
         # Phase 2: transcribe
         # ------------------------------------------------------------------
-        transcript = transcribe_audio(
-            video_path=video_path,
-            processing_mode=processing_mode,
-            language_override=language_override,
-            diarization=diarization,
-            remove_fillers=remove_fillers
-        )
+        transcript = transcribe_audio(video_path)
         language = transcript.get("language", "en")
         storage.update_status(job_id, language=language, progress=40)
 

@@ -15,7 +15,7 @@ from caption_styles import is_valid_caption_style
 from job_storage import JobStorage
 
 # Allowed video file extensions
-ALLOWED_EXTENSIONS = {".mp4", ".mov", ".webm", ".mkv", ".avi"}
+ALLOWED_EXTENSIONS = {".mp4", ".mov", ".webm"}
 
 # Caption position valid range (inclusive)
 CAPTION_POSITION_MIN = 5
@@ -58,18 +58,20 @@ def create_app(testing: bool = False) -> Flask:
         persist_path = os.path.join(data_dir, "jobs.json")
         storage = JobStorage(persist_path=persist_path)
 
-    app.config["DATA_DIR"] = data_dir
     app.config["STORAGE"] = storage
+    app.config["DATA_DIR"] = data_dir
 
-    os.makedirs(data_dir, exist_ok=True)
+    # ------------------------------------------------------------------
+    # Output TTL cleanup
+    # ------------------------------------------------------------------
     if not testing:
-        ttl_hours = int(os.environ.get("CLEANUP_TTL_HOURS", "24"))
+        ttl_hours = int(os.environ.get("OUTPUT_TTL_HOURS", "24"))
         _schedule_cleanup(app, ttl_hours)
 
     # ------------------------------------------------------------------
     # CORS
     # ------------------------------------------------------------------
-    CORS(app, origins="*")
+    CORS(app, origins=[frontend_url] if frontend_url != "*" else "*")
 
     # ------------------------------------------------------------------
     # Routes
@@ -124,19 +126,6 @@ def create_app(testing: bool = False) -> Flask:
                 )
             }), 400
 
-        # --- Validate New API Parameters (Phase 1) ---
-        aspect_ratio = request.form.get("aspectRatio", "9:16")
-        if aspect_ratio not in ["9:16", "16:9", "1:1", "4:5"]:
-            return jsonify({"error": "Invalid aspectRatio"}), 400
-            
-        processing_mode = request.form.get("processingMode", "Fast")
-        if processing_mode not in ["Fast", "Balanced", "Maximum Accuracy"]:
-            return jsonify({"error": "Invalid processingMode"}), 400
-            
-        diarization = request.form.get("diarization", "false").lower() == "true"
-        remove_fillers = request.form.get("removeFillers", "false").lower() == "true"
-        language_override = request.form.get("languageOverride", "")
-
         # --- Validate durationSeconds (client-provided, from HTML5 video element) ---
         duration_seconds_str = request.form.get("durationSeconds")
         if duration_seconds_str:
@@ -172,16 +161,6 @@ def create_app(testing: bool = False) -> Flask:
             caption_position=caption_position,
             original_filename=file.filename,
             file_size=file_size,
-        )
-
-        # --- Update job with Phase 1 parameters ---
-        storage.update_status(
-            job_id,
-            aspect_ratio=aspect_ratio,
-            processing_mode=processing_mode,
-            diarization=diarization,
-            remove_fillers=remove_fillers,
-            language_override=language_override
         )
 
         # --- Start background processing (skipped in test mode) ---
@@ -299,6 +278,9 @@ def _start_processing_thread(app: Flask, job_id: str) -> None:
                 process_caption_job(
                     storage,
                     job_id,
+                    job["video_path"],
+                    job["caption_style"],
+                    job["caption_position"],
                     data_dir,
                 )
             except Exception as exc:  # noqa: BLE001

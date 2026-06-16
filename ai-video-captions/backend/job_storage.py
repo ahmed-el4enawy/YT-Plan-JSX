@@ -86,11 +86,6 @@ class JobStorage:
         error: Optional[str] = None,
         output_path: Optional[str] = None,
         processing_time_ms: Optional[int] = None,
-        aspect_ratio: Optional[str] = None,
-        processing_mode: Optional[str] = None,
-        diarization: Optional[bool] = None,
-        remove_fillers: Optional[bool] = None,
-        language_override: Optional[str] = None,
     ) -> bool:
         """Update job fields. Only provided (non-None) values are written.
 
@@ -116,16 +111,6 @@ class JobStorage:
                 job["output_path"] = output_path
             if processing_time_ms is not None:
                 job["processing_time_ms"] = processing_time_ms
-            if aspect_ratio is not None:
-                job["aspect_ratio"] = aspect_ratio
-            if processing_mode is not None:
-                job["processing_mode"] = processing_mode
-            if diarization is not None:
-                job["diarization"] = diarization
-            if remove_fillers is not None:
-                job["remove_fillers"] = remove_fillers
-            if language_override is not None:
-                job["language_override"] = language_override
             job["updated_at"] = _now_iso()
             self._persist()
         return True
