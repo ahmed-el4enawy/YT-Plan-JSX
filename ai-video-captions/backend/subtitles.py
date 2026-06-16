@@ -98,7 +98,8 @@ def generate_ass(
     # Character-based grouping with multi-line support
     # ------------------------------------------------------------------
     max_chars_per_line, font_scale = get_subtitle_layout(language, style_config.font_size)
-    max_lines = 2
+    max_lines = 1
+    max_words_per_caption = 4
 
     subtitles: list[tuple[float, float, list[tuple]]] = []
     current_lines: list[list[tuple]] = [[]]
@@ -137,7 +138,7 @@ def generate_ass(
             # Calculate characters if we add this word (including space)
             chars_with_word = current_chars + (1 if current_line else 0) + word_length
 
-            if chars_with_word <= max_chars_per_line:
+            if chars_with_word <= max_chars_per_line and len(current_line) < max_words_per_caption:
                 # Word fits on current line
                 current_line.append((word, start_rel, end_rel))
                 current_line_chars[current_line_idx] = chars_with_word
@@ -294,7 +295,7 @@ def generate_ass(
             )
             subs.events.append(event)
 
-    # ------------------------------------------------------------------
+        # ------------------------------------------------------------------
     # Save
     # ------------------------------------------------------------------
     try:
@@ -302,4 +303,17 @@ def generate_ass(
     except Exception as exc:
         raise IOError(f"Failed to save subtitle file: {exc}") from exc
 
-    return True
+    # Return grouped data for frontend editor
+    grouped_data = []
+    for current_start, current_end, word_list in subtitles:
+        text = " ".join([w[0] for w in word_list])
+        words = [{"word": w[0], "start": w[1], "end": w[2]} for w in word_list]
+        grouped_data.append({
+            "text": text,
+            "start": current_start,
+            "end": current_end,
+            "words": words
+        })
+
+    return grouped_data
+

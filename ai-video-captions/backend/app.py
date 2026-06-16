@@ -169,6 +169,41 @@ def create_app(testing: bool = False) -> Flask:
 
         return jsonify({"jobId": job_id, "status": "pending"}), 200
 
+    @app.post("/api/reprocess/<job_id>")
+    def reprocess(job_id: str):
+        storage: JobStorage = app.config["STORAGE"]
+        data_dir: str = app.config["DATA_DIR"]
+        job = storage.get_job(job_id)
+        if job is None:
+            return jsonify({"error": "Job not found"}), 404
+
+        req_data = request.json
+        if not req_data or "segments" not in req_data:
+            return jsonify({"error": "Missing segments data"}), 400
+
+        grouped_data = req_data["segments"]
+
+        def run_reprocess():
+            with app.app_context():
+                try:
+                    from caption_job import reprocess_caption_job
+                    reprocess_caption_job(
+                        storage=storage,
+                        job_id=job_id,
+                        video_path=job["video_path"],
+                        caption_style=job["caption_style"],
+                        caption_position=job["caption_position"],
+                        data_dir=data_dir,
+                        grouped_data=grouped_data
+                    )
+                except Exception as exc:
+                    storage.update_status(job_id, status="failed", error=str(exc))
+
+        thread = threading.Thread(target=run_reprocess, daemon=True)
+        thread.start()
+
+        return jsonify({"jobId": job_id, "status": "processing"}), 200
+
     @app.get("/api/status/<job_id>")
     def status(job_id: str):
         storage: JobStorage = app.config["STORAGE"]
@@ -187,6 +222,20 @@ def create_app(testing: bool = False) -> Flask:
             "createdAt": job["created_at"],
             "updatedAt": job["updated_at"],
         })
+
+    @app.get("/api/transcript/<job_id>")
+    def get_transcript(job_id: str):
+        storage: JobStorage = app.config["STORAGE"]
+        job = storage.get_job(job_id)
+        if job is None:
+            return jsonify({"error": "Job not found"}), 404
+            
+        data_dir: str = app.config["DATA_DIR"]
+        transcript_path = os.path.join(data_dir, "output", job_id, "transcript.json")
+        if not os.path.isfile(transcript_path):
+            return jsonify({"error": "Transcript not found"}), 404
+            
+        return send_file(transcript_path, mimetype="application/json")
 
     @app.get("/api/download/<job_id>")
     def download(job_id: str):
@@ -295,3 +344,5 @@ if __name__ == "__main__":
     debug = os.environ.get("FLASK_DEBUG", "false").lower() == "true"
     application = create_app()
     application.run(host="0.0.0.0", port=port, debug=debug)
+
+

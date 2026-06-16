@@ -131,7 +131,7 @@ def generate_ass_from_transcript(
     language: str,
     video_width: int,
     video_height: int,
-) -> bool:
+):
     """Generate an ASS subtitle file from a transcript dict.
 
     This is a thin wrapper around ``subtitles.generate_ass()``.
@@ -233,12 +233,14 @@ def process_caption_job(
         width, height, duration = probe_video(video_path)
         storage.update_status(job_id, duration=duration)
 
-        # ------------------------------------------------------------------
+                # ------------------------------------------------------------------
         # Phase 2: transcribe
         # ------------------------------------------------------------------
         transcript = transcribe_audio(video_path)
         language = transcript.get("language", "en")
         storage.update_status(job_id, language=language, progress=40)
+
+        
 
         # ------------------------------------------------------------------
         # Phase 3: generate ASS
@@ -246,7 +248,7 @@ def process_caption_job(
         storage.update_status(job_id, phase="burning", progress=50)
 
         os.makedirs(os.path.dirname(ass_path), exist_ok=True)
-        generate_ass_from_transcript(
+        grouped_data = generate_ass_from_transcript(
             transcript=transcript,
             duration=duration,
             output_path=ass_path,
@@ -256,6 +258,12 @@ def process_caption_job(
             video_width=width,
             video_height=height,
         )
+
+        if grouped_data:
+            os.makedirs(output_dir, exist_ok=True)
+            transcript_path = os.path.join(output_dir, "transcript.json")
+            with open(transcript_path, "w", encoding="utf-8") as f:
+                json.dump({"segments": grouped_data}, f, indent=2)
 
         # ------------------------------------------------------------------
         # Phase 4: burn subtitles
@@ -282,4 +290,153 @@ def process_caption_job(
 
     except Exception as exc:  # noqa: BLE001
         logger.exception("Job %s failed: %s", job_id, exc)
+        storage.update_status(job_id, status="failed", error=str(exc))
+
+
+
+
+def reprocess_caption_job(
+    storage,
+    job_id: str,
+    video_path: str,
+    caption_style: str,
+    caption_position: int,
+    data_dir: str,
+    grouped_data: list,
+) -> None:
+    ass_path = os.path.join(data_dir, "temp", job_id, "subtitles.ass")
+    output_dir = os.path.join(data_dir, "output", job_id)
+    output_path = os.path.join(output_dir, "captioned.mp4")
+
+    start_time = time.time()
+
+    try:
+        storage.update_status(job_id, status="processing", phase="re-burning", progress=50)
+
+        width, height, duration = probe_video(video_path)
+
+        # Convert the grouped_data back into the flattened tuple format subtitles.py expects
+        subtitles_input = []
+        for segment in grouped_data:
+            word_list = []
+            for w in segment.get("words", []):
+                # Format: (word, start_rel, end_rel, line_idx)
+                word_list.append((w["word"], w["start"], w["end"], 0))
+            subtitles_input.append((segment["start"], segment["end"], word_list))
+
+        import subtitles
+        import pysubs2
+        from caption_styles import get_caption_style, get_output_format
+        from subtitle_utils import get_subtitle_layout, is_latin_language, is_rtl_language, escape_ass_text
+
+        # ------------------------------------------------------------------
+        # Inline re-generation of ASS using the grouped data
+        # ------------------------------------------------------------------
+        language = storage.get_job(job_id).get("language", "en")
+        style_config = get_caption_style(caption_style)
+        
+        format_config = get_output_format("vertical")
+        play_res_x = format_config.width
+        play_res_y = format_config.height
+        dimension_scale = 1.0
+
+        subs = pysubs2.SSAFile()
+        subs.info["WrapStyle"] = 3
+        subs.info["ScaledBorderAndShadow"] = "yes"
+        subs.info["PlayResX"] = play_res_x
+        subs.info["PlayResY"] = play_res_y
+        subs.info["ScriptType"] = "v4.00+"
+
+        def _parse_ass_color(ass_color: str) -> pysubs2.Color:
+            color_hex = ass_color.replace("&H", "").replace("&", "")
+            color_hex = color_hex.zfill(8)
+            alpha = int(color_hex[0:2], 16)
+            blue = int(color_hex[2:4], 16)
+            green = int(color_hex[4:6], 16)
+            red = int(color_hex[6:8], 16)
+            return pysubs2.Color(red, green, blue, alpha)
+
+        style_name = "Default"
+        new_style = pysubs2.SSAStyle()
+        new_style.fontname = style_config.font_name if is_latin_language(language) else style_config.font_name_fallback
+        
+        _, font_scale = get_subtitle_layout(language, style_config.font_size)
+        
+        new_style.fontsize = int(style_config.font_size * font_scale * dimension_scale)
+        new_style.primarycolor = _parse_ass_color(style_config.primary_color)
+        new_style.bold = style_config.bold
+        new_style.italic = style_config.italic
+        new_style.outline = round(style_config.outline_size * font_scale * dimension_scale, 1)
+        new_style.outlinecolor = _parse_ass_color(style_config.outline_color)
+        new_style.shadow = round(style_config.shadow_depth * font_scale * dimension_scale, 1)
+        new_style.shadowcolor = _parse_ass_color(style_config.shadow_color)
+        new_style.alignment = pysubs2.Alignment.BOTTOM_CENTER
+        new_style.marginl = int(40 * dimension_scale)
+        new_style.marginr = int(40 * dimension_scale)
+        new_style.marginv = int(play_res_y * caption_position / 100)
+        new_style.spacing = 0.5
+        subs.styles[style_name] = new_style
+
+        highlight_color = style_config.highlight_color
+        animation_type = style_config.animation_type
+
+        for _, line_end, word_list in subtitles_input:
+            for idx, (word, word_start, _, _) in enumerate(word_list):
+                if idx < len(word_list) - 1:
+                    event_end = word_list[idx + 1][1]
+                else:
+                    event_end = line_end
+
+                text_parts = []
+                prev_line_idx = None
+                for i, (w, w_start, w_end, line_idx) in enumerate(word_list):
+                    if prev_line_idx is not None and line_idx != prev_line_idx:
+                        text_parts.append("\\N")
+                    w_display = w.upper()
+                    w_upper = escape_ass_text(w_display)
+                    if i == idx:
+                        word_color = highlight_color
+                        if animation_type == "karaoke":
+                            text_parts.append(f"{{\\c&H{word_color}&}}{w_upper}{{\\r}}")
+                        else:
+                            text_parts.append(f"{{\\c&H{word_color}&}}{w_upper}{{\\r}}")
+                    else:
+                        text_parts.append(w_upper)
+                    prev_line_idx = line_idx
+                    if i < len(word_list) - 1 and word_list[i + 1][3] == line_idx:
+                        text_parts.append(" ")
+                
+                text = "".join(text_parts)
+                if style_config.letter_spacing != 0:
+                    text = f"{{\\fsp{style_config.letter_spacing}}}{text}"
+
+                event = pysubs2.SSAEvent(
+                    start=pysubs2.make_time(s=word_start),
+                    end=pysubs2.make_time(s=event_end),
+                    text=text,
+                    style=style_name,
+                )
+                subs.events.append(event)
+
+        subs.save(ass_path)
+        
+        storage.update_status(job_id, phase="burning_video", progress=75)
+        burn_subtitles(video_path, ass_path, output_path)
+
+        # Update transcript.json with new edited grouped_data
+        transcript_path = os.path.join(output_dir, "transcript.json")
+        with open(transcript_path, "w", encoding="utf-8") as f:
+            json.dump({"segments": grouped_data}, f, indent=2)
+
+        elapsed = time.time() - start_time
+        storage.update_status(
+            job_id,
+            status="completed",
+            progress=100,
+            phase="done",
+            processing_time_ms=int(elapsed * 1000),
+            output_path=output_path,
+        )
+    except Exception as exc:
+        logger.exception("Job %s reprocess failed", job_id)
         storage.update_status(job_id, status="failed", error=str(exc))
