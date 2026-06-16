@@ -9,7 +9,7 @@ import Viral from "./pages/Viral.jsx";
 import Scripting from "./pages/Scripting.jsx";
 import Production from "./pages/Production.jsx";
 import Copyright from "./pages/Copyright.jsx";
-import CaptionGenerator from "./pages/CaptionGenerator.jsx";
+import StandaloneCaptionIframe from "./pages/StandaloneCaptionIframe.jsx";
 import Resources from "./pages/Resources.jsx";
 import Worldcup from "./pages/Worldcup.jsx";
 import Kpis from "./pages/Kpis.jsx";
@@ -64,7 +64,7 @@ export default function NinetyFootball() {
       case "production": return <Production />;
       case "promptsuite": return <PromptSuite />;
       case "generator": return <SynthesisChat />;
-      case "captions": return <CaptionGenerator />;
+      case "captions": return <StandaloneCaptionIframe />;
       case "copyright": return <Copyright />;
       case "resources": return <Resources />;
       case "worldcup": return <Worldcup />;
