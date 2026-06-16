@@ -12,15 +12,9 @@ IF %ERRORLEVEL% NEQ 0 (
     venv\Scripts\python -m pip install --upgrade pip
     venv\Scripts\pip install -r requirements.txt
     echo [AI Caption Studio] Setup complete!
-    
-    echo [AI Caption Studio] Setting up frontend database...
-    cd ..\frontend
-    call npm install
-    set DATABASE_URL=file:./data/captions.db
-    call npx prisma generate
-    call npx prisma db push
-    cd ..\backend
+    echo [AI Caption Studio] Setup complete!
 )
 
 echo [AI Caption Studio] Starting AI Backend Server...
+set FRONTEND_URL=*
 venv\Scripts\python app.py

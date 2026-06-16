@@ -9,7 +9,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "app": "concurrently --kill-others \"npm run dev\" \"start_backend.bat\" \"cd ai-video-captions/frontend && npm install && npm run dev\" \"wait-on http://localhost:5173 && electron .\""
+    "app": "concurrently --kill-others \"npm run dev\" \"start_backend.bat\" \"wait-on http://localhost:5173 && electron .\""
   },
   "dependencies": {
     "react": "^19.2.6",
@@ -27,7 +27,6 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
-    "png-to-ico": "^3.0.1",
     "vite": "^8.0.12",
     "wait-on": "^9.0.10"
   }
