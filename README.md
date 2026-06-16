@@ -1,8 +1,8 @@
-# Ninety Football OS
+# Content Operations System
 
 > **Strategic Operating System for Sports Media Intelligence**
 
-Ninety Football OS is a specialized internal dashboard developed for the planning, execution, and analysis of modern sports media distribution. Engineered specifically for high-velocity football content, this platform centralizes competitive intelligence, script frameworks, monetization roadmaps, and production systems into a single executive interface.
+Content Operations System is a specialized internal dashboard developed for the planning, execution, and analysis of modern sports media distribution. Engineered specifically for high-velocity digital media, this platform centralizes competitive intelligence, script frameworks, monetization roadmaps, and production systems into a single executive interface.
 
 ## System Architecture
 
@@ -49,7 +49,7 @@ The application is structured around five primary operational pillars:
 ## Directory Structure
 
 `	ext
-ninety-football-os/
+content-operations-system/
 +-- src/
 ¦   +-- components/       # Feature-specific modules (TranscriptEditor, PromptSuite)
 ¦   +-- components/ui/    # Reusable design system tokens
@@ -65,3 +65,4 @@ ninety-football-os/
 
 ## Security & Compliance
 This software and its internal strategic data are proprietary. Unauthorized distribution of the competitive intelligence or production frameworks contained within is strictly prohibited.
+
