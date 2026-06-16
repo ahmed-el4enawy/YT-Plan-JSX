@@ -9,7 +9,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "app": "concurrently --kill-others \"npm run dev\" \"start_backend.bat\" \"wait-on http://localhost:5173 && electron .\""
+    "app": "concurrently --kill-others \"npm run dev\" \"start_backend.bat\" \"cd ai-video-captions/frontend && npm install && npm run dev\" \"wait-on http://localhost:5173 && electron .\""
   },
   "dependencies": {
     "react": "^19.2.6",
